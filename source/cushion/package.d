@@ -19,3 +19,4 @@ module cushion;
 
 public import cushion.core;
 public import cushion.csvdecoder;
+public import cushion.handler;
