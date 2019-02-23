@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"SHOO"
+	],
+	"copyright": "Copyright © 2019, SHOO",
+	"description": "A library to help state transition matrix disign",
+	"license": "BSL-1.0",
+	"name": "cushion",
+	"subPackages": [
+		"./doc"
+	]
+}

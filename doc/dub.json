@@ -1,0 +1,41 @@
+{
+	"name": "doc",
+	"description": "cushion-document.",
+	"copyright": "Copyright © 2019, SHOO",
+	"targetType": "library",
+	"versions": ["Document"],
+	"buildOptions": ["syntaxOnly"],
+	"importPaths": ["../source"],
+	"sourcePath": "../source",
+	"configurations": [
+		{
+			"name": "hmod",
+			"dependencies": {
+				"harbored-mod": "~>0.3.0"
+			},
+			"postBuildCommands": [
+				"dub run harbored-mod -- \"$PACKAGE_DIR/../source\" -F \"$PACKAGE_DIR/hmod.cfg\" -o \"$PACKAGE_DIR/harbored-mod\""
+			]
+		},
+		{
+			"name": "ddox",
+			"dflags": ["-Xfdocs.json"],
+			"dependencies": {
+				"ddox": "~>0.16.0"
+			},
+			"postBuildCommands-windows": [
+				"robocopy $DDOX_PACKAGE_DIR\\public\\ $PACKAGE_DIR\\ddox /E & time /T>nul",
+				"dub run ddox -a=x86_64 -- filter docs.json --min-protection Protected",
+				"dub run ddox -a=x86_64 -- generate-html docs.json doc/ddox --navigation-type=DeclarationTree",
+				"if exist __dummy.html del __dummy.html",
+				"if exist docs.json del docs.json"
+			]
+		},
+		{
+			"name": "adrdox",
+			"postBuildCommands": [
+				"rdmd \"$PACKAGE_DIR/scripts/postbuild_adrdox.d\" -i \"$PACKAGE_DIR/../source\" -o \"$PACKAGE_DIR/adrdox\""
+			]
+		}
+	]
+}
