@@ -1,0 +1,13 @@
+.*
+doc/
+*.json
+*.html
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+*.exe
+*.o
+*.obj
+*.lst
