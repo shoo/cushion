@@ -10,9 +10,6 @@
 	"configurations": [
 		{
 			"name": "hmod",
-			"dependencies": {
-				"harbored-mod": "~>0.3.0"
-			},
 			"postBuildCommands": [
 				"dub run harbored-mod -- \"$PACKAGE_DIR/../source\" -F \"$PACKAGE_DIR/hmod.cfg\" -o \"$PACKAGE_DIR/harbored-mod\""
 			]
@@ -20,15 +17,8 @@
 		{
 			"name": "ddox",
 			"dflags": ["-Xfdocs.json"],
-			"dependencies": {
-				"ddox": "~>0.16.0"
-			},
 			"postBuildCommands-windows": [
-				"robocopy $DDOX_PACKAGE_DIR\\public\\ $PACKAGE_DIR\\ddox /E & time /T>nul",
-				"dub run ddox -a=x86_64 -- filter docs.json --min-protection Protected",
-				"dub run ddox -a=x86_64 -- generate-html docs.json doc/ddox --navigation-type=DeclarationTree",
-				"if exist __dummy.html del __dummy.html",
-				"if exist docs.json del docs.json"
+				"rdmd \"$PACKAGE_DIR/scripts/postbuild_ddox.d\" docs.json \"$PACKAGE_DIR/ddox\" --navigation-type=DeclarationTree"
 			]
 		},
 		{
