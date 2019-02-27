@@ -7,7 +7,7 @@
  */
 module cushion.handler;
 
-import std.traits, std.range, std.array;
+import std.traits, std.range, std.array, std.container;
 
 /*******************************************************************************
  * Judge traits of Handler
@@ -20,7 +20,7 @@ enum bool isHandler(Handler) = __traits(compiles,
 });
 
 ///
-@safe unittest
+@system unittest
 {
 	static struct CallableStruct { void opCall(){} }
 	static class CallableClass { void opCall(){} }
@@ -33,6 +33,8 @@ enum bool isHandler(Handler) = __traits(compiles,
 	static assert(isHandler!(void delegate()[]));
 	static assert(isHandler!(CallableStruct[]));
 	static assert(isHandler!(CallableClass[]));
+	void delegate(Exception)[] handler = void;
+	static assert(isHandler!(void delegate(Exception)[]));
 }
 
 @safe unittest
@@ -212,18 +214,18 @@ private template isIterableHandler(Handler)
 /*#*****************************************************************************
  * 
  */
-void call(Handler)(ref Handler handler)
+pragma(inline) void call(Handler, Args...)(ref Handler handler, Args args) @trusted
 {
 	static if (isCallable!Handler && is(ReturnType!Handler == void))
 	{
 		static if (__traits(compiles, {if(handler){}}))
 		{
 			if (handler)
-				handler();
+				handler(args);
 		}
 		else
 		{
-			handler();
+			handler(args);
 		}
 	}
 	else static if (isIterableHandler!Handler
@@ -234,11 +236,11 @@ void call(Handler)(ref Handler handler)
 			static if (__traits(compiles, {if(h){}}))
 			{
 				if (h)
-					h();
+					h(args);
 			}
 			else
 			{
-				h();
+				h(args);
 			}
 		}
 	}
@@ -249,7 +251,7 @@ void call(Handler)(ref Handler handler)
 /*#*****************************************************************************
  * 
  */
-void add(Handler, Func)(ref Handler handler, Func func)
+pragma(inline) void add(Handler, Func)(ref Handler handler, Func func) @trusted
 {
 	static if (__traits(compiles, {
 		handler ~= func;
@@ -300,14 +302,14 @@ void add(Handler, Func)(ref Handler handler, Func func)
 /*#*****************************************************************************
  * 
  */
-void remove(Handler, Func)(ref Handler handler, Func func)
+pragma(inline) void remove(Handler, Func)(ref Handler handler, Func func) @trusted
 {
 	import std.algorithm;
 	static if (__traits(hasMember, handler, "remove") && __traits(compiles, {
-		handler.remove(func);
+		__traits(getMember, handler, "remove")(func);
 	}))
 	{
-		handler.remove(func);
+		__traits(getMember, handler, "remove")(func);
 	}
 	else static if (__traits(hasMember, handler, "disconnect") && __traits(compiles, {
 		handler.disconnect(func);
@@ -315,7 +317,7 @@ void remove(Handler, Func)(ref Handler handler, Func func)
 	{
 		handler.disconnect(func);
 	}
-	else static if (__traits(hasMember, handler, "linearRemoveElement") && __traits(compiles, {
+	else static if (__traits(compiles, {
 		handler.linearRemoveElement(func);
 	}))
 	{
@@ -329,11 +331,11 @@ void remove(Handler, Func)(ref Handler handler, Func func)
 	}
 	else static if (__traits(hasMember, handler, "remove") && __traits(compiles, {
 		import std.functional: toDelegate;
-		handler.remove(toDelegate(func));
+		__traits(getMember, handler, "remove")(toDelegate(func));
 	}))
 	{
 		import std.functional: toDelegate;
-		handler.remove(toDelegate(func));
+		__traits(getMember, handler, "remove")(toDelegate(func));
 	}
 	else static if (__traits(hasMember, handler, "disconnect") && __traits(compiles, {
 		import std.functional: toDelegate;
@@ -343,7 +345,7 @@ void remove(Handler, Func)(ref Handler handler, Func func)
 		import std.functional: toDelegate;
 		handler.disconnect(toDelegate(func));
 	}
-	else static if (__traits(hasMember, handler, "linearRemoveElement") && __traits(compiles, {
+	else static if (__traits(compiles, {
 		import std.functional: toDelegate;
 		handler.linearRemoveElement(toDelegate(func));
 	}))
@@ -368,17 +370,17 @@ void remove(Handler, Func)(ref Handler handler, Func func)
 /*#*****************************************************************************
  * 
  */
-void clear(Handler)(ref Handler handler)
+pragma(inline) void clear(Handler)(ref Handler handler) @trusted
 {
 	static if (__traits(hasMember, handler, "clear") && __traits(compiles, {
-		handler.clear();
+		__traits(getMember, handler, "clear")();
 	}))
 	{
-		handler.clear();
+		__traits(getMember, handler, "clear")();
 	}
 	else static if (!is(Handler == class)
 		&& !is(Handler == interface)
-		&& !isPointer!Handler
+		&& (!isPointer!Handler || isFunctionPointer!Handler)
 		&& __traits(compiles, { handler = Handler.init; }))
 	{
 		handler = Handler.init;
@@ -391,7 +393,7 @@ void clear(Handler)(ref Handler handler)
 /*#*****************************************************************************
  * 
  */
-void set(Handler, Func)(ref Handler handler, Func func)
+pragma(inline) void set(Handler, Func)(ref Handler handler, Func func) @trusted
 {
 	static if (__traits(compiles, {
 		handler = func;
@@ -424,4 +426,11 @@ void set(Handler, Func)(ref Handler handler, Func func)
 	void function()[] foo2;
 	void delegate() foo3;
 	void delegate()[] foo4;
+}
+
+private void linearRemoveElement(E)(ref Array!E ary, E e)
+{
+	import std.algorithm;
+	auto r = std.algorithm.remove(ary[], e);
+	ary.removeBack(ary.length - r.length);
 }
