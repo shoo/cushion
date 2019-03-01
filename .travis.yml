@@ -17,3 +17,10 @@ branches:
     - master
 
 script: ./.travis.sh
+
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - gcc-multilib
