@@ -28,7 +28,7 @@ private template isStraight(int start, Em...)
 private template isStraightEnum(E)
 	if (is(E == enum))
 {
-	enum isStraightEnum = isStraight!(EnumMembers!(E)[0], EnumMembers!E);
+	enum isStraightEnum = (EnumMembers!(E)[0] == cast(E)0) &&isStraight!(EnumMembers!(E)[0], EnumMembers!E);
 }
 
 
@@ -209,8 +209,9 @@ void cancelEvent()
 }
 
 
-private class ForbiddenException: EventCancelException
+private class ForbiddenTransitionError: Error
 {
+	this(string msg = null, string file = __FILE__, size_t line = __LINE__) { super(msg, file, line); }
 }
 
 /***************************************************************************
@@ -222,7 +223,7 @@ void delegate() forbiddenHandler() @safe
 	{
 		void forbidden()
 		{
-			throw new ForbiddenException;
+			throw new ForbiddenTransitionError;
 		}
 	}
 	static Dummy dummy;
