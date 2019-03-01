@@ -8,3 +8,15 @@
  */
 module cushion.csvdecoder;
 
+import cushion.core;
+
+/*******************************************************************************
+ * D language code from CSV
+ */
+string decodeCsv(string name)()
+{
+	return null;
+}
+
+private:
+
