@@ -17,8 +17,9 @@
 			"name": "ut",
 			"targetType": "executable",
 			"targetName": "cushion-ut",
-			"dflags": ["-main"],
-			"sourceFiles": ["examples/ut.d"]
+			"importPaths": ["source", "."],
+			"sourceFiles": ["examples/ut.d"],
+			"mainSourceFile": "examples/dummy_main.d"
 		}
 	]
 }
