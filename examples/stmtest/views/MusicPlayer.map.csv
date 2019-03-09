@@ -1,0 +1,6 @@
+#>stop,stop
+#>play,play
+#>pause,pause
+- Start music,startMusic();
+- Stop music,stopMusic();
+- Return to first,resetMusic();

@@ -1,0 +1,11 @@
+*MusicPlayer*,#>stop,#>play,#>pause
+StartAct.,,,
+EndAct.,,,
+onStart,"#>play
+- Start music","#>pause
+- Stop music","#>play
+- Start music"
+onStop,,"#>stop
+- Stop music
+- Return to first","#>stop
+- Return to first"
