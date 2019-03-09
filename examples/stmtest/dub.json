@@ -1,0 +1,18 @@
+{
+	"name": "stmtest",
+	"authors": [
+		"SHOO"
+	],
+	"copyright": "Copyright © 2019, SHOO",
+	"description": "Example of state transion matrix testing.",
+	"license": "BSL-1.0",
+	"targetType": "executable",
+	"dependencies":
+	{
+		"cushion": {"path": "../.."}
+	},
+	"importPaths": [
+		"source", ".."
+	],
+	"sourceFiles": ["../ut.d"]
+}
