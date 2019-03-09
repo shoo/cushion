@@ -245,7 +245,7 @@ private:
 			app.put(app2.data.dup);
 		}
 		srcstr.formattedWrite(
-			"auto " ~ factoryName ~ "()\n"
+			"auto " ~ factoryName ~ "() @safe\n"
 			 ~ "{\n"
 			 ~ "\timport cushion.core;\n"
 			 ~ "\talias "~ __traits(identifier, ST) ~"!(State, Event).Cell C;\n"

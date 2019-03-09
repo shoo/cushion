@@ -269,3 +269,80 @@ string decodeStmFromCsv(alias ST = StateTransitor)(
 	assert(stm.getStateName(stm.currentState) == "▽初期");
 	assert(stm.currentState == State.init);
 }
+
+
+/*******************************************************************************
+ * Load CSV file of STM and decode to D code.
+ */
+string loadStmFromCsvFilePair(string stmFileName, string mapFileName, alias ST = StateTransitor)(
+	string stateKey = "▽", string factoryName = "makeStm")
+{
+	static if (__traits(compiles, import(mapFileName)))
+	{
+		return decodeStmFromCsv!ST(import(stmFileName), import(mapFileName),
+			stmFileName, mapFileName, stateKey, factoryName);
+	}
+	else
+	{
+		return decodeStmFromCsv!ST(import(stmFileName), null,
+			stmFileName, mapFileName, stateKey, factoryName);
+	}
+}
+
+/// ditto
+string loadStmFromCsv(string name, alias ST = StateTransitor)(
+	string stateKey = "▽", string factoryName = "makeStm")
+{
+	return loadStmFromCsvFilePair!(name ~ ".stm.csv", name ~ ".map.csv", ST)(stateKey, factoryName);
+}
+
+
+/*******************************************************************************
+ * Load CSV file of STM and decode to D code.
+ */
+template CreateStmPolicy(
+	string name_,
+	alias ST = cushion.core.StateTransitor,
+	string stateKey_ = "▽",
+	string factoryName_ = "makeStm")
+{
+	enum string name        = name_;
+	enum string stateKey    = stateKey_;
+	enum string factoryName = factoryName_;
+	alias StateTransitor    = ST;
+}
+
+private template elvisOf(alias x, string name, alias defaultVal)
+{
+	static if (__traits(hasMember, x, name))
+		alias elvisOf = __traits(getMember, x, name);
+	else
+		alias elvisOf = defaultVal;
+}
+
+/*******************************************************************************
+ * Load CSV file of STM and decode to D code.
+ */
+auto createStm(string name, ALIASES...)()
+{
+	return createStm!(CreateStmPolicy!name, ALIASES)();
+}
+
+/// ditto
+auto createStm(alias basePolicy, ALIASES...)()
+	if (__traits(hasMember, basePolicy, "name"))
+{
+	alias policy = CreateStmPolicy!(
+		basePolicy.name,
+		elvisOf!(basePolicy, "StateTransitor", cushion.core.StateTransitor),
+		elvisOf!(basePolicy, "stateKey",       "▽"),
+		elvisOf!(basePolicy, "factoryName",    "makeStm"));
+	auto obj = new class
+	{
+		static foreach (ALIAS; ALIASES)
+			mixin(`alias ` ~ __traits(identifier, ALIAS) ~ ` = ALIAS;`);
+		pragma(msg, "Compiling STM " ~ policy.name ~ "...");
+		mixin(loadStmFromCsv!(policy.name, policy.StateTransitor)(policy.stateKey, policy.factoryName));
+	};
+	return __traits(getMember, obj, policy.factoryName)();
+}

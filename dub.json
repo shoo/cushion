@@ -7,7 +7,8 @@
 	"license": "BSL-1.0",
 	"name": "cushion",
 	"subPackages": [
-		"./doc"
+		"./doc",
+		"./examples/stmtest"
 	],
 	"configurations": [
 		{
