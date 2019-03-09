@@ -1,0 +1,14 @@
+.*
+docs.json
+docs/
+*.html
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+*.exe
+*.o
+*.obj
+*.lst
+example01-test-*
