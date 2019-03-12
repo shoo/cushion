@@ -337,6 +337,8 @@ auto createStm(alias basePolicy, ALIASES...)()
 		elvisOf!(basePolicy, "StateTransitor", cushion.core.StateTransitor),
 		elvisOf!(basePolicy, "stateKey",       "▽"),
 		elvisOf!(basePolicy, "factoryName",    "makeStm"));
+	
+	mixin(`alias `~__traits(identifier, policy.StateTransitor)~` = policy.StateTransitor;`);
 	auto obj = new class
 	{
 		static foreach (ALIAS; ALIASES)
