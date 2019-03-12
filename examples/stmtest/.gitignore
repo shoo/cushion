@@ -11,4 +11,4 @@ docs/
 *.o
 *.obj
 *.lst
-example01-test-*
+cushion-stmtest-test-*
