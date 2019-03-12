@@ -11,3 +11,4 @@ doc/
 *.o
 *.obj
 *.lst
+cushion-test-*

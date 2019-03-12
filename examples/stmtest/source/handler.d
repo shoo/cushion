@@ -1,7 +1,49 @@
-module music_player;
+module handler;
 
 import cushion;
 import std.datetime.stopwatch;
+
+
+///
+struct Handler(Args...)
+{
+private:
+	void delegate(Args)[] _dgs;
+public:
+	///
+	void connect(void delegate(Args) dg)
+	{
+		_dgs ~= dg;
+	}
+	
+	///
+	void disconnect(void delegate(Args) dg)
+	{
+		import std.algorithm: remove;
+		_dgs = _dgs.remove!(a => a is dg);
+	}
+	
+	///
+	void emit(Args args)
+	{
+		foreach (dg; _dgs)
+			dg(args);
+	}
+	
+	///
+	void clear()
+	{
+		_dgs = null;
+	}
+	
+	///
+	alias opCall = emit;
+}
+
+static assert(isHandler!(Handler!()));
+static assert(isHandler!(Handler!(int, int)));
+static assert(is(HandlerParameters!(Handler!int)[0] == int));
+static assert(is(HandlerReturnType!(Handler!int) == void));
 
 @safe unittest
 {
@@ -15,11 +57,12 @@ import std.datetime.stopwatch;
 	// Create StateTransitor instance
 	struct Policy
 	{
-		enum string name        = "MusicPlayer";
-		enum string stateKey    = "#>";
+		enum string name          = "MusicPlayer";
+		enum string stateKey      = "#>";
+		alias StateTransitor(S,E) = cushion.StateTransitor!(
+			S, E, S.init, Handler!(), Handler!Exception, Handler!E, Handler!(S, S));
 	}
 	auto stm = createStm!(Policy, startMusic, stopMusic, resetMusic);
-	
 	// Initial state is "stop" that most left state.
 	assert(stm.currentState == stm.State.stop);
 	assert(stm.getStateName(stm.currentState) == "#>stop");
