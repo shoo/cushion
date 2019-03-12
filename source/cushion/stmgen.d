@@ -247,7 +247,6 @@ private:
 		srcstr.formattedWrite(
 			"auto " ~ factoryName ~ "() @safe\n"
 			 ~ "{\n"
-			 ~ "\timport cushion.core;\n"
 			 ~ "\talias "~ __traits(identifier, ST) ~"!(State, Event).Cell C;\n"
 			 ~ "\tauto stm = "~ __traits(identifier, ST) ~"!(State, Event)([\n"
 			 ~ "\t\t%([%-(%s, %)]%|, \n\t\t%)]);\n", app.data);
