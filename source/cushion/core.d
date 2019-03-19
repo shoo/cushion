@@ -459,7 +459,7 @@ public:
 	 */
 	void setNextState(State s, Event e, State nextState)
 	{
-		_table[s][e].nextState = nextState;
+		_table[e][s].nextState = nextState;
 	}
 	
 	/***************************************************************************
@@ -471,7 +471,7 @@ public:
 	void setHandler(Func)(State s, Event e, Func handler)
 		if (isHandlerAssignable!(ProcHandler, Func))
 	{
-		cushion.handler.set(_table[s][e].handler, handler);
+		cushion.handler.set(_table[e][s].handler, handler);
 	}
 	
 	/***************************************************************************
@@ -483,7 +483,7 @@ public:
 	void addHandler(Func)(State s, Event e, Func handler)
 		if (isHandlerAddable!(ProcHandler, Func))
 	{
-		cushion.handler.add(_table[s][e].handler, handler);
+		cushion.handler.add(_table[e][s].handler, handler);
 	}
 	
 	
@@ -493,7 +493,7 @@ public:
 	void removeHandler(Func)(State s, Event e, Func handler)
 		if (isHandlerAddable!(ProcHandler, Func))
 	{
-		cushion.handler.remove(_table[s][e].handler, handler);
+		cushion.handler.remove(_table[e][s].handler, handler);
 	}
 	
 	/***************************************************************************
@@ -501,7 +501,7 @@ public:
 	 */
 	void clearHandler(State s, Event e)
 	{
-		cushion.handler.clear(_table[s][e].handler);
+		cushion.handler.clear(_table[e][s].handler);
 	}
 	
 	
@@ -772,4 +772,31 @@ public:
 	st.addStateChangedHandler(&sch2);
 	st.removeStateChangedHandler(&sch);
 	st.clearStateChangedHandler();
+}
+
+@safe unittest
+{
+	enum State { stop, play, pause }
+	enum Event { onStart, onStop }
+	auto stm = StateTransitor!(State, Event)();
+	string txt;
+	stm.addHandler(State.stop,  Event.onStart, (){ txt = "play"; });
+	stm.addHandler(State.play,  Event.onStart, (){ txt = "pause"; });
+	stm.addHandler(State.play,  Event.onStop,  (){ txt = "stop"; });
+	stm.addHandler(State.pause, Event.onStart, (){ txt = "play"; });
+	stm.addHandler(State.pause, Event.onStop,  (){ txt = "stop"; });
+	stm.setNextState(State.stop,  Event.onStart, State.play);
+	stm.setNextState(State.play,  Event.onStart, State.pause);
+	stm.setNextState(State.play,  Event.onStop,  State.stop);
+	stm.setNextState(State.pause, Event.onStart, State.play);
+	stm.setNextState(State.pause, Event.onStop,  State.stop);
+	
+	assert(stm.currentState == State.stop);
+	stm.put(Event.onStart);
+	assert(txt == "play");
+	assert(stm.currentState == State.play);
+	stm.put(Event.onStop);
+	assert(txt == "stop");
+	assert(stm.currentState == State.stop);
+	
 }
