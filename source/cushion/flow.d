@@ -299,70 +299,6 @@ template Flow(alias Policy)
 
 
 
-///
-private abstract class StateBase(Commands, Base=Object,
-	EnterChildHandler = void delegate(Commands)[],
-	ExitChildHandler  = EnterChildHandler,
-	EnterHandler      = void delegate()[],
-	ExitHandler       = EnterHandler
-	): Base, Commands, FlowHandler!Commands
-	if (isHandler!EnterChildHandler
-	 && isHandler!ExitChildHandler
-	 && isHandler!EnterHandler
-	 && isHandler!ExitHandler)
-{
-private:
-	import std.container;
-	Commands _next;
-protected:
-	/// internal
-	Commands _getNext() pure nothrow @nogc @safe
-	{
-		scope (exit)
-			_next = this;
-		return _next;
-	}
-	/// ditto
-	void _onEnterChild(Commands child) @safe
-	{
-		onEnterChild.call(child);
-	}
-	/// ditto
-	void _onExitChild(Commands child) @safe
-	{
-		onExitChild.call(child);
-	}
-	/// ditto
-	void _onEnter() @safe
-	{
-		onEnter.call();
-	}
-	/// ditto
-	void _onExit() @safe
-	{
-		onExit.call();
-	}
-public:
-	///
-	this() pure nothrow @nogc @safe
-	{
-		_next = this;
-	}
-	///
-	EnterChildHandler onEnterChild;
-	///
-	ExitChildHandler  onExitChild;
-	///
-	EnterHandler      onEnter;
-	///
-	ExitHandler       onExit;
-	///
-	void setNext(Commands cmd) pure nothrow @nogc @safe
-	{
-		_next = cmd;
-	}
-}
-
 
 /*******************************************************************************
  * Base template class of state derived Commands
@@ -371,17 +307,6 @@ public:
  * To use this, instantiate this template class with Commands and inherit.
  * In derived classes, the return value of each method of Commands is obtained by
  * transferring the processing to the super class.
- * 
- * List of Handlers
- * 
- * - onEnterChild
- * - onExitChild
- * - onEnter
- * - onExit
- * 
- * Method
- * 
- * - `void setNext(Commands cmd)`
  */
 template State(Commands, Base=Object,
 	EnterChildHandler = void delegate(Commands)[],
@@ -394,16 +319,65 @@ template State(Commands, Base=Object,
 	 && isHandler!EnterHandler
 	 && isHandler!ExitHandler)
 {
+	///
+	abstract class StateBase: Base, Commands, FlowHandler!Commands
+	{
+	private:
+		Commands _next;
+	protected:
+		/// internal
+		Commands _getNext() pure nothrow @nogc @safe
+		{
+			scope (exit)
+				_next = this;
+			return _next;
+		}
+		/// ditto
+		void _onEnterChild(Commands child) @safe
+		{
+			onEnterChild.call(child);
+		}
+		/// ditto
+		void _onExitChild(Commands child) @safe
+		{
+			onExitChild.call(child);
+		}
+		/// ditto
+		void _onEnter() @safe
+		{
+			onEnter.call();
+		}
+		/// ditto
+		void _onExit() @safe
+		{
+			onExit.call();
+		}
+	public:
+		/// Constructor
+		this() pure nothrow @nogc @safe
+		{
+			_next = this;
+		}
+		/// Handler that will be called back when flow enter child state
+		EnterChildHandler onEnterChild;
+		/// Handler that will be called back when flow exit child state
+		ExitChildHandler  onExitChild;
+		/// Handler that will be called back when flow enter this state
+		EnterHandler      onEnter;
+		/// Handler that will be called back when flow exit this state
+		ExitHandler       onExit;
+		/// Indicates the next state. The specified state becomes a child of this state.
+		void setNext(Commands cmd) pure nothrow @nogc @safe
+		{
+			_next = cmd;
+		}
+	}
+	
 	import std.traits: ReturnType;
 	import std.typecons: AutoImplement;
-	alias BaseInst = StateBase!(Commands, Base,
-		EnterChildHandler,
-		ExitChildHandler,
-		EnterHandler,
-		ExitHandler);
 	enum generateCommandFunction(C, alias fun) = `return _getNext();`;
 	enum isEventDistributor(alias func) = is(ReturnType!func: Commands);
-	alias State = AutoImplement!(Commands, BaseInst, generateCommandFunction, isEventDistributor);
+	alias State = AutoImplement!(Commands, StateBase, generateCommandFunction, isEventDistributor);
 }
 
 /// ditto
