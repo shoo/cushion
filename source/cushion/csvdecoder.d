@@ -328,8 +328,8 @@ auto createStm(alias basePolicy, ALIASES...)()
 	alias policy = CreateStmPolicy!(
 		basePolicy.name,
 		getMemberAlias!(basePolicy, "StateTransitor", cushion.core.StateTransitor),
-		getMemberAlias!(basePolicy, "stateKey",       "▽"),
-		getMemberAlias!(basePolicy, "factoryName",    "makeStm"));
+		getMemberValue!(basePolicy, "stateKey",       "▽"),
+		getMemberValue!(basePolicy, "factoryName",    "makeStm"));
 	
 	mixin(`alias `~__traits(identifier, policy.StateTransitor)~` = policy.StateTransitor;`);
 	auto obj = new class

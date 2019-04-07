@@ -11,6 +11,15 @@ template getMemberAlias(alias x, string name, defaultVal...)
 		alias getMemberAlias = defaultVal[0];
 }
 
+/// ditto
+template getMemberValue(alias x, string name, defaultVal...)
+{
+	static if (__traits(hasMember, x, name))
+		enum getMemberValue = __traits(getMember, x, name);
+	else
+		enum getMemberValue = defaultVal[0];
+}
+
 
 //
 pragma(inline) T trustedCast(T, Arg)(Arg arg) @trusted
