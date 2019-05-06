@@ -1,0 +1,5 @@
+*ChildStm2*,#>init,#>state1,#>err
+StartAct.,* Exit from ChildStm2,,* Exit from ChildStm2
+EndAct.,* Initialize,,
+onA,#>state1,#>err,#>init
+onB,,#>init,

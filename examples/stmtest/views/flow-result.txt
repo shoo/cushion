@@ -1,0 +1,16 @@
+[*Main*-#>init]onEvent:onTest(test)
+[*ChildStm1*-#>init]onEvent:onA(a)
+[*ChildStm1*-#>state1]onStateChanged:#>init(init)->#>state1(st1)
+[*Main*-#>state1]onStateChanged:#>init(init)->#>state1(st1)
+[*Main*-#>state1]onEnterChild:>>>*ChildStm1*
+[*ChildStm1*-#>state1]onEvent:onB(b)
+[*ChildStm1*-#>init]onStateChanged:#>state1(st1)->#>init(init)
+[*Main*-#>state1]onEvent:onEndStm1(stm1exit)
+[*ChildStm2*-#>init]onEvent:onA(a)
+[*ChildStm2*-#>state1]onStateChanged:#>init(init)->#>state1(st1)
+[*Main*-#>state2]onStateChanged:#>state1(st1)->#>state2(st2)
+[*Main*-#>state2]onExitChild:<<<*ChildStm1*
+[*Main*-#>state2]onEvent:onTest(test)
+[*Main*-#>err]onStateChanged:#>state2(st2)->#>err(err)
+[*Main*-#>err]onEvent:onTest(test)
+[*Main*-#>init]onStateChanged:#>err(err)->#>init(init)
