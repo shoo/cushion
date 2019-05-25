@@ -274,7 +274,5 @@ public:
 	}
 	
 	// Finally check the result
-	import std.stdio;
-	writeln(stm.toString);
 	assert(stm.toString() == import("flow-result.txt"));
 }
