@@ -17,6 +17,14 @@ interface TestFlow
 	TestFlow update() @safe;
 }
 
+private struct StateTransitorPolicy(MyState, MyEvent)
+{
+	alias State       = MyState;
+	alias Event       = MyEvent;
+	enum  consumeMode = ConsumeMode.separate;
+}
+private alias StateTransitor(State, Event)
+	= cushion.StateTransitor!(StateTransitorPolicy!(State,Event));
 
 /***************************************************************
  * Base class of state pattern

@@ -10,6 +10,7 @@ module cushion.core;
 
 import std.traits, std.range, std.meta, std.container;
 import cushion.handler;
+import cushion._internal.misc;
 
 
 private template isStraight(int start, Em...)
@@ -698,6 +699,25 @@ public:
 	}
 }
 
+/// ditto
+template StateTransitor(alias Policy)
+	if (__traits(hasMember, Policy, "State")
+	 && __traits(hasMember, Policy, "Event"))
+{
+	alias State = Policy.State;
+	alias Event = Policy.Event;
+	alias StateTransitor = .StateTransitor!(
+		State,
+		Event,
+		getMemberValue!(Policy, "defaultStateParameter", State.init),
+		getMemberAlias!(Policy, "ProcHandler",           void delegate()[]),
+		getMemberAlias!(Policy, "ExceptionHandler",      void delegate(Exception)[]),
+		getMemberAlias!(Policy, "EventHandler",          void delegate(Event)[]),
+		getMemberAlias!(Policy, "StateChangedHandler",   void delegate(State newSts, State oldSts)[]),
+		getMemberValue!(Policy, "consumeMode",           ConsumeMode.combined),
+		getMemberAlias!(Policy, "EventContainer",        SList!Event));
+}
+
 ///
 @safe unittest
 {
@@ -708,9 +728,9 @@ public:
 	
 	alias C = Stm.Cell;
 	string msg;
-	// 状態遷移表
+	// STM
 	auto sm = Stm([
-		// イベント  状態A                           状態B
+		// Event     StateA                      StateB
 		/* e1:   */ [C(State.b, {msg = "a-1";}), C(State.b, forbiddenHandler)],
 		/* e2:   */ [C(State.a, ignoreHandler),  C(State.a, {msg = "b-2";})],
 		/* e3:   */ [C(State.a, {msg = "a-3";}), C(State.a, forbiddenHandler)]
@@ -733,6 +753,46 @@ public:
 	sm.put(Event.e1);
 	assert(sm.currentState == State.b);
 	assert(msg == "a-1");
+}
+
+///
+@safe unittest
+{
+	struct Policy
+	{
+		enum State { a, b }
+		enum Event { e1, e2, e3 }
+		enum consumeMode = ConsumeMode.separate;
+	}
+	alias Stm = StateTransitor!Policy;
+	alias State = Policy.State;
+	alias Event = Policy.Event;
+	alias C = Stm.Cell;
+	string[] msg;
+	State[]  statesOnEvent;
+	// STM
+	auto sm = Stm([
+		// Event     StateA                      StateB
+		/* e1:   */ [C(State.b, {msg ~= "a-1";}), C(State.b, forbiddenHandler)],
+		/* e2:   */ [C(State.a, ignoreHandler),   C(State.a, {msg ~= "b-2";})],
+		/* e3:   */ [C(State.a, {msg ~= "a-3";}), C(State.a, forbiddenHandler)]
+	]);
+	sm.addEventHandler((Event e)
+	{
+		statesOnEvent ~= sm.currentState;
+	});
+	static assert(isOutputRange!(typeof(sm), Event));
+	
+	assert(sm.currentState == State.a);
+	put(sm, [Event.e1, Event.e2, Event.e3, Event.e2, Event.e1]);
+	assert(sm.currentState == State.a);
+	
+	while (!sm.emptyEvents)
+		sm.consume();
+	with (State)
+		assert(statesOnEvent == [a, b, a, a, a]);
+	assert(sm.currentState == State.b);
+	assert(msg == ["a-1", "b-2", "a-3", "a-1"]);
 }
 
 
@@ -799,4 +859,47 @@ public:
 	assert(txt == "stop");
 	assert(stm.currentState == State.stop);
 	
+}
+
+
+
+/*******************************************************************************
+ * Default Policy of StateTransitor
+ */
+template CreateStateTransitorPolicy(
+	State_, Event_, State_ defaultStateParameter_ = State_.init,
+	ProcHandler_         = void delegate()[],
+	ExceptionHandler_    = void delegate(Exception)[],
+	EventHandler_        = void delegate(Event_)[],
+	StateChangedHandler_ = void delegate(State_ newSts, State_ oldSts)[],
+	ConsumeMode consumeMode_ = ConsumeMode.combined,
+	EventContainer_ = SList!Event_)
+{
+	alias State                       = State_;
+	alias Event                       = Event_;
+	enum State_ defaultStateParameter = defaultStateParameter_;
+	alias ProcHandler                 = ProcHandler_;
+	alias ExceptionHandler            = ExceptionHandler_;
+	alias EventHandler                = EventHandler_;
+	alias StateChangedHandler         = StateChangedHandler_;
+	enum ConsumeMode consumeMode      = consumeMode_;
+	alias EventContainer              = EventContainer_;
+}
+
+///
+@safe unittest
+{
+	enum MyState { a }
+	enum MyEvent { a }
+	alias ST1 = StateTransitor!(MyState, MyEvent);
+	alias Policy2 = CreateStateTransitorPolicy!(MyState, MyEvent);
+	alias ST2 = StateTransitor!Policy2;
+	struct Policy3
+	{
+		alias State = MyState;
+		alias Event = MyEvent;
+	}
+	alias ST3 = StateTransitor!Policy3;
+	static assert(is(ST1 == ST2));
+	static assert(is(ST1 == ST3));
 }
