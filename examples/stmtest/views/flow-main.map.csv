@@ -1,0 +1,14 @@
+#>init,init
+#>state1,st1
+#>state2,st2
+#>err,err
+onTest,test
+onEndStm1,stm1exit
+onSucceededStm2,stm2exit
+onFailedStm2,stm2err
+* Initialize,initialize();
+* Setting for ChildStm1,_child1.put(_child1.Event.a);
+* Setting for ChildStm2,_child2.put(_child2.Event.a);
+* Handle the error,onError();
+## *ChildStm1*,setNext(_child1);
+## *ChildStm2*,setNext(_child2);

@@ -1,0 +1,7 @@
+#>init,init
+#>state1,st1
+#>err,err
+onA,a
+onB,b
+* Initialize,initialize();
+* Exit from ChildStm2,setNext(null);

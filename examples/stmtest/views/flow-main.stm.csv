@@ -1,0 +1,9 @@
+*Main*,#>init,#>state1,#>state2,#>err
+StartAct.,,"* Setting for ChildStm1
+## *ChildStm1*","* Setting for ChildStm2
+## *ChildStm2*",* Handle the error
+EndAct.,* Initialize,,,
+onTest,#>state1,#>err,#>err,#>init
+onEndStm1,x,#>state2,x,x
+onSucceededStm2,x,x,#>state1,x
+onFailedStm2,x,x,#>err,x

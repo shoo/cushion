@@ -9,7 +9,7 @@
 module cushion.csvdecoder;
 
 import std.csv, std.array, std.algorithm, std.range, std.format;
-import cushion.core;
+import cushion.core, cushion._internal.misc;
 
 /*******************************************************************************
  * Decode to D language code from STM of CSV
@@ -312,13 +312,6 @@ template CreateStmPolicy(
 	alias StateTransitor    = ST;
 }
 
-private template elvisOf(alias x, string name, alias defaultVal)
-{
-	static if (__traits(hasMember, x, name))
-		alias elvisOf = __traits(getMember, x, name);
-	else
-		alias elvisOf = defaultVal;
-}
 
 /*******************************************************************************
  * Load CSV file of STM and decode to D code.
@@ -334,9 +327,9 @@ auto createStm(alias basePolicy, ALIASES...)()
 {
 	alias policy = CreateStmPolicy!(
 		basePolicy.name,
-		elvisOf!(basePolicy, "StateTransitor", cushion.core.StateTransitor),
-		elvisOf!(basePolicy, "stateKey",       "▽"),
-		elvisOf!(basePolicy, "factoryName",    "makeStm"));
+		getMemberAlias!(basePolicy, "StateTransitor", cushion.core.StateTransitor),
+		getMemberValue!(basePolicy, "stateKey",       "▽"),
+		getMemberValue!(basePolicy, "factoryName",    "makeStm"));
 	
 	mixin(`alias `~__traits(identifier, policy.StateTransitor)~` = policy.StateTransitor;`);
 	auto obj = new class
