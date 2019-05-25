@@ -17,6 +17,14 @@ interface TestFlow
 	TestFlow update() @safe;
 }
 
+private struct StateTransitorPolicy(MyState, MyEvent)
+{
+	alias State       = MyState;
+	alias Event       = MyEvent;
+	enum  consumeMode = ConsumeMode.separate;
+}
+private alias StateTransitor(State, Event)
+	= cushion.StateTransitor!(StateTransitorPolicy!(State,Event));
 
 /***************************************************************
  * Base class of state pattern
@@ -92,19 +100,12 @@ public:
 class Child2Stm: BaseTestFlow
 {
 private:
-	struct StateTransitorTPolicy(MyState, MyEvent)
-	{
-		alias State       = MyState;
-		alias Event       = MyEvent;
-		enum  consumeMode = ConsumeMode.separate;
-	}
-	alias StateTransitorT(State,Event) = StateTransitor!(StateTransitorTPolicy!(State,Event));
-	mixin(loadStmFromCsv!("flow-child2", StateTransitorT)("#>"));
+	mixin(loadStmFromCsv!("flow-child2", StateTransitor)("#>"));
 	Event[][] _stepData;
 	Event[]   _step;
 public:
 	///
-	StateTransitorT!(State, Event) _stm;
+	StateTransitor!(State, Event) _stm;
 	/// ditto
 	alias _stm this;
 	///
@@ -273,5 +274,7 @@ public:
 	}
 	
 	// Finally check the result
+	import std.stdio;
+	writeln(stm.toString);
 	assert(stm.toString() == import("flow-result.txt"));
 }
