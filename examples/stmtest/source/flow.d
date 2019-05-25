@@ -92,12 +92,19 @@ public:
 class Child2Stm: BaseTestFlow
 {
 private:
-	mixin(loadStmFromCsv!("flow-child2", StateTransitor)("#>"));
+	struct StateTransitorTPolicy(MyState, MyEvent)
+	{
+		alias State       = MyState;
+		alias Event       = MyEvent;
+		enum  consumeMode = ConsumeMode.separate;
+	}
+	alias StateTransitorT(State,Event) = StateTransitor!(StateTransitorTPolicy!(State,Event));
+	mixin(loadStmFromCsv!("flow-child2", StateTransitorT)("#>"));
 	Event[][] _stepData;
 	Event[]   _step;
 public:
 	///
-	StateTransitor!(State, Event) _stm;
+	StateTransitorT!(State, Event) _stm;
 	/// ditto
 	alias _stm this;
 	///
