@@ -6,7 +6,7 @@ import cushion.core;
 /*******************************************************************************
  * Generator of STM
  */
-package(cushion) struct StmGenerator(alias ST = StateTransitor)
+package(cushion) struct StmGenerator
 {
 	///
 	string         stmFileName;
@@ -74,10 +74,34 @@ private:
 		}
 		
 		states = app.data;
-		
-		srcstr.put("enum State\n{\n");
-		srcstr.formattedWrite("%-(\t%s,\n%)", states);
-		srcstr.put("\n}\n");
+		srcstr.formattedWrite!(q{
+			static import cushion.core;
+			static import std.traits;
+			static if (__traits(compiles, StateTransitor)
+			        && std.traits.isInstanceOf!(cushion.core.StateTransitor, StateTransitor)
+			        && !__traits(compiles, State)
+			        && is(State == enum))
+			{
+				static assert([__traits(allMembers, StateTransitor.State)] == [
+			%-(		"%s"%|,
+			%)]);
+				alias State = StateTransitor.State;
+			}
+			else static if (__traits(compiles, State) && is(State == enum))
+			{
+				static assert([__traits(allMembers, State)] == [
+			%-(		"%s"%|,
+			%)]);
+			}
+			else
+			{
+				enum State
+				{
+			%-(		%s,
+			%)
+				}
+			}
+		}.outdent)(states, states, states);
 	}
 	
 	// イベントの書き出し。 Event という名前の enum を書き出す。
@@ -92,10 +116,34 @@ private:
 		}
 		
 		events = app.data;
-		
-		srcstr.put("enum Event\n{\n");
-		srcstr.formattedWrite("%-(\t%s,\n%)", events);
-		srcstr.put("\n}\n");
+		srcstr.formattedWrite!(q{
+			static import cushion.core;
+			static import std.traits;
+			static if (__traits(compiles, StateTransitor)
+			        && std.traits.isInstanceOf!(cushion.core.StateTransitor, StateTransitor)
+			        && !__traits(compiles, Event)
+			        && is(Event == enum))
+			{
+				static assert([__traits(allMembers, StateTransitor.Event)] == [
+			%-(		"%s"%|,
+			%)]);
+				alias Event = StateTransitor.Event;
+			}
+			else static if (__traits(compiles, Event) && is(Event == enum))
+			{
+				static assert([__traits(allMembers, Event)] == [
+			%-(		"%s"%|,
+			%)]);
+			}
+			else
+			{
+				enum Event
+				{
+			%-(		%s,
+			%)
+				}
+			}
+		}.outdent)(events, events, events);
 	}
 	
 	static void replaceProcContents(Range)(ref Range srcstr, ref string[] procs, string[string] map)
@@ -244,26 +292,39 @@ private:
 			}
 			app.put(app2.data.dup);
 		}
-		srcstr.formattedWrite(
-			"auto " ~ factoryName ~ "() @safe\n"
-			 ~ "{\n"
-			 ~ "\talias "~ __traits(identifier, ST) ~"!(State, Event).Cell C;\n"
-			 ~ "\tauto stm = "~ __traits(identifier, ST) ~"!(State, Event)([\n"
-			 ~ "\t\t%([%-(%s, %)]%|, \n\t\t%)]);\n", app.data);
 		alias existsAct = reduce!"a | (b.length != 0)";
+		string setActHandler;
 		if (existsAct(false, stacts) || existsAct(false, edacts))
-		{
-			srcstr.put("\tstm.setStateChangedHandler(&_onStEdActivity);\n");
-		}
-		srcstr.formattedWrite(
-			"\tstm.matrixName = `%s`;\n", nameRaw);
-		srcstr.formattedWrite(
-			"\tstm.stateNames = %s;\n", statesRaw);
-		srcstr.formattedWrite(
-			"\tstm.eventNames = %s;\n", eventsRaw);
-		srcstr.put(
-			"\treturn stm;\n"
-			 ~ "}\n");
+			setActHandler = "stm.setStateChangedHandler(&_onStEdActivity);";
+		srcstr.formattedWrite!(q{
+			auto %s() @safe
+			{
+				static import cushion.core;
+				static import std.traits;
+				static if (__traits(compiles, StateTransitor)
+				        && std.traits.isInstanceOf!(cushion.core.StateTransitor, StateTransitor))
+				{
+					alias _ST = StateTransitor;
+				}
+				else static if (__traits(compiles, StateTransitor))
+				{
+					alias _ST = StateTransitor!(State, Event);
+				}
+				else
+				{
+					alias _ST = cushion.core.StateTransitor!(State, Event);
+				}
+				alias _ST.Cell C;
+				auto stm = _ST([
+					%([%-(%s, %)]%|,
+					%)]);
+				%s
+				stm.matrixName = `%s`;
+				stm.stateNames = %s;
+				stm.eventNames = %s;
+				return stm;
+			}
+		}.outdent)(factoryName, app.data, setActHandler, nameRaw, statesRaw, eventsRaw);
 	}
 	
 }

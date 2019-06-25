@@ -53,7 +53,7 @@ abstract class BaseTestFlow: State!TestFlow
 class Child1Stm: BaseTestFlow
 {
 private:
-	mixin(loadStmFromCsv!("flow-child1", StateTransitor)("#>"));
+	mixin(loadStmFromCsv!"flow-child1"("#>"));
 	Event[][] _stepData;
 	Event[]   _step;
 public:
@@ -100,7 +100,7 @@ public:
 class Child2Stm: BaseTestFlow
 {
 private:
-	mixin(loadStmFromCsv!("flow-child2", StateTransitor)("#>"));
+	mixin(loadStmFromCsv!"flow-child2"("#>"));
 	Event[][] _stepData;
 	Event[]   _step;
 public:
@@ -157,7 +157,7 @@ private:
 	Child1Stm _child1;
 	Child2Stm _child2;
 	
-	mixin(loadStmFromCsv!("flow-main", StateTransitor)("#>"));
+	mixin(loadStmFromCsv!"flow-main"("#>"));
 	Event[] _step;
 public:
 	///
