@@ -1,26 +1,62 @@
 language: d
 
-d:
-  - dmd
-  - ldc
-
-os:
-  - linux
-#  - osx
-
-env:
-  - ARCH=x86_64
-  - ARCH=x86
-
-branches:
-  only:
-    - master
-
 script: ./.travis.sh
-
 sudo: false
 
-addons:
-  apt:
-    packages:
-      - gcc-multilib
+jobs:
+  include:
+    # =============================== Test Stage ===============================
+    - stage: test
+      d: ldc
+      os: linux
+      env: TEST_TARGET_ARCH=x86_64
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -t ${CODECOV_TOKEN} -s .cov
+    - d: ldc-latest-ci
+      os: linux
+      env: TEST_TARGET_ARCH=x86_64
+    - d: dmd
+      os: linux
+      env: TEST_TARGET_ARCH=x86_64
+    - d: dmd-nightly
+      os: linux
+      env: TEST_TARGET_ARCH=x86_64
+    - d: ldc
+      os: linux
+      env: TEST_TARGET_ARCH=x86
+      addons:
+        apt:
+          packages:
+            - gcc-multilib
+    - d: dmd
+      os: linux
+      env: TEST_TARGET_ARCH=x86
+      addons:
+        apt:
+          packages:
+            - gcc-multilib
+    - d: ldc
+      os: osx
+      env: TEST_TARGET_ARCH=x86_64
+    - d: dmd
+      os: osx
+      env: TEST_TARGET_ARCH=x86_64
+    # ========================== Documentation Stage  ==========================
+    - stage: Documentation
+      d: ldc
+      os: linux
+      script: echo "Deploying to GitHub pages ..." && dub run gendoc -y
+      deploy:
+        - provider: pages
+          skip_cleanup: true
+          local_dir: docs
+          github_token: $GH_REPO_TOKEN
+          on:
+            tags: false
+            branch: master
+
+stages:
+  - name: test
+    if: type = pull_request or (type = push and branch = master)
+  - name: Documentation
+    if: type = push and branch = master

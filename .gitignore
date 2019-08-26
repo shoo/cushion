@@ -1,5 +1,6 @@
 .*
 doc/
+docs/
 *.json
 *.html
 *.so
