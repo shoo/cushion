@@ -16,8 +16,7 @@ cd cushion
 dub build
 ```
 
-It is not registered yet in dub, but there are plans for registration in the future.
-After registration, you can use it by adding it to your dub project as follows.
+This library is registered in dub, you can use it by adding it to your dub project as follows.
 
 In json:
 
@@ -45,6 +44,7 @@ In addition, you can generate documentation about the API by adding some dub opt
 dub :doc -c=adrdox
 dub :doc -c=hmod
 dub :doc -c=ddox
+dub run gendoc
 ```
 
 Each generated results are stored in the `doc/<toolname>` directory.
@@ -70,8 +70,8 @@ The matrix that expresses state transitions based on rules is called a STM(State
 
 When this specification is made to STM, the following table can be created.
 
-| *MusicPlayer* |#>stop                   | #>play                  | #>pause |
-| ------------- | ----------------------- | ----------------------- | ----------------------- |
+| *MusicPlayer* |#>stop                   | #>play                  | #>pause                 |
+|:--------------|:------------------------|:------------------------|:------------------------|
 | onStart       | #>play<br>- Start music | #>pause<br>- Stop music | #>play<br>- Start music |
 | onStop        |                         | #>stop<br>- Stop music<br>- Return to first | #>stop<br>- Return to first |
 
@@ -143,12 +143,7 @@ void delay(uint tim) @trusted
 }
 
 // Create StateTransitor instance
-mixin(decodeStmFromCsv(import("MusicPlayer.stm.csv"),
-                       import("MusicPlayer.map.csv"),
-                       "MusicPlayer.stm.csv",
-                       "MusicPlayer.map.csv",
-                       "#>",
-                       "makeStm"));
+mixin(loadStmFromCsv!"MusicPlayer"("#>"));
 auto stm = makeStm();
 
 // Initial state is "stop" that most left state.

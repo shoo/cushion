@@ -13,12 +13,8 @@ import std.datetime.stopwatch;
 	void resetMusic() { playTime.reset(); }
 	
 	// Create StateTransitor instance
-	struct Policy
-	{
-		enum string name        = "MusicPlayer";
-		enum string stateKey    = "#>";
-	}
-	auto stm = createStm!(Policy, startMusic, stopMusic, resetMusic);
+	mixin(loadStmFromCsv!"MusicPlayer"("#>"));
+	auto stm = makeStm();
 	
 	// Initial state is "stop" that most left state.
 	assert(stm.currentState == stm.State.stop);
