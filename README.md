@@ -1,6 +1,8 @@
 # Cushion - A library to help state transition matrix design
 
+[![GitHub tag](https://img.shields.io/github/tag/shoo/cushion.svg?maxAge=86400)](#)
 [![CI Status](https://travis-ci.com/shoo/cushion.svg)](https://travis-ci.com/shoo/cushion)
+[![codecov](https://codecov.io/gh/shoo/cushion/branch/master/graph/badge.svg)](https://codecov.io/gh/shoo/gendoc)
 
 This library aims to process the table which is state transition matrix designed on the D language source code.
 Tables written in csv file will be converted to D language source code at compile time.
@@ -22,11 +24,11 @@ In json:
 
 ```json
 {
-	...
+	"//" : " ...",
 	"dependencies": {
 		"cushion": "~><current-version>"
 	},
-	...
+	"//" : " ..."
 }
 ```
 
