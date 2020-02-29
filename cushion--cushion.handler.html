@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>cushion.handler</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>cushion</h2>
+        <p><span class="smallprint"><b>version:</b> 0.0.0+commit.7.g8db4219 <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >cushion</span></a><ul>
+		
+			<li><a title="Cushion - A library to help state transition matrix design" href="cushion--cushion.html"><span >package</span></a></li>
+		
+		
+
+	<li><a title="Core module for state transion" href="cushion--cushion.core.html"><span >core</span></a></li>
+
+
+
+	<li><a title="Decoder for STM of CSV" href="cushion--cushion.csvdecoder.html"><span >csvdecoder</span></a></li>
+
+
+
+	<li><a title="Flow module for state transion" href="cushion--cushion.flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="Handler type traits and operations" href="cushion--cushion.handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion--cushion.stmgen.html"><span >stmgen</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >(extra)</span></a><ul>
+		
+		
+
+	<li><a title="" href="cushion-stmtest--_extra_.ut.html"><span >ut</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+	<li><a title="" href="cushion-stmtest--app.html"><span >app</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--music_player.html"><span >music_player</span></a></li>
+
+
+</ul>
+</div>
+            <div class="content">                <h1>cushion.handler</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                <div class="ddoc_summary">Handler type traits and operations
+</div><div class="ddoc_license"><span class="ddoc_license_header">License:</span>
+ <a href="http://boost.org/LICENSE_1_0.txt">BSL-1.0</a>.
+</div>
+<div class="ddoc_section_nonstandard"><span class="ddoc_section_nonstandard_header">Author:</span>
+SHOO</div>
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".isHandler"></span><div class="quickindex" id="quickindex.isHandler"></div>enum bool <code class="ddoc_psymbol">isHandler</code>(Handler);
+<br></div></dt>
+<dd><div class="ddoc_summary">Judge traits of Handler</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">static</span> <span class="d_keyword">struct</span> CallableStruct { <span class="d_keyword">void</span> opCall(){} }
+<span class="d_keyword">static</span> <span class="d_keyword">class</span> CallableClass { <span class="d_keyword">void</span> opCall(){} }
+
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandler</span>!(<span class="d_keyword">void</span> <span class="d_keyword">function</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandler</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandler</span>!(CallableClass));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandler</span>!(CallableStruct));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandler</span>!(<span class="d_keyword">void</span> <span class="d_keyword">function</span>()[]));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandler</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()[]));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandler</span>!(CallableStruct[]));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandler</span>!(CallableClass[]));
+<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(Exception)[] handler = <span class="d_keyword">void</span>;
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandler</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(Exception)[]));
+</pre>
+</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".isHandlerAddable"></span><div class="quickindex" id="quickindex.isHandlerAddable"></div>enum bool <code class="ddoc_psymbol">isHandlerAddable</code>(Handler, Func);
+<br></div></dt>
+<dd><div class="ddoc_summary">Judge traits of Handler for operation of adding</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">static</span> <span class="d_keyword">struct</span> CallableStruct { <span class="d_keyword">void</span> opCall(){} }
+<span class="d_keyword">static</span> <span class="d_keyword">class</span> CallableClass { <span class="d_keyword">void</span> opCall(){} }
+
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAddable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">function</span>()[], <span class="d_keyword">void</span> <span class="d_keyword">function</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAddable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()[], <span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAddable</span>!(CallableStruct[],  CallableStruct));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAddable</span>!(CallableClass[],   CallableClass));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAddable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()[], <span class="d_keyword">void</span> <span class="d_keyword">function</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAddable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()[], CallableStruct));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAddable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()[], CallableClass));
+</pre>
+</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".isHandlerAssignable"></span><div class="quickindex" id="quickindex.isHandlerAssignable"></div>enum bool <code class="ddoc_psymbol">isHandlerAssignable</code>(Handler, Func);
+<br></div></dt>
+<dd><div class="ddoc_summary">Judge traits of Handler for operation of assign</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">function</span>(), <span class="d_keyword">void</span> <span class="d_keyword">function</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(!<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">function</span>(), <span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">function</span>()[], <span class="d_keyword">void</span> <span class="d_keyword">function</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(!<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">function</span>()[], <span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(), <span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(), <span class="d_keyword">void</span> <span class="d_keyword">function</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()[], <span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()[], <span class="d_keyword">void</span> <span class="d_keyword">function</span>()));
+
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(!<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">function</span>(), <span class="d_keyword">int</span>));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(!<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">function</span>()[], <span class="d_keyword">int</span>));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(!<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(), <span class="d_keyword">int</span>));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(!<span class="d_psymbol">isHandlerAssignable</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>()[], <span class="d_keyword">int</span>));
+</pre>
+</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".HandlerParameters"></span><div class="quickindex" id="quickindex.HandlerParameters"></div>template <code class="ddoc_psymbol">HandlerParameters</code>(Handler)<br></div></dt>
+<dd><div class="ddoc_summary">Parameter of Handler</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">import</span> std.meta;
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(<span class="d_psymbol">HandlerParameters</span>!(<span class="d_keyword">void</span> <span class="d_keyword">function</span>(<span class="d_keyword">int</span>)) == AliasSeq!<span class="d_keyword">int</span>));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(<span class="d_psymbol">HandlerParameters</span>!(<span class="d_keyword">void</span> <span class="d_keyword">function</span>(<span class="d_keyword">int</span>)[]) == AliasSeq!<span class="d_keyword">int</span>));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(<span class="d_psymbol">HandlerParameters</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(<span class="d_keyword">int</span>)) == AliasSeq!<span class="d_keyword">int</span>));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(<span class="d_psymbol">HandlerParameters</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(<span class="d_keyword">int</span>)[]) == AliasSeq!<span class="d_keyword">int</span>));
+</pre>
+</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".HandlerReturnType"></span><div class="quickindex" id="quickindex.HandlerReturnType"></div>template <code class="ddoc_psymbol">HandlerReturnType</code>(Handler)<br></div></dt>
+<dd><div class="ddoc_summary">ReturnTypeOf of Handler</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(<span class="d_psymbol">HandlerReturnType</span>!(<span class="d_keyword">int</span> <span class="d_keyword">function</span>()) == <span class="d_keyword">int</span>));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(<span class="d_psymbol">HandlerReturnType</span>!(<span class="d_keyword">int</span> <span class="d_keyword">function</span>()[]) == <span class="d_keyword">int</span>));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(<span class="d_psymbol">HandlerReturnType</span>!(<span class="d_keyword">int</span> <span class="d_keyword">delegate</span>()) == <span class="d_keyword">int</span>));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(<span class="d_psymbol">HandlerReturnType</span>!(<span class="d_keyword">int</span> <span class="d_keyword">delegate</span>()[]) == <span class="d_keyword">int</span>));
+</pre>
+</div>
+</dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>

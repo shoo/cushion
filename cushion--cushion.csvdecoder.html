@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>cushion.csvdecoder</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>cushion</h2>
+        <p><span class="smallprint"><b>version:</b> 0.0.0+commit.7.g8db4219 <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >cushion</span></a><ul>
+		
+			<li><a title="Cushion - A library to help state transition matrix design" href="cushion--cushion.html"><span >package</span></a></li>
+		
+		
+
+	<li><a title="Core module for state transion" href="cushion--cushion.core.html"><span >core</span></a></li>
+
+
+
+	<li><a title="Decoder for STM of CSV" href="cushion--cushion.csvdecoder.html"><span >csvdecoder</span></a></li>
+
+
+
+	<li><a title="Flow module for state transion" href="cushion--cushion.flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="Handler type traits and operations" href="cushion--cushion.handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion--cushion.stmgen.html"><span >stmgen</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >(extra)</span></a><ul>
+		
+		
+
+	<li><a title="" href="cushion-stmtest--_extra_.ut.html"><span >ut</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+	<li><a title="" href="cushion-stmtest--app.html"><span >app</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--music_player.html"><span >music_player</span></a></li>
+
+
+</ul>
+</div>
+            <div class="content">                <h1>cushion.csvdecoder</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                <div class="ddoc_summary">Decoder for STM of CSV
+</div><div class="ddoc_license"><span class="ddoc_license_header">License:</span>
+ <a href="http://boost.org/LICENSE_1_0.txt">BSL-1.0</a>.
+</div>
+<div class="ddoc_section_nonstandard"><span class="ddoc_section_nonstandard_header">Author:</span>
+SHOO</div>
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".decodeStmFromCsv"></span><div class="quickindex" id="quickindex.decodeStmFromCsv"></div>string <code class="ddoc_psymbol">decodeStmFromCsv</code>(string <span class="ddoc_param">stmCsvContents</span>, string <span class="ddoc_param">mapCsvContents</span>, string <span class="ddoc_param">mapFileName</span> = null, string <span class="ddoc_param">stmFileName</span> = null, string <span class="ddoc_param">stateKey</span> = "\xe2\x96\xbd", string <span class="ddoc_param">factoryName</span> = "makeStm");
+<br></div></dt>
+<dd><div class="ddoc_summary">Decode to D language code from STM of CSV
+</div><div class="ddoc_description">In the first argument, STM in CSV format is passed as a string.
+ And in the second argument, replacement map in CSV format is passed as a string.
+ This CSV pair will be decoded into the code in D language.
+<div class="ddoc_blankline"></div>
+
+<div class="ddoc_blankline"></div>
+
+ STM by CSV is converted according to the following rules.
+<div class="ddoc_blankline"></div>
+
+ <ul>   <li>The cell at most top-left is described name of the STM.</li>
+   <li>In the first row cells except the leftmost column, "<b>state</b>" names are described.</li>
+   <li>Cells of leftmost column in rows 2 and 3 are ignored in program code.</li>
+   <li>"<b>Event</b>" names are described on the leftmost 4th row and beyond.</li>
+   <li>The 1st line of CSV describes "<b>states</b>"</li>
+   <li>"<b>States</b>" is always specified a string beginning with "∇" (default character) or <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">stateKey</span></span> that is user defined key character.</li>
+   <li>The 2nd line of CSV describes "<b>start activity</b>"</li>
+   <li>The 3rd line of CSV describes "<b>end activity</b>"</li>
+   <li>"<b>start activity</b>" and "<b>end activity</b>" are described by some "<b>processes</b>"</li>
+   <li>When the "<b>state transitions</b>", the "<b>process</b>" described in the "<b>start activity</b>" of the "<b>states</b>" of after the transition are performed.</li>
+   <li>In the other hand, the "<b>processes</b>" in the "<b>end activity</b>" are performed at before the transition.</li>
+   <li>In cell where "<b>state</b>" and "<b>event</b>" intersect, "<b>processes</b>" are described</li>
+   <li>For state transition, specify the state name starting with <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">stateKey</span></span> in the first line of the "<b>processes</b>" described in the cell</li>
+   <li>A blank cell does not process the event and means to ignore it.</li>
+   <li>Cells written with only <span class="d_inlinecode donthyphenate notranslate">x</span> assert forbidden event handling.</li>
+ </ul>
+<div class="ddoc_blankline"></div>
+
+ The replacement map is described according to the following specifications.
+<div class="ddoc_blankline"></div>
+
+ <ul>   <li>The replacement target of the replacement map CSV is the "<b>state</b>", "<b>event</b>", "<b>state transition</b>", and "<b>process</b>" of the STM</li>
+   <li>The first column of CSV describes the string before conversion.</li>
+   <li>The second column of CSV describes the string after conversion.</li>
+   <li>The string in the left column is simply replaced by the string in the right column.</li>
+   <li>After substitution, "<b>process</b>" must be complete D language code.</li>
+   <li>"<b>event</b>" must be replaced to enum member of "<b>Event</b>".</li>
+   <li>"<b>state</b>" must be replaced to enum member of "<b>State</b>".</li>
+   <li>And also, "<b>state transition</b>" that are described together "<b>process</b>" must be replaced to enum member of "<b>State</b>".</li>
+ </ul>
+<div class="ddoc_blankline"></div>
+
+ Since the string generated by this function is the source code of the D language, it can be embedded in the actual code after saving it in the file, or it can be used directly by mixin().
+ The "<b>states</b>" are generated as an enum type named <span class="d_inlinecode donthyphenate notranslate">State</span>, and the "<b>events</b>" are generated as an enum type named <span class="d_inlinecode donthyphenate notranslate">Event</span>.
+ STM instance is generated by executing the generated factory function that name can be specified by <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">factoryName</span></span> with makeStm as its default name.</div>
+<span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ Example is following.
+<div class="ddoc_blankline"></div>
+
+ This case explains how to operate the music player with the start button and the stop button.
+ The players play music when the start button is pressed while stopping.
+ And when you press the start button during playing, the behavior will change and music playback will pause.
+ When the stop button is pressed, the player stops music playback and returns to the initial state.
+<div class="ddoc_blankline"></div>
+
+ When this specification is made to STM, the following table can be created.
+<div class="ddoc_blankline"></div>
+
+ stmcsv:
+ <table>   <tr><th><em>MusicPlayer</em> </th><th>#&gt;stop                   </th><th>#&gt;play                                          </th><th>#&gt;pause                 </th> </tr>
+   <tr><th>StartAct.     </th><td>                         </td><td>                                                </td><td>                        </td> </tr>
+   <tr><th>EndAct.       </th><td>                         </td><td>                                                </td><td>                        </td> </tr>
+   <tr><th>onStart       </th><td>#&gt;play<br>- Start music </td><td>#&gt;pause<br>- Stop music                        </td><td>#&gt;play<br>- Start music</td> </tr>
+   <tr><th>onStop        </th><td>                         </td><td> #&gt;stop<br>- Stop music<br>- Return to first  </td><td>#&gt;stop<br>- Return to first</td> </tr>
+ </table>
+<div class="ddoc_blankline"></div>
+
+ In each cell of the table, the transition destination and processing are described in natural language.
+ Representations in natural language are replaced by the following map table and converted into a program expression in D.
+ One line in each cell is subject to replacement. However, those that do not exist in the replacement map are not replaced.
+<div class="ddoc_blankline"></div>
+
+ mapcsv:
+ <table>   <tr><td>#&gt;stop            </td><td>stop           </td> </tr>
+   <tr><td>#&gt;play            </td><td>play           </td> </tr>
+   <tr><td>#&gt;pause           </td><td>pause          </td> </tr>
+   <tr><td>- Start music     </td><td>startMusic();  </td> </tr>
+   <tr><td>- Stop music      </td><td>stopMusic();   </td> </tr>
+   <tr><td>- Return to first </td><td>resetMusic();  </td> </tr>
+ </table>
+<div class="ddoc_blankline"></div>
+
+ To execute the pair of STM and replacement map as code, see the following code:
+<pre class="d_code notranslate"><span class="d_keyword">import</span> std.string, std.datetime.stopwatch;
+<span class="d_comment">// STM
+</span><span class="d_keyword">enum</span> stmcsv = <span class="d_string">`
+*MusicPlayer*,#&gt;stop,#&gt;play,#&gt;pause
+StartAct,,,
+EndAct,,,
+onStart,"#&gt;play\n- Start music","#&gt;pause\n- Stop music","#&gt;play\n- Start music"
+onStop,,"#&gt;stop\n- Stop music\n- Return to first","#&gt;stop\n- Return to first"`</span>
+.strip(<span class="d_string">"\n"</span>).outdent.replace(<span class="d_string">`\n`</span>,<span class="d_string">"\n"</span>);
+
+<span class="d_comment">// replacement mapping data
+</span><span class="d_keyword">enum</span> mapcsv = <span class="d_string">`
+#&gt;stop,stop
+#&gt;play,play
+#&gt;pause,pause
+- Start music,startMusic();
+- Stop music,stopMusic();
+- Return to first,resetMusic();`</span>
+.strip(<span class="d_string">"\n"</span>).outdent.replace(<span class="d_string">`\n`</span>,<span class="d_string">"\n"</span>);
+
+<span class="d_comment">// Programs to be driven by STM
+</span>string status = <span class="d_string">"stopped"</span>;
+StopWatch playTime;
+<span class="d_keyword">void</span> startMusic() { playTime.start(); status = <span class="d_string">"playing"</span>; }
+<span class="d_keyword">void</span> stopMusic()  { playTime.stop();  status = <span class="d_string">"stopped"</span>; }
+<span class="d_keyword">void</span> resetMusic() { playTime.reset(); }
+
+<span class="d_comment">// Generate code from STM(csv data) and mapping data
+</span><span class="d_keyword">enum</span> stmcode = <span class="d_psymbol">decodeStmFromCsv</span>(stmcsv, mapcsv, <span class="d_keyword">null</span>, <span class="d_keyword">null</span>, <span class="d_string">"#&gt;"</span>, <span class="d_string">"makeStm"</span>);
+<span class="d_comment">// string mixin. Here the code is expanded.
+</span><span class="d_comment">// The code contains the enum of State and Event,
+</span><span class="d_comment">// activity functions and proccess when transtition.
+</span><span class="d_keyword">mixin</span>(stmcode);
+
+<span class="d_comment">// Create StateTransitor instance
+</span><span class="d_comment">// By executing this function, construction of StateTransitor,
+</span><span class="d_comment">// registration of various handlers, name setting of the matrix and states / events are performed.
+</span><span class="d_keyword">auto</span> stm = makeStm();
+
+<span class="d_comment">// Initial state is "stop" that most left state.
+</span><span class="d_keyword">assert</span>(stm.currentState == State.stop);
+<span class="d_comment">// At run time, display names of the state are gettable
+</span><span class="d_keyword">assert</span>(stm.getStateName(stm.currentState) == <span class="d_string">"#&gt;stop"</span>);
+<span class="d_comment">// Likewise, event names are also gettable
+</span><span class="d_comment">// In this case, event names are not replaced by mapcsv datas,
+</span><span class="d_comment">// this code in following line gets the same string as the enum member of Event.
+</span><span class="d_keyword">assert</span>(stm.getEventName(Event.onStart) == <span class="d_string">"onStart"</span>);
+
+<span class="d_comment">// When the onStart event occurs, based on the STM,
+</span><span class="d_comment">// it transit to the "#&gt;play" state and play music.
+</span>stm.put(Event.onStart);
+<span class="d_keyword">assert</span>(stm.currentState == State.play);
+<span class="d_keyword">assert</span>(playTime.running);
+() @trusted { <span class="d_keyword">import</span> core.thread; Thread.sleep(10.msecs); }(); <span class="d_comment">// progress in playing...
+</span><span class="d_keyword">assert</span>(playTime.peek != 0.msecs);
+
+<span class="d_comment">// If push the play button again during playing, it pauses.
+</span>stm.put(Event.onStart);
+<span class="d_keyword">assert</span>(stm.currentState == State.pause);
+<span class="d_keyword">assert</span>(!playTime.running);
+
+<span class="d_comment">// When you press the stop button, the player stops and returns to the first stop state
+</span>stm.put(Event.onStop);
+<span class="d_keyword">assert</span>(stm.currentState == State.stop);
+<span class="d_keyword">assert</span>(!playTime.running);
+() @trusted { <span class="d_keyword">import</span> core.thread; Thread.sleep(10.msecs); }(); <span class="d_comment">// progress in stopped...
+</span><span class="d_keyword">assert</span>(playTime.peek == 0.msecs);
+</pre>
+</div>
+<span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ Following example is case of network communication in Japanese.
+<pre class="d_code notranslate"><span class="d_keyword">import</span> std.string;
+<span class="d_keyword">enum</span> stmcsv = <span class="d_string">`
+,▽初期,▽接続中,▽通信中,▽切断中
+スタートアクティビティ,,接続要求を開始,,切断要求を開始
+エンドアクティビティ,,接続要求を停止,,切断要求を停止
+接続の開始指示を受けたら,▽接続中,,x,x
+接続の停止指示を受けたら,,▽切断中,▽切断中,
+通信が開始されたら,▽切断中,▽通信中,x,x
+通信が切断されたら,x,▽初期,▽初期,▽初期`</span>
+.strip(<span class="d_string">"\n"</span>).outdent.replace(<span class="d_string">`\n`</span>,<span class="d_string">"\n"</span>);
+
+<span class="d_keyword">enum</span> replaceData = <span class="d_string">`
+▽初期,init
+▽接続中,connectBeginning
+▽通信中,connecting
+▽切断中,connectClosing
+通信が開始されたら,openedConnection
+通信が切断されたら,closedConnection
+接続の開始指示を受けたら,openConnection
+接続の停止指示を受けたら,closeConnection
+接続要求を開始,startBeginConnect();
+接続要求を停止,endBeginConnect();
+切断要求を開始,startCloseConnect();
+切断要求を停止,endCloseConnect();`</span>
+.strip(<span class="d_string">"\n"</span>).outdent.replace(<span class="d_string">`\n`</span>,<span class="d_string">"\n"</span>);
+
+<span class="d_keyword">enum</span> stmcode = <span class="d_psymbol">decodeStmFromCsv</span>(stmcsv, replaceData);
+<span class="d_keyword">int</span> x;
+<span class="d_keyword">void</span> startBeginConnect()
+{
+	x = 1;
+}
+<span class="d_keyword">void</span> endBeginConnect()
+{
+	x = 2;
+}
+<span class="d_keyword">void</span> startCloseConnect()
+{
+	x = 3;
+}
+<span class="d_keyword">void</span> endCloseConnect()
+{
+	x = 4;
+}
+
+<span class="d_keyword">mixin</span>(stmcode);
+<span class="d_keyword">auto</span> stm = makeStm();
+<span class="d_keyword">assert</span>(stm.getStateName(State.init) == <span class="d_string">"▽初期"</span>);
+<span class="d_keyword">assert</span>(stm.getStateName(stm.currentState) == <span class="d_string">"▽初期"</span>);
+<span class="d_keyword">assert</span>(x == 0);
+stm.put(Event.openConnection);
+<span class="d_keyword">assert</span>(x == 1);
+<span class="d_keyword">assert</span>(stm.getStateName(stm.currentState) == <span class="d_string">"▽接続中"</span>);
+<span class="d_keyword">assert</span>(stm.currentState == State.connectBeginning);
+stm.put(Event.openedConnection);
+<span class="d_keyword">assert</span>(x == 2);
+<span class="d_keyword">assert</span>(stm.getStateName(stm.currentState) == <span class="d_string">"▽通信中"</span>);
+<span class="d_keyword">assert</span>(stm.currentState == State.connecting);
+stm.put(Event.closeConnection);
+<span class="d_keyword">assert</span>(x == 3);
+<span class="d_keyword">assert</span>(stm.getStateName(stm.currentState) == <span class="d_string">"▽切断中"</span>);
+<span class="d_keyword">assert</span>(stm.currentState == State.connectClosing);
+stm.put(Event.closedConnection);
+<span class="d_keyword">assert</span>(x == 4);
+<span class="d_keyword">assert</span>(stm.getStateName(stm.currentState) == <span class="d_string">"▽初期"</span>);
+<span class="d_keyword">assert</span>(stm.currentState == State.init);
+</pre>
+</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".loadStmFromCsvFilePair"></span><div class="quickindex" id="quickindex.loadStmFromCsvFilePair"></div>string <code class="ddoc_psymbol">loadStmFromCsvFilePair</code><span class="ddoc_template_param_list" title="Template parameter list">(string stmFileName, string mapFileName)</span>(string <span class="ddoc_param">stateKey</span> = "\xe2\x96\xbd", string <span class="ddoc_param">factoryName</span> = "makeStm");
+<br>
+<span class="def-anchor" id=".loadStmFromCsv"></span><div class="quickindex" id="quickindex.loadStmFromCsv"></div>string <code class="ddoc_psymbol">loadStmFromCsv</code><span class="ddoc_template_param_list" title="Template parameter list">(string name)</span>(string <span class="ddoc_param">stateKey</span> = "\xe2\x96\xbd", string <span class="ddoc_param">factoryName</span> = "makeStm");
+<br></div></dt>
+<dd><div class="ddoc_summary">Load CSV file of STM and decode to D code.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".CreateStmPolicy"></span><div class="quickindex" id="quickindex.CreateStmPolicy"></div>template <code class="ddoc_psymbol">CreateStmPolicy</code>(string name_, alias ST = cushion.core.StateTransitor, string stateKey_ = "\xe2\x96\xbd", string factoryName_ = "makeStm")<br></div></dt>
+<dd><div class="ddoc_summary">Load CSV file of STM and decode to D code.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".createStm"></span><div class="quickindex" id="quickindex.createStm"></div>auto <code class="ddoc_psymbol">createStm</code><span class="ddoc_template_param_list" title="Template parameter list">(string name, ALIASES...)</span>();
+<br>
+auto <code class="ddoc_psymbol">createStm</code><span class="ddoc_template_param_list" title="Template parameter list">(alias basePolicy, ALIASES...)</span>()<br><span class="ddoc_constraint">if(__traits(hasMember, basePolicy, "name"))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Load CSV file of STM and decode to D code.</div></dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>

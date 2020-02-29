@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>cushion.core</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>cushion</h2>
+        <p><span class="smallprint"><b>version:</b> 0.0.0+commit.7.g8db4219 <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >cushion</span></a><ul>
+		
+			<li><a title="Cushion - A library to help state transition matrix design" href="cushion--cushion.html"><span >package</span></a></li>
+		
+		
+
+	<li><a title="Core module for state transion" href="cushion--cushion.core.html"><span >core</span></a></li>
+
+
+
+	<li><a title="Decoder for STM of CSV" href="cushion--cushion.csvdecoder.html"><span >csvdecoder</span></a></li>
+
+
+
+	<li><a title="Flow module for state transion" href="cushion--cushion.flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="Handler type traits and operations" href="cushion--cushion.handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion--cushion.stmgen.html"><span >stmgen</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >(extra)</span></a><ul>
+		
+		
+
+	<li><a title="" href="cushion-stmtest--_extra_.ut.html"><span >ut</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+	<li><a title="" href="cushion-stmtest--app.html"><span >app</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--music_player.html"><span >music_player</span></a></li>
+
+
+</ul>
+</div>
+            <div class="content">                <h1>cushion.core</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                <div class="ddoc_summary">Core module for state transion
+</div><div class="ddoc_license"><span class="ddoc_license_header">License:</span>
+ <a href="http://boost.org/LICENSE_1_0.txt">BSL-1.0</a>.
+</div>
+<div class="ddoc_section_nonstandard"><span class="ddoc_section_nonstandard_header">Author:</span>
+SHOO</div>
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".isEvent"></span><div class="quickindex" id="quickindex.isEvent"></div>enum bool <code class="ddoc_psymbol">isEvent</code>(Event);
+<br></div></dt>
+<dd><div class="ddoc_summary">Judge StateTransitor's Event</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".isState"></span><div class="quickindex" id="quickindex.isState"></div>enum bool <code class="ddoc_psymbol">isState</code>(State);
+<br></div></dt>
+<dd><div class="ddoc_summary">Judge StateTransitor's State</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".isProcessHandler"></span><div class="quickindex" id="quickindex.isProcessHandler"></div>template <code class="ddoc_psymbol">isProcessHandler</code>(Handler)<br></div></dt>
+<dd><div class="ddoc_summary">Judge StateTransitor's ProcHandler</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".isExceptionHandler"></span><div class="quickindex" id="quickindex.isExceptionHandler"></div>template <code class="ddoc_psymbol">isExceptionHandler</code>(Handler)<br></div></dt>
+<dd><div class="ddoc_summary">Judge StateTransitor's ExceptionHandler</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isExceptionHandler</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(Exception)@safe[]));
+</pre>
+</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".isEventHandler"></span><div class="quickindex" id="quickindex.isEventHandler"></div>template <code class="ddoc_psymbol">isEventHandler</code>(Handler, Event)<br></div></dt>
+<dd><div class="ddoc_summary">Judge StateTransitor's EventHandler</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".isStateChangedHandler"></span><div class="quickindex" id="quickindex.isStateChangedHandler"></div>template <code class="ddoc_psymbol">isStateChangedHandler</code>(Handler, State)<br></div></dt>
+<dd><div class="ddoc_summary">Judge StateTransitor's EventHandler</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">enum</span> State {a, b, c}
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isStateChangedHandler</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(State,State), State));
+</pre>
+</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".isEventContainer"></span><div class="quickindex" id="quickindex.isEventContainer"></div>template <code class="ddoc_psymbol">isEventContainer</code>(Container)<br></div></dt>
+<dd><div class="ddoc_summary">Judge StateTransitor's EventContainer</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">enum</span> E {a, b, c}
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isEventContainer</span>!(E[]));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isEventContainer</span>!(SList!E));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isEventContainer</span>!(DList!E));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isEventContainer</span>!(Array!E));
+</pre>
+</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".cancelEvent"></span><div class="quickindex" id="quickindex.cancelEvent"></div>void <code class="ddoc_psymbol">cancelEvent</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".forbiddenHandler"></span><div class="quickindex" id="quickindex.forbiddenHandler"></div>@safe void delegate() <code class="ddoc_psymbol">forbiddenHandler</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Get a default forbidden handler</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ignoreHandler"></span><div class="quickindex" id="quickindex.ignoreHandler"></div>@safe void delegate() <code class="ddoc_psymbol">ignoreHandler</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Get a default ignore handler</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ConsumeMode"></span><div class="quickindex" id="quickindex.ConsumeMode"></div>enum <code class="ddoc_psymbol">ConsumeMode</code>: <span class="ddoc_enum_basetype">int</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Consume mode</div><dl class="ddoc_members"><div class="ddoc_enum_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".ConsumeMode.combined"></span><div class="quickindex" id="quickindex.ConsumeMode.combined"></div><code class="ddoc_psymbol">combined</code><br></div></dt>
+<dd><div class="ddoc_summary">Events are consumed at the same time as addition.
+</div><div class="ddoc_description">Add an event with the put method, since the put method consumes events on
+ the fly, we automatically call the consume method.</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".ConsumeMode.separate"></span><div class="quickindex" id="quickindex.ConsumeMode.separate"></div><code class="ddoc_psymbol">separate</code><br></div></dt>
+<dd><div class="ddoc_summary">Events are consumed at <code class="ddoc_psymbol">separate</code> timing from the of addition
+</div><div class="ddoc_description">Need to add an event with the put method and call the consume method for
+ consumption.</div>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor"></span><div class="quickindex" id="quickindex.StateTransitor"></div>struct <code class="ddoc_psymbol">StateTransitor</code>(StateType, EventType, StateType defaultStateParameter = StateType.init, ProcHandler = void delegate()[], ExceptionHandler = void delegate(Exception)[], EventHandler = void delegate(EventType)[], StateChangedHandler = void delegate(StateType newSts, StateType oldSts)[], ConsumeMode consumeMode = ConsumeMode.combined, EventContainer = SList!EventType);
+<br>
+template <code class="ddoc_psymbol">StateTransitor</code>(alias Policy) if (__traits(hasMember, Policy, "State") &amp;&amp; __traits(hasMember, Policy, "Event"))<br></div></dt>
+<dd><div class="ddoc_summary"><code class="ddoc_psymbol">StateTransitor</code></div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">enum</span> State { a, b }
+<span class="d_keyword">enum</span> Event { e1, e2, e3 }
+
+<span class="d_keyword">alias</span> Stm = <span class="d_psymbol">StateTransitor</span>!(State, Event);
+
+<span class="d_keyword">alias</span> C = Stm.Cell;
+string msg;
+<span class="d_comment">// STM
+</span><span class="d_keyword">auto</span> sm = Stm([
+	<span class="d_comment">// Event     StateA                      StateB
+</span>	<span class="d_comment">/* e1:   */</span> [C(State.b, {msg = <span class="d_string">"a-1"</span>;}), C(State.b, forbiddenHandler)],
+	<span class="d_comment">/* e2:   */</span> [C(State.a, ignoreHandler),  C(State.a, {msg = <span class="d_string">"b-2"</span>;})],
+	<span class="d_comment">/* e3:   */</span> [C(State.a, {msg = <span class="d_string">"a-3"</span>;}), C(State.a, forbiddenHandler)]
+]);
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(isOutputRange!(<span class="d_keyword">typeof</span>(sm), Event));
+
+<span class="d_keyword">assert</span>(sm.currentState == State.a);
+std.range.put(sm, Event.e1);
+<span class="d_keyword">assert</span>(sm.currentState == State.b);
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"a-1"</span>);
+sm.put(Event.e2);
+<span class="d_keyword">assert</span>(sm.currentState == State.a);
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"b-2"</span>);
+sm.put(Event.e3);
+<span class="d_keyword">assert</span>(sm.currentState == State.a);
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"a-3"</span>);
+sm.put(Event.e2);
+<span class="d_keyword">assert</span>(sm.currentState == State.a);
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"a-3"</span>);
+sm.put(Event.e1);
+<span class="d_keyword">assert</span>(sm.currentState == State.b);
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"a-1"</span>);
+</pre>
+</div>
+<span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">struct</span> Policy
+{
+	<span class="d_keyword">enum</span> State { a, b }
+	<span class="d_keyword">enum</span> Event { e1, e2, e3 }
+	<span class="d_keyword">enum</span> consumeMode = ConsumeMode.separate;
+}
+<span class="d_keyword">alias</span> Stm = <span class="d_psymbol">StateTransitor</span>!Policy;
+<span class="d_keyword">alias</span> State = Policy.State;
+<span class="d_keyword">alias</span> Event = Policy.Event;
+<span class="d_keyword">alias</span> C = Stm.Cell;
+string[] msg;
+State[]  statesOnEvent;
+<span class="d_comment">// STM
+</span><span class="d_keyword">auto</span> sm = Stm([
+	<span class="d_comment">// Event     StateA                      StateB
+</span>	<span class="d_comment">/* e1:   */</span> [C(State.b, {msg ~= <span class="d_string">"a-1"</span>;}), C(State.b, forbiddenHandler)],
+	<span class="d_comment">/* e2:   */</span> [C(State.a, ignoreHandler),   C(State.a, {msg ~= <span class="d_string">"b-2"</span>;})],
+	<span class="d_comment">/* e3:   */</span> [C(State.a, {msg ~= <span class="d_string">"a-3"</span>;}), C(State.a, forbiddenHandler)]
+]);
+sm.addEventHandler((Event e)
+{
+	statesOnEvent ~= sm.currentState;
+});
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(isOutputRange!(<span class="d_keyword">typeof</span>(sm), Event));
+
+<span class="d_keyword">assert</span>(sm.currentState == State.a);
+put(sm, [Event.e1, Event.e2, Event.e3, Event.e2, Event.e1]);
+<span class="d_keyword">assert</span>(sm.currentState == State.a);
+
+<span class="d_keyword">while</span> (!sm.emptyEvents)
+	sm.consume();
+<span class="d_keyword">with</span> (State)
+	<span class="d_keyword">assert</span>(statesOnEvent == [a, b, a, a, a]);
+<span class="d_keyword">assert</span>(sm.currentState == State.b);
+<span class="d_keyword">assert</span>(msg == [<span class="d_string">"a-1"</span>, <span class="d_string">"b-2"</span>, <span class="d_string">"a-3"</span>, <span class="d_string">"a-1"</span>]);
+</pre>
+</div>
+<dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.State"></span><div class="quickindex" id="quickindex.StateTransitor.State"></div>alias <code class="ddoc_psymbol">State</code> = StateType;
+<br></div></dt>
+<dd><div class="ddoc_summary"><code class="ddoc_psymbol">State</code> type of this StateTransitor</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.Event"></span><div class="quickindex" id="quickindex.StateTransitor.Event"></div>alias <code class="ddoc_psymbol">Event</code> = EventType;
+<br></div></dt>
+<dd><div class="ddoc_summary">State type of this StateTransitor</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.stateCount"></span><div class="quickindex" id="quickindex.StateTransitor.stateCount"></div>enum size_t <code class="ddoc_psymbol">stateCount</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Count of kind of state in this StateTransitor</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.eventCount"></span><div class="quickindex" id="quickindex.StateTransitor.eventCount"></div>enum size_t <code class="ddoc_psymbol">eventCount</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Count of kind of event in this StateTransitor(Not a count of unconsumed event)</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.defaultState"></span><div class="quickindex" id="quickindex.StateTransitor.defaultState"></div>enum State <code class="ddoc_psymbol">defaultState</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Default state of this StateTransitor</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.Cell"></span><div class="quickindex" id="quickindex.StateTransitor.Cell"></div>struct <code class="ddoc_psymbol">Cell</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary"><code class="ddoc_psymbol">Cell</code> of table</div><dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.Cell.nextState"></span><div class="quickindex" id="quickindex.StateTransitor.Cell.nextState"></div>State <code class="ddoc_psymbol">nextState</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">next state</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.Cell.handler"></span><div class="quickindex" id="quickindex.StateTransitor.Cell.handler"></div>ProcHandler <code class="ddoc_psymbol">handler</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary"><code class="ddoc_psymbol">handler</code></div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.Cell.this"></span><div class="quickindex" id="quickindex.StateTransitor.Cell.this"></div>this(State <span class="ddoc_param">s</span>, ProcHandler <span class="ddoc_param">h</span>);
+<br>
+this<span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(State <span class="ddoc_param">s</span>, Func <span class="ddoc_param">h</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(ProcHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Constructor</div></dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.this"></span><div class="quickindex" id="quickindex.StateTransitor.this"></div>this(Cell[stateCount][eventCount] <span class="ddoc_param">tbl</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Constractor</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.initialize"></span><div class="quickindex" id="quickindex.StateTransitor.initialize"></div>void <code class="ddoc_psymbol">initialize</code>(Cell[stateCount][eventCount] <span class="ddoc_param">tbl</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Initialize of table</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.matrixName"></span><div class="quickindex" id="quickindex.StateTransitor.matrixName"></div>pure nothrow @nogc @property @safe void <code class="ddoc_psymbol">matrixName</code>(string <span class="ddoc_param">str</span>);
+<br>
+const pure nothrow @nogc @property @safe string <code class="ddoc_psymbol">matrixName</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Get/Set matrix name</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setEventName"></span><div class="quickindex" id="quickindex.StateTransitor.setEventName"></div>pure nothrow @nogc @safe void <code class="ddoc_psymbol">setEventName</code>(Event <span class="ddoc_param">ev</span>, string <span class="ddoc_param">evname</span>);
+<br>
+<span class="def-anchor" id=".StateTransitor.getEventName"></span><div class="quickindex" id="quickindex.StateTransitor.getEventName"></div>const pure @nogc @safe string <code class="ddoc_psymbol">getEventName</code>(Event <span class="ddoc_param">ev</span>);
+<br>
+<span class="def-anchor" id=".StateTransitor.eventNames"></span><div class="quickindex" id="quickindex.StateTransitor.eventNames"></div>pure nothrow @nogc @property @safe void <code class="ddoc_psymbol">eventNames</code>(in string[eventCount] <span class="ddoc_param">names</span>);
+<br>
+const pure nothrow @nogc @property @safe const(string)[] <code class="ddoc_psymbol">eventNames</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Set/Get event <span class="ddoc_param">names</span></div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setStateName"></span><div class="quickindex" id="quickindex.StateTransitor.setStateName"></div>pure nothrow @nogc @safe void <code class="ddoc_psymbol">setStateName</code>(State <span class="ddoc_param">st</span>, string <span class="ddoc_param">stname</span>);
+<br>
+<span class="def-anchor" id=".StateTransitor.getStateName"></span><div class="quickindex" id="quickindex.StateTransitor.getStateName"></div>const pure @nogc @safe string <code class="ddoc_psymbol">getStateName</code>(State <span class="ddoc_param">st</span>);
+<br>
+<span class="def-anchor" id=".StateTransitor.stateNames"></span><div class="quickindex" id="quickindex.StateTransitor.stateNames"></div>pure nothrow @nogc @property @safe void <code class="ddoc_psymbol">stateNames</code>(in string[stateCount] <span class="ddoc_param">names</span>);
+<br>
+const pure nothrow @property @safe const(string)[] <code class="ddoc_psymbol">stateNames</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Set/Get state <span class="ddoc_param">names</span></div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.currentState"></span><div class="quickindex" id="quickindex.StateTransitor.currentState"></div>const pure nothrow @nogc @property @safe State <code class="ddoc_psymbol">currentState</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Check current state</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.enforceState"></span><div class="quickindex" id="quickindex.StateTransitor.enforceState"></div>pure nothrow @nogc @system void <code class="ddoc_psymbol">enforceState</code>(State <span class="ddoc_param">sts</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Change current state enforcely</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setNextState"></span><div class="quickindex" id="quickindex.StateTransitor.setNextState"></div>void <code class="ddoc_psymbol">setNextState</code>(State <span class="ddoc_param">s</span>, Event <span class="ddoc_param">e</span>, State <span class="ddoc_param">nextState</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Set next state
+</div><div class="ddoc_description">If the state is <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></span> and event <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></span> is consumed, the next state will be <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">nextState</span></span></div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setHandler"></span><div class="quickindex" id="quickindex.StateTransitor.setHandler"></div>void <code class="ddoc_psymbol">setHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(State <span class="ddoc_param">s</span>, Event <span class="ddoc_param">e</span>, Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAssignable!(ProcHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Set <span class="ddoc_param">handler</span>
+</div><div class="ddoc_description">If the state is <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></span> and event <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></span> is consumed, the <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be called.
+ If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> instead.</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.addHandler"></span><div class="quickindex" id="quickindex.StateTransitor.addHandler"></div>void <code class="ddoc_psymbol">addHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(State <span class="ddoc_param">s</span>, Event <span class="ddoc_param">e</span>, Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(ProcHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Add <span class="ddoc_param">handler</span>
+</div><div class="ddoc_description">If the state is <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></span> and event <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></span> is consumed, the <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be called.
+ If other <span class="ddoc_param">handler</span> has already been set, <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.removeHandler"></span><div class="quickindex" id="quickindex.StateTransitor.removeHandler"></div>void <code class="ddoc_psymbol">removeHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(State <span class="ddoc_param">s</span>, Event <span class="ddoc_param">e</span>, Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(ProcHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Remove <span class="ddoc_param">handler</span> related <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></span> and <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></span>.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.clearHandler"></span><div class="quickindex" id="quickindex.StateTransitor.clearHandler"></div>void <code class="ddoc_psymbol">clearHandler</code>(State <span class="ddoc_param">s</span>, Event <span class="ddoc_param">e</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Remove all handler related <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></span> and <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></span>.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setExceptionHandler"></span><div class="quickindex" id="quickindex.StateTransitor.setExceptionHandler"></div>void <code class="ddoc_psymbol">setExceptionHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAssignable!(ExceptionHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Set exception <span class="ddoc_param">handler</span>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> instead.</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.addExceptionHandler"></span><div class="quickindex" id="quickindex.StateTransitor.addExceptionHandler"></div>void <code class="ddoc_psymbol">addExceptionHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(ExceptionHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Add exception <span class="ddoc_param">handler</span>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.removeExceptionHandler"></span><div class="quickindex" id="quickindex.StateTransitor.removeExceptionHandler"></div>void <code class="ddoc_psymbol">removeExceptionHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(ExceptionHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Remove exception <span class="ddoc_param">handler</span>.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.clearExceptionHandler"></span><div class="quickindex" id="quickindex.StateTransitor.clearExceptionHandler"></div>void <code class="ddoc_psymbol">clearExceptionHandler</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Remove all exception handler.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setEventHandler"></span><div class="quickindex" id="quickindex.StateTransitor.setEventHandler"></div>void <code class="ddoc_psymbol">setEventHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAssignable!(EventHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Set event <span class="ddoc_param">handler</span>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> instead.</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.addEventHandler"></span><div class="quickindex" id="quickindex.StateTransitor.addEventHandler"></div>void <code class="ddoc_psymbol">addEventHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(EventHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Add event <span class="ddoc_param">handler</span>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.removeEventHandler"></span><div class="quickindex" id="quickindex.StateTransitor.removeEventHandler"></div>void <code class="ddoc_psymbol">removeEventHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(EventHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Remove event <span class="ddoc_param">handler</span>.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.clearEventHandler"></span><div class="quickindex" id="quickindex.StateTransitor.clearEventHandler"></div>void <code class="ddoc_psymbol">clearEventHandler</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Remove all event handler.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setStateChangedHandler"></span><div class="quickindex" id="quickindex.StateTransitor.setStateChangedHandler"></div>void <code class="ddoc_psymbol">setStateChangedHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAssignable!(StateChangedHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Set state changed <span class="ddoc_param">handler</span>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> instead.</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.addStateChangedHandler"></span><div class="quickindex" id="quickindex.StateTransitor.addStateChangedHandler"></div>void <code class="ddoc_psymbol">addStateChangedHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(StateChangedHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Add state changed <span class="ddoc_param">handler</span>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.removeStateChangedHandler"></span><div class="quickindex" id="quickindex.StateTransitor.removeStateChangedHandler"></div>void <code class="ddoc_psymbol">removeStateChangedHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(StateChangedHandler, Func))</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Remove state changed <span class="ddoc_param">handler</span>.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.clearStateChangedHandler"></span><div class="quickindex" id="quickindex.StateTransitor.clearStateChangedHandler"></div>void <code class="ddoc_psymbol">clearStateChangedHandler</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Remove all state changed handler.</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.put"></span><div class="quickindex" id="quickindex.StateTransitor.put"></div>@safe void <code class="ddoc_psymbol">put</code>(Event <span class="ddoc_param">e</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Add a event</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.consume"></span><div class="quickindex" id="quickindex.StateTransitor.consume"></div>@safe void <code class="ddoc_psymbol">consume</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Consume a event</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.emptyEvents"></span><div class="quickindex" id="quickindex.StateTransitor.emptyEvents"></div>const @property bool <code class="ddoc_psymbol">emptyEvents</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">Check for unconsumed events</div></dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".CreateStateTransitorPolicy"></span><div class="quickindex" id="quickindex.CreateStateTransitorPolicy"></div>template <code class="ddoc_psymbol">CreateStateTransitorPolicy</code>(State_, Event_, State_ defaultStateParameter_ = State_.init, ProcHandler_ = void delegate()[], ExceptionHandler_ = void delegate(Exception)[], EventHandler_ = void delegate(Event_)[], StateChangedHandler_ = void delegate(State_ newSts, State_ oldSts)[], ConsumeMode consumeMode_ = ConsumeMode.combined, EventContainer_ = SList!Event_)<br></div></dt>
+<dd><div class="ddoc_summary">Default Policy of StateTransitor</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">enum</span> MyState { a }
+<span class="d_keyword">enum</span> MyEvent { a }
+<span class="d_keyword">alias</span> ST1 = StateTransitor!(MyState, MyEvent);
+<span class="d_keyword">alias</span> Policy2 = <span class="d_psymbol">CreateStateTransitorPolicy</span>!(MyState, MyEvent);
+<span class="d_keyword">alias</span> ST2 = StateTransitor!Policy2;
+<span class="d_keyword">struct</span> Policy3
+{
+	<span class="d_keyword">alias</span> State = MyState;
+	<span class="d_keyword">alias</span> Event = MyEvent;
+}
+<span class="d_keyword">alias</span> ST3 = StateTransitor!Policy3;
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(ST1 == ST2));
+<span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_keyword">is</span>(ST1 == ST3));
+</pre>
+</div>
+</dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>

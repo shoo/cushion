@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>cushion.flow</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>cushion</h2>
+        <p><span class="smallprint"><b>version:</b> 0.0.0+commit.7.g8db4219 <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >cushion</span></a><ul>
+		
+			<li><a title="Cushion - A library to help state transition matrix design" href="cushion--cushion.html"><span >package</span></a></li>
+		
+		
+
+	<li><a title="Core module for state transion" href="cushion--cushion.core.html"><span >core</span></a></li>
+
+
+
+	<li><a title="Decoder for STM of CSV" href="cushion--cushion.csvdecoder.html"><span >csvdecoder</span></a></li>
+
+
+
+	<li><a title="Flow module for state transion" href="cushion--cushion.flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="Handler type traits and operations" href="cushion--cushion.handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion--cushion.stmgen.html"><span >stmgen</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >(extra)</span></a><ul>
+		
+		
+
+	<li><a title="" href="cushion-stmtest--_extra_.ut.html"><span >ut</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+	<li><a title="" href="cushion-stmtest--app.html"><span >app</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--music_player.html"><span >music_player</span></a></li>
+
+
+</ul>
+</div>
+            <div class="content">                <h1>cushion.flow</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                <div class="ddoc_summary">Flow module for state transion
+</div><div class="ddoc_license"><span class="ddoc_license_header">License:</span>
+ <a href="http://boost.org/LICENSE_1_0.txt">BSL-1.0</a>.
+</div>
+<div class="ddoc_section_nonstandard"><span class="ddoc_section_nonstandard_header">Author:</span>
+SHOO</div>
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".Flow"></span><div class="quickindex" id="quickindex.Flow"></div>template <code class="ddoc_psymbol">Flow</code>(Commands, Base = Object, EnterChildHandler = void delegate(Commands, Commands)[], ExitChildHandler = void delegate(Commands, Commands)[], EndFlowHandler = void delegate(Commands)[]) if (is(Commands == interface) &amp;&amp; isHandler!EnterChildHandler &amp;&amp; isHandler!ExitChildHandler &amp;&amp; isHandler!EndFlowHandler)<br>
+template <code class="ddoc_psymbol">Flow</code>(alias Policy) if (!is(Policy == interface) &amp;&amp; __traits(hasMember, Policy, "Commands") &amp;&amp; is(Policy.Commands == interface))<br></div></dt>
+<dd><div class="ddoc_summary"><code class="ddoc_psymbol">Flow</code> template class
+</div><div class="ddoc_description"><code class="ddoc_psymbol">Flow</code> is a template class that holds the state based on the 'state pattern'.
+ The interface of the command set whose behavior changes depending on the state is given by the Commands parameter.
+ The default base class of this template class is Object, but it can be specified by <span class="d_inlinecode donthyphenate notranslate">Base</span>.
+ The initial state of the concrete instance of Commands is given to the constructor of this template class,
+ and transition is made according to the return value of each command.
+ If the command returns <code class="ddoc_keyword">null</code>, the transition is ended.</div>
+<span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">interface</span> TestCommand
+{
+	TestCommand command(string cmd) @safe;
+	TestCommand update() @safe;
+}
+string msg;
+
+TestCommand test1;
+TestCommand test2;
+
+test1 = <span class="d_keyword">new</span> <span class="d_keyword">class</span> TestCommand
+{
+	TestCommand command(string cmd) @safe
+	{
+		msg = cmd;
+		<span class="d_comment">// not transit
+</span>		<span class="d_keyword">return</span> <span class="d_keyword">this</span>;
+	}
+	TestCommand update() @safe
+	{
+		msg = <span class="d_string">""</span>;
+		<span class="d_comment">// transit to child(test2)
+</span>		<span class="d_keyword">return</span> test2;
+	}
+};
+test2 = <span class="d_keyword">new</span> <span class="d_keyword">class</span> TestCommand
+{
+	TestCommand command(string cmd) @safe
+	{
+		msg = cmd ~ <span class="d_string">"!"</span>;
+		<span class="d_comment">// not transit
+</span>		<span class="d_keyword">return</span> <span class="d_keyword">this</span>;
+	}
+	TestCommand update() @safe
+	{
+		msg = <span class="d_string">"!"</span>;
+		<span class="d_comment">// transit to parent(test1)
+</span>		<span class="d_keyword">return</span> <span class="d_keyword">null</span>;
+	}
+};
+
+<span class="d_keyword">auto</span> sts = <span class="d_keyword">new</span> <span class="d_psymbol">Flow</span>!TestCommand(test1);
+
+<span class="d_comment">// not transit
+</span>sts.command(<span class="d_string">"test"</span>);
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"test"</span>);
+
+<span class="d_comment">// transit to child(test2)
+</span>sts.update();
+<span class="d_keyword">assert</span>(msg == <span class="d_string">""</span>);
+
+<span class="d_comment">// not transit
+</span>sts.command(<span class="d_string">"test"</span>);
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"test!"</span>);
+
+<span class="d_comment">// transit to parent(test1)
+</span>sts.update();
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"!"</span>);
+
+<span class="d_comment">// not transit
+</span>sts.command(<span class="d_string">"test"</span>);
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"test"</span>);
+</pre>
+</div>
+<dl class="ddoc_members"><div class="ddoc_template_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".Flow.FlowBase"></span><div class="quickindex" id="quickindex.Flow.FlowBase"></div>class <code class="ddoc_psymbol">FlowBase</code>: Base;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_class_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".Flow.FlowBase.onEnterChild"></span><div class="quickindex" id="quickindex.Flow.FlowBase.onEnterChild"></div>EnterChildHandler <code class="ddoc_psymbol">onEnterChild</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Flow.FlowBase.onExitChild"></span><div class="quickindex" id="quickindex.Flow.FlowBase.onExitChild"></div>ExitChildHandler <code class="ddoc_psymbol">onExitChild</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Flow.FlowBase.onEndFlow"></span><div class="quickindex" id="quickindex.Flow.FlowBase.onEndFlow"></div>EndFlowHandler <code class="ddoc_psymbol">onEndFlow</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Flow.FlowBase.this"></span><div class="quickindex" id="quickindex.Flow.FlowBase.this"></div>@safe this(Commands <span class="ddoc_param">root</span>);
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Flow.FlowBase.current"></span><div class="quickindex" id="quickindex.Flow.FlowBase.current"></div>final inout @property @trusted inout(Commands) <code class="ddoc_psymbol">current</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Flow.FlowBase._transit"></span><div class="quickindex" id="quickindex.Flow.FlowBase._transit"></div>final @safe Commands <code class="ddoc_psymbol">_transit</code>(Commands <span class="ddoc_param">curr</span>, Commands <span class="ddoc_param">nxt</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">internal</div></dd>
+</div></dl>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".State"></span><div class="quickindex" id="quickindex.State"></div>template <code class="ddoc_psymbol">State</code>(Commands, Base = Object, EnterChildHandler = void delegate(Commands)[], ExitChildHandler = EnterChildHandler, EnterHandler = void delegate()[], ExitHandler = EnterHandler) if (is(Commands == interface) &amp;&amp; isHandler!EnterChildHandler &amp;&amp; isHandler!ExitChildHandler &amp;&amp; isHandler!EnterHandler &amp;&amp; isHandler!ExitHandler)<br>
+template <code class="ddoc_psymbol">State</code>(alias Policy) if (!is(Policy == interface) &amp;&amp; __traits(hasMember, Policy, "Commands") &amp;&amp; is(Policy.Commands == interface))<br></div></dt>
+<dd><div class="ddoc_summary">Base template class of state derived Commands
+</div><div class="ddoc_description">This template class provides several convenience handlers and methods.
+ To use this, instantiate this template class with Commands and inherit.
+ In derived classes, the return value of each method of Commands is obtained by
+ transferring the processing to the super class.</div>
+<span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_keyword">interface</span> TestCommand
+{
+	TestCommand command(string cmd) @safe;
+	TestCommand update() @safe;
+}
+string msg;
+
+TestCommand test1;
+TestCommand test2;
+
+<span class="d_keyword">static</span> <span class="d_keyword">struct</span> StatePolicy
+{
+	<span class="d_keyword">alias</span> Commands = TestCommand;
+	<span class="d_keyword">alias</span> ExitChildHandler = <span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(Commands);
+}
+<span class="d_keyword">static</span> <span class="d_keyword">struct</span> FlowPolicy
+{
+	<span class="d_keyword">alias</span> Commands = TestCommand;
+	<span class="d_keyword">alias</span> EnterChildHandler = <span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(Commands, Commands);
+}
+test1 = <span class="d_keyword">new</span> <span class="d_keyword">class</span> <span class="d_psymbol">State</span>!StatePolicy
+{
+	<span class="d_keyword">override</span> TestCommand command(string cmd)
+	{
+		msg = cmd;
+		<span class="d_comment">// not transit
+</span>		<span class="d_keyword">return</span> <span class="d_keyword">super</span>.command(cmd);
+	}
+	<span class="d_keyword">override</span> TestCommand update()
+	{
+		msg = <span class="d_string">""</span>;
+		<span class="d_comment">// transit to child(test2)
+</span>		setNext(test2);
+		<span class="d_keyword">return</span> <span class="d_keyword">super</span>.update();
+	}
+};
+test2 = <span class="d_keyword">new</span> <span class="d_keyword">class</span> <span class="d_psymbol">State</span>!TestCommand
+{
+	<span class="d_keyword">override</span> TestCommand command(string cmd)
+	{
+		msg = cmd ~ <span class="d_string">"!"</span>;
+		<span class="d_comment">// not transit
+</span>		<span class="d_keyword">return</span> <span class="d_keyword">super</span>.command(cmd);
+	}
+	<span class="d_keyword">override</span> TestCommand update()
+	{
+		msg = <span class="d_string">"!"</span>;
+		<span class="d_comment">// transit to parent(test1)
+</span>		setNext(test1);
+		<span class="d_keyword">return</span> <span class="d_keyword">super</span>.update();
+	}
+};
+
+<span class="d_keyword">auto</span> sts = <span class="d_keyword">new</span> Flow!FlowPolicy(test1);
+
+<span class="d_comment">// not transit
+</span>sts.command(<span class="d_string">"test"</span>);
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"test"</span>);
+
+<span class="d_comment">// transit to child(test2)
+</span>sts.update();
+<span class="d_keyword">assert</span>(msg == <span class="d_string">""</span>);
+
+<span class="d_comment">// not transit
+</span>sts.command(<span class="d_string">"test"</span>);
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"test!"</span>);
+
+<span class="d_comment">// transit to parent(test1)
+</span>sts.update();
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"!"</span>);
+
+<span class="d_comment">// not transit
+</span>sts.command(<span class="d_string">"test"</span>);
+<span class="d_keyword">assert</span>(msg == <span class="d_string">"test"</span>);
+</pre>
+</div>
+<dl class="ddoc_members"><div class="ddoc_template_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".State.StateBase"></span><div class="quickindex" id="quickindex.State.StateBase"></div>class <code class="ddoc_psymbol">StateBase</code>: Base, Commands, FlowHandler!Commands;
+<br></div></dt>
+<dd>
+<dl class="ddoc_members"><div class="ddoc_class_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".State.StateBase._getNext"></span><div class="quickindex" id="quickindex.State.StateBase._getNext"></div>pure nothrow @nogc @safe Commands <code class="ddoc_psymbol">_getNext</code>();
+<br>
+<span class="def-anchor" id=".State.StateBase._onEnterChild"></span><div class="quickindex" id="quickindex.State.StateBase._onEnterChild"></div>@safe void <code class="ddoc_psymbol">_onEnterChild</code>(Commands <span class="ddoc_param">child</span>);
+<br>
+<span class="def-anchor" id=".State.StateBase._onExitChild"></span><div class="quickindex" id="quickindex.State.StateBase._onExitChild"></div>@safe void <code class="ddoc_psymbol">_onExitChild</code>(Commands <span class="ddoc_param">child</span>);
+<br>
+<span class="def-anchor" id=".State.StateBase._onEnter"></span><div class="quickindex" id="quickindex.State.StateBase._onEnter"></div>@safe void <code class="ddoc_psymbol">_onEnter</code>();
+<br>
+<span class="def-anchor" id=".State.StateBase._onExit"></span><div class="quickindex" id="quickindex.State.StateBase._onExit"></div>@safe void <code class="ddoc_psymbol">_onExit</code>();
+<br></div></dt>
+<dd><div class="ddoc_summary">internal</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".State.StateBase.this"></span><div class="quickindex" id="quickindex.State.StateBase.this"></div>pure nothrow @nogc @safe this();
+<br></div></dt>
+<dd><div class="ddoc_summary">Constructor</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".State.StateBase.onEnterChild"></span><div class="quickindex" id="quickindex.State.StateBase.onEnterChild"></div>EnterChildHandler <code class="ddoc_psymbol">onEnterChild</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Handler that will be called back when flow enter child state</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".State.StateBase.onExitChild"></span><div class="quickindex" id="quickindex.State.StateBase.onExitChild"></div>ExitChildHandler <code class="ddoc_psymbol">onExitChild</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Handler that will be called back when flow exit child state</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".State.StateBase.onEnter"></span><div class="quickindex" id="quickindex.State.StateBase.onEnter"></div>EnterHandler <code class="ddoc_psymbol">onEnter</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Handler that will be called back when flow enter this state</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".State.StateBase.onExit"></span><div class="quickindex" id="quickindex.State.StateBase.onExit"></div>ExitHandler <code class="ddoc_psymbol">onExit</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Handler that will be called back when flow exit this state</div></dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".State.StateBase.setNext"></span><div class="quickindex" id="quickindex.State.StateBase.setNext"></div>pure nothrow @nogc @safe void <code class="ddoc_psymbol">setNext</code>(Commands <span class="ddoc_param">cmd</span>);
+<br></div></dt>
+<dd><div class="ddoc_summary">Indicates the next state. The specified state becomes a child of this state.</div></dd>
+</div></dl>
+</dd>
+</div></dl>
+</dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>

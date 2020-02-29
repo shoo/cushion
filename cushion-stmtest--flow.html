@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>flow</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>cushion</h2>
+        <p><span class="smallprint"><b>version:</b> 0.0.0+commit.7.g8db4219 <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >cushion</span></a><ul>
+		
+			<li><a title="Cushion - A library to help state transition matrix design" href="cushion--cushion.html"><span >package</span></a></li>
+		
+		
+
+	<li><a title="Core module for state transion" href="cushion--cushion.core.html"><span >core</span></a></li>
+
+
+
+	<li><a title="Decoder for STM of CSV" href="cushion--cushion.csvdecoder.html"><span >csvdecoder</span></a></li>
+
+
+
+	<li><a title="Flow module for state transion" href="cushion--cushion.flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="Handler type traits and operations" href="cushion--cushion.handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion--cushion.stmgen.html"><span >stmgen</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >(extra)</span></a><ul>
+		
+		
+
+	<li><a title="" href="cushion-stmtest--_extra_.ut.html"><span >ut</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+	<li><a title="" href="cushion-stmtest--app.html"><span >app</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--music_player.html"><span >music_player</span></a></li>
+
+
+</ul>
+</div>
+            <div class="content">                <h1>flow</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".TestFlow"></span><div class="quickindex" id="quickindex.TestFlow"></div>interface <code class="ddoc_psymbol">TestFlow</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Interface defines the method of the state
+</div><div class="ddoc_description">This interface has an update method, that does anything
+ and returns the next state.</div>
+<dl class="ddoc_members"><div class="ddoc_class_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".TestFlow.update"></span><div class="quickindex" id="quickindex.TestFlow.update"></div>abstract @safe TestFlow <code class="ddoc_psymbol">update</code>();
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".BaseTestFlow"></span><div class="quickindex" id="quickindex.BaseTestFlow"></div>abstract class <code class="ddoc_psymbol">BaseTestFlow</code>: <span class="ddoc_psuper_symbol">std.typecons.AutoImplement!(TestFlow, StateBase, generateCommandFunction, isEventDistributor).AutoImplement</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Base class of state pattern
+</div><div class="ddoc_description">This class is a class that inherits from the TestFlow interface,
+ which is the base class for state patterns.
+ TestFlow has a primitive implementation by passing through State.
+ This provides an implementation for the <span class="d_inlinecode donthyphenate notranslate">update</span> declared in
+ the interface to return the next state specified in <span class="d_inlinecode donthyphenate notranslate">setNext</span>.
+ And some handlers [<span class="d_inlinecode donthyphenate notranslate">onEnter</span>, <span class="d_inlinecode donthyphenate notranslate">onExit</span>, <span class="d_inlinecode donthyphenate notranslate">onEnterChild</span>, <span class="d_inlinecode donthyphenate notranslate">onExitChild</span>]
+ are available.</div>
+<dl class="ddoc_members"><div class="ddoc_class_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".BaseTestFlow.name"></span><div class="quickindex" id="quickindex.BaseTestFlow.name"></div>abstract const @property string <code class="ddoc_psymbol">name</code>();
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child1Stm"></span><div class="quickindex" id="quickindex.Child1Stm"></div>class <code class="ddoc_psymbol">Child1Stm</code>: <span class="ddoc_psuper_symbol">flow.BaseTestFlow</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Concrete class of state pattern named <span class="d_inlinecode donthyphenate notranslate"><code class="ddoc_psymbol">Child1Stm</code></span>
+</div><div class="ddoc_description">This class is a concrete class of state pattern.
+ The implementation of the behavior that should be done by
+ the <span class="d_inlinecode donthyphenate notranslate">update</span> is complete, and STM is driven internally.</div>
+<dl class="ddoc_members"><div class="ddoc_class_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child1Stm._stm"></span><div class="quickindex" id="quickindex.Child1Stm._stm"></div>StateTransitor!(State, Event) <code class="ddoc_psymbol">_stm</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child1Stm.this"></span><div class="quickindex" id="quickindex.Child1Stm.this"></div>@safe this();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child1Stm.initialize"></span><div class="quickindex" id="quickindex.Child1Stm.initialize"></div>final @safe void <code class="ddoc_psymbol">initialize</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child1Stm.update"></span><div class="quickindex" id="quickindex.Child1Stm.update"></div>@safe TestFlow <code class="ddoc_psymbol">update</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child1Stm.name"></span><div class="quickindex" id="quickindex.Child1Stm.name"></div>const @property string <code class="ddoc_psymbol">name</code>();
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child2Stm"></span><div class="quickindex" id="quickindex.Child2Stm"></div>class <code class="ddoc_psymbol">Child2Stm</code>: <span class="ddoc_psuper_symbol">flow.BaseTestFlow</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Concrete class of state pattern named <span class="d_inlinecode donthyphenate notranslate"><code class="ddoc_psymbol">Child2Stm</code></span>
+</div><div class="ddoc_description">Implement a different state from <span class="d_inlinecode donthyphenate notranslate">Child1Stm</span></div>
+<dl class="ddoc_members"><div class="ddoc_class_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child2Stm._stm"></span><div class="quickindex" id="quickindex.Child2Stm._stm"></div>StateTransitor!(State, Event) <code class="ddoc_psymbol">_stm</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child2Stm.this"></span><div class="quickindex" id="quickindex.Child2Stm.this"></div>@safe this();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child2Stm.initialize"></span><div class="quickindex" id="quickindex.Child2Stm.initialize"></div>final @safe void <code class="ddoc_psymbol">initialize</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child2Stm.update"></span><div class="quickindex" id="quickindex.Child2Stm.update"></div>@safe TestFlow <code class="ddoc_psymbol">update</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child2Stm.name"></span><div class="quickindex" id="quickindex.Child2Stm.name"></div>const @property string <code class="ddoc_psymbol">name</code>();
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MainStm"></span><div class="quickindex" id="quickindex.MainStm"></div>class <code class="ddoc_psymbol">MainStm</code>: <span class="ddoc_psuper_symbol">flow.BaseTestFlow</span>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Concrete class of state pattern named <span class="d_inlinecode donthyphenate notranslate"><code class="ddoc_psymbol">MainStm</code></span>
+</div><div class="ddoc_description">Implement a different state from <span class="d_inlinecode donthyphenate notranslate">Child1Stm</span> / <span class="d_inlinecode donthyphenate notranslate">Child2Stm</span>.
+ This class acts as a parent to <span class="d_inlinecode donthyphenate notranslate">Child1Stm</span> and <span class="d_inlinecode donthyphenate notranslate">Child2Stm</span>.
+ The <span class="d_inlinecode donthyphenate notranslate">update</span> method of this class may return the child class
+ <span class="d_inlinecode donthyphenate notranslate">Child1Stm</span> or <span class="d_inlinecode donthyphenate notranslate">Child2Stm</span> as the next state.
+ This class is also "previous state", which backs when
+ <span class="d_inlinecode donthyphenate notranslate">Child1Stm</span> or <span class="d_inlinecode donthyphenate notranslate">Child2Stm</span> ends.
+ Also, in this class, there is a gimmick that can record the
+ transition of state using each handler and output the result.</div>
+<span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ <pre class="d_code notranslate"><span class="d_comment">// Create a MainStm
+</span><span class="d_keyword">auto</span> stm = <span class="d_keyword">new</span> <span class="d_psymbol">MainStm</span>;
+
+<span class="d_comment">// Create a context class of TestFlow
+</span><span class="d_keyword">auto</span> stFlow = <span class="d_keyword">new</span> Flow!TestFlow(stm);
+
+<span class="d_comment">// Iterate until `stFlow.current` is null.
+</span><span class="d_comment">// This process advances the state transition in `stFlow`.
+</span><span class="d_keyword">while</span> (stFlow.current)
+{
+	stFlow.update();
+}
+
+<span class="d_comment">// Finally check the result
+</span><span class="d_keyword">assert</span>(stm.toString() == <span class="d_keyword">import</span>(<span class="d_string">"flow-result.txt"</span>));
+</pre>
+</div>
+<dl class="ddoc_members"><div class="ddoc_class_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".MainStm._stm"></span><div class="quickindex" id="quickindex.MainStm._stm"></div>StateTransitor!(State, Event) <code class="ddoc_psymbol">_stm</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MainStm.onError"></span><div class="quickindex" id="quickindex.MainStm.onError"></div>void delegate() <code class="ddoc_psymbol">onError</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MainStm.message"></span><div class="quickindex" id="quickindex.MainStm.message"></div>Appender!string <code class="ddoc_psymbol">message</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MainStm.this"></span><div class="quickindex" id="quickindex.MainStm.this"></div>@safe this();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MainStm.initialize"></span><div class="quickindex" id="quickindex.MainStm.initialize"></div>final @safe void <code class="ddoc_psymbol">initialize</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MainStm.update"></span><div class="quickindex" id="quickindex.MainStm.update"></div>@safe TestFlow <code class="ddoc_psymbol">update</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MainStm.name"></span><div class="quickindex" id="quickindex.MainStm.name"></div>const @property string <code class="ddoc_psymbol">name</code>();
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".MainStm.toString"></span><div class="quickindex" id="quickindex.MainStm.toString"></div>const @safe string <code class="ddoc_psymbol">toString</code>();
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>

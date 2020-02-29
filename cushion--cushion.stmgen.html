@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/listanchors.js"></script>
+        <title>cushion.stmgen</title>
+        
+        
+    </head>
+    <body>        
+        <div class="container">            
+<div class="sidebar-underbar"></div>
+<div class="sidebar">    <div class="head">        <h2>cushion</h2>
+        <p><span class="smallprint"><b>version:</b> 0.0.0+commit.7.g8db4219 <span class="separator"><br></span>
+            </span>
+        </p>
+        <p><a href="index.html">overview</a></p>
+    </div>
+    
+    <ul>
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >cushion</span></a><ul>
+		
+			<li><a title="Cushion - A library to help state transition matrix design" href="cushion--cushion.html"><span >package</span></a></li>
+		
+		
+
+	<li><a title="Core module for state transion" href="cushion--cushion.core.html"><span >core</span></a></li>
+
+
+
+	<li><a title="Decoder for STM of CSV" href="cushion--cushion.csvdecoder.html"><span >csvdecoder</span></a></li>
+
+
+
+	<li><a title="Flow module for state transion" href="cushion--cushion.flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="Handler type traits and operations" href="cushion--cushion.handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion--cushion.stmgen.html"><span >stmgen</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+
+
+	
+	<li class="expand-container open"><a class='expand-toggle' href="#"><span >(extra)</span></a><ul>
+		
+		
+
+	<li><a title="" href="cushion-stmtest--_extra_.ut.html"><span >ut</span></a></li>
+
+
+	</ul></li>
+
+
+
+
+	<li><a title="" href="cushion-stmtest--app.html"><span >app</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--flow.html"><span >flow</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--handler.html"><span >handler</span></a></li>
+
+
+
+	<li><a title="" href="cushion-stmtest--music_player.html"><span >music_player</span></a></li>
+
+
+</ul>
+</div>
+            <div class="content">                <h1>cushion.stmgen</h1>
+                
+                <div class="quickindex" id="quickindex"></div>
+                
+                
+<dl class="ddoc_members"><div class="ddoc_module_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator"></span><div class="quickindex" id="quickindex.StmGenerator"></div>struct <code class="ddoc_psymbol">StmGenerator</code>;
+<br></div></dt>
+<dd><div class="ddoc_summary">Generator of STM</div><dl class="ddoc_members"><div class="ddoc_struct_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.stmFileName"></span><div class="quickindex" id="quickindex.StmGenerator.stmFileName"></div>string <code class="ddoc_psymbol">stmFileName</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.mapFileName"></span><div class="quickindex" id="quickindex.StmGenerator.mapFileName"></div>string <code class="ddoc_psymbol">mapFileName</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.map"></span><div class="quickindex" id="quickindex.StmGenerator.map"></div>string[string] <code class="ddoc_psymbol">map</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.nameRaw"></span><div class="quickindex" id="quickindex.StmGenerator.nameRaw"></div>string <code class="ddoc_psymbol">nameRaw</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.statesRaw"></span><div class="quickindex" id="quickindex.StmGenerator.statesRaw"></div>string[] <code class="ddoc_psymbol">statesRaw</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.eventsRaw"></span><div class="quickindex" id="quickindex.StmGenerator.eventsRaw"></div>string[] <code class="ddoc_psymbol">eventsRaw</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.cellsRaw"></span><div class="quickindex" id="quickindex.StmGenerator.cellsRaw"></div>string[][] <code class="ddoc_psymbol">cellsRaw</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.stactsRaw"></span><div class="quickindex" id="quickindex.StmGenerator.stactsRaw"></div>string[] <code class="ddoc_psymbol">stactsRaw</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.edactsRaw"></span><div class="quickindex" id="quickindex.StmGenerator.edactsRaw"></div>string[] <code class="ddoc_psymbol">edactsRaw</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.states"></span><div class="quickindex" id="quickindex.StmGenerator.states"></div>string[] <code class="ddoc_psymbol">states</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.events"></span><div class="quickindex" id="quickindex.StmGenerator.events"></div>string[] <code class="ddoc_psymbol">events</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.procs"></span><div class="quickindex" id="quickindex.StmGenerator.procs"></div>string[][][] <code class="ddoc_psymbol">procs</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.nextsts"></span><div class="quickindex" id="quickindex.StmGenerator.nextsts"></div>string[][] <code class="ddoc_psymbol">nextsts</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.stacts"></span><div class="quickindex" id="quickindex.StmGenerator.stacts"></div>string[][] <code class="ddoc_psymbol">stacts</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.edacts"></span><div class="quickindex" id="quickindex.StmGenerator.edacts"></div>string[][] <code class="ddoc_psymbol">edacts</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.stateKey"></span><div class="quickindex" id="quickindex.StmGenerator.stateKey"></div>string <code class="ddoc_psymbol">stateKey</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.factoryName"></span><div class="quickindex" id="quickindex.StmGenerator.factoryName"></div>string <code class="ddoc_psymbol">factoryName</code>;
+<br></div></dt>
+<dd>
+</dd>
+<dt class="ddoc_decl"><div ><span class="def-anchor" id=".StmGenerator.genCode"></span><div class="quickindex" id="quickindex.StmGenerator.genCode"></div>string <code class="ddoc_psymbol">genCode</code>();
+<br></div></dt>
+<dd>
+</dd>
+</div></dl>
+</dd>
+</div></dl>
+
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript">jQuery(document).ready(listanchors);</script>
+        
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+     </body>
+</html>

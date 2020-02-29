@@ -1,0 +1,3886 @@
+[
+ {
+  "name" : "cushion",
+  "kind" : "module",
+  "file" : "/home/travis/build/shoo/cushion/source/cushion/package.d",
+  "comment" : " Cushion - A library to help state transition matrix design\n\n This library aims to process the table which is state transition matrix\n designed on the D language source code.\n Tables written in csv file will be converted to D language source code at\n compile time.\n\n Examples:\n -----\n\n -----\n\n Copyright: © 2019, SHOO\n License: [BSL-1.0](http://boost.org/LICENSE_1_0.txt).\n Author: SHOO\n",
+  "members" : [
+   {
+    "name" : "cushion.core",
+    "kind" : "import",
+    "line" : 20,
+    "char" : 15
+   },
+   {
+    "name" : "cushion.csvdecoder",
+    "kind" : "import",
+    "line" : 21,
+    "char" : 15
+   },
+   {
+    "name" : "cushion.handler",
+    "kind" : "import",
+    "line" : 22,
+    "char" : 15
+   },
+   {
+    "name" : "cushion.flow",
+    "kind" : "import",
+    "line" : 23,
+    "char" : 15
+   }
+  ]
+ },
+ {
+  "name" : "cushion.core",
+  "kind" : "module",
+  "file" : "/home/travis/build/shoo/cushion/source/cushion/core.d",
+  "comment" : " Core module for state transion\n\n Copyright: © 2019, SHOO\n License: [BSL-1.0](http://boost.org/LICENSE_1_0.txt).\n Author: SHOO\n",
+  "members" : [
+   {
+    "name" : "std.traits",
+    "kind" : "import",
+    "line" : 11,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.range",
+    "kind" : "import",
+    "line" : 11,
+    "char" : 20,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.meta",
+    "kind" : "import",
+    "line" : 11,
+    "char" : 31,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.container",
+    "kind" : "import",
+    "line" : 11,
+    "char" : 41,
+    "protection" : "private"
+   },
+   {
+    "name" : "cushion.handler",
+    "kind" : "import",
+    "line" : 12,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "cushion._internal.misc",
+    "kind" : "import",
+    "line" : 13,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 16,
+    "char" : 9,
+    "name" : "isStraight",
+    "parameters" : [
+     {
+      "name" : "start",
+      "kind" : "value",
+      "deco" : "i"
+     },
+     {
+      "name" : "Em",
+      "kind" : "tuple"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isStraight",
+      "kind" : "variable",
+      "line" : 20,
+      "char" : 8,
+      "storageClass" : [
+       "enum"
+      ],
+      "init" : "Em[0] == start"
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 29,
+    "char" : 9,
+    "name" : "isStraightEnum",
+    "parameters" : [
+     {
+      "name" : "E",
+      "kind" : "type"
+     }
+    ],
+    "constraint" : "is(E == enum)",
+    "members" : [
+     {
+      "name" : "isStraightEnum",
+      "kind" : "variable",
+      "line" : 32,
+      "char" : 7,
+      "storageClass" : [
+       "enum"
+      ],
+      "init" : "EnumMembers!E[0] == cast(E)0 && isStraight!(EnumMembers!E[0], EnumMembers!E)"
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : " Judge StateTransitor's Event\n",
+    "line" : 40,
+    "char" : 1,
+    "name" : "isEvent",
+    "parameters" : [
+     {
+      "name" : "Event",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isEvent",
+      "kind" : "variable",
+      "line" : 42,
+      "char" : 12,
+      "storageClass" : [
+       "enum"
+      ],
+      "deco" : "b",
+      "init" : "isStraightEnum!Event"
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : " Judge StateTransitor's State\n",
+    "line" : 48,
+    "char" : 1,
+    "name" : "isState",
+    "parameters" : [
+     {
+      "name" : "State",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isState",
+      "kind" : "variable",
+      "line" : 50,
+      "char" : 12,
+      "storageClass" : [
+       "enum"
+      ],
+      "deco" : "b",
+      "init" : "isStraightEnum!State"
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : " Judge StateTransitor's ProcHandler\n",
+    "line" : 56,
+    "char" : 1,
+    "name" : "isProcessHandler",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isProcessHandler",
+      "kind" : "variable",
+      "line" : 62,
+      "char" : 13,
+      "storageClass" : [
+       "enum"
+      ],
+      "deco" : "b",
+      "init" : "true"
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : " Judge StateTransitor's ExceptionHandler\n",
+    "line" : 73,
+    "char" : 1,
+    "name" : "isExceptionHandler",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isExceptionHandler",
+      "kind" : "variable",
+      "line" : 80,
+      "char" : 13,
+      "storageClass" : [
+       "enum"
+      ],
+      "deco" : "b",
+      "init" : "true"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L89_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 89,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 98,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "comment" : " Judge StateTransitor's EventHandler\n",
+    "line" : 98,
+    "char" : 1,
+    "name" : "isEventHandler",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     },
+     {
+      "name" : "Event",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isEventHandler",
+      "kind" : "variable",
+      "line" : 104,
+      "char" : 13,
+      "storageClass" : [
+       "enum"
+      ],
+      "deco" : "b",
+      "init" : "true"
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : " Judge StateTransitor's EventHandler\n",
+    "line" : 116,
+    "char" : 1,
+    "name" : "isStateChangedHandler",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     },
+     {
+      "name" : "State",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isStateChangedHandler",
+      "kind" : "variable",
+      "line" : 122,
+      "char" : 13,
+      "storageClass" : [
+       "enum"
+      ],
+      "deco" : "b",
+      "init" : "true"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L131_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 131,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 140,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 140,
+    "char" : 14,
+    "name" : "insertBack",
+    "parameters" : [
+     {
+      "name" : "E",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "insertBack",
+      "kind" : "function",
+      "line" : 140,
+      "char" : 14,
+      "type" : "void(ref SList!E list, E e)",
+      "parameters" : [
+       {
+        "name" : "list",
+        "type" : "SList!E",
+        "storageClass" : [
+         "ref"
+        ]
+       },
+       {
+        "name" : "e",
+        "type" : "E"
+       }
+      ],
+      "endline" : 143,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 145,
+    "char" : 14,
+    "name" : "insertBack",
+    "parameters" : [
+     {
+      "name" : "E",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "insertBack",
+      "kind" : "function",
+      "line" : 145,
+      "char" : 14,
+      "type" : "void(ref E[] ary, E e)",
+      "parameters" : [
+       {
+        "name" : "ary",
+        "type" : "E[]",
+        "storageClass" : [
+         "ref"
+        ]
+       },
+       {
+        "name" : "e",
+        "type" : "E"
+       }
+      ],
+      "endline" : 148,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 149,
+    "char" : 14,
+    "name" : "insert",
+    "parameters" : [
+     {
+      "name" : "E",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "insert",
+      "kind" : "function",
+      "line" : 149,
+      "char" : 14,
+      "type" : "void(ref E[] ary, E e)",
+      "parameters" : [
+       {
+        "name" : "ary",
+        "type" : "E[]",
+        "storageClass" : [
+         "ref"
+        ]
+       },
+       {
+        "name" : "e",
+        "type" : "E"
+       }
+      ],
+      "endline" : 152,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 153,
+    "char" : 14,
+    "name" : "removeFront",
+    "parameters" : [
+     {
+      "name" : "E",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "removeFront",
+      "kind" : "function",
+      "line" : 153,
+      "char" : 14,
+      "type" : "void(ref E[] ary)",
+      "parameters" : [
+       {
+        "name" : "ary",
+        "type" : "E[]",
+        "storageClass" : [
+         "ref"
+        ]
+       }
+      ],
+      "endline" : 156,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 158,
+    "char" : 14,
+    "name" : "removeFront",
+    "parameters" : [
+     {
+      "name" : "E",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "removeFront",
+      "kind" : "function",
+      "line" : 158,
+      "char" : 14,
+      "type" : "void(ref Array!E ary)",
+      "parameters" : [
+       {
+        "name" : "ary",
+        "type" : "Array!E",
+        "storageClass" : [
+         "ref"
+        ]
+       }
+      ],
+      "endline" : 162,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : " Judge StateTransitor's EventContainer\n",
+    "line" : 167,
+    "char" : 1,
+    "name" : "isEventContainer",
+    "parameters" : [
+     {
+      "name" : "Container",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isEventContainer",
+      "kind" : "variable",
+      "line" : 179,
+      "char" : 13,
+      "storageClass" : [
+       "enum"
+      ],
+      "deco" : "b",
+      "init" : "true"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L188_C9",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 188,
+    "char" : 9,
+    "storageClass" : [
+     "@system"
+    ],
+    "endline" : 199,
+    "endchar" : 1
+   },
+   {
+    "name" : "EventCancelException",
+    "kind" : "class",
+    "protection" : "private",
+    "line" : 199,
+    "char" : 9,
+    "base" : "object.Exception",
+    "members" : [
+     {
+      "name" : "this",
+      "kind" : "constructor",
+      "line" : 201,
+      "char" : 2,
+      "deco" : "FZC7cushion4core20EventCancelException",
+      "originalType" : "()",
+      "endline" : 201,
+      "endchar" : 33
+     }
+    ]
+   },
+   {
+    "name" : "cancelEvent",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 207,
+    "char" : 6,
+    "deco" : "FZv",
+    "endline" : 210,
+    "endchar" : 1
+   },
+   {
+    "name" : "ForbiddenTransitionError",
+    "kind" : "class",
+    "protection" : "private",
+    "line" : 213,
+    "char" : 9,
+    "base" : "object.Error",
+    "members" : [
+     {
+      "name" : "this",
+      "kind" : "constructor",
+      "line" : 215,
+      "char" : 2,
+      "deco" : "FAyaQdmZC7cushion4core24ForbiddenTransitionError",
+      "originalType" : "(string msg = null, string file = __FILE__, size_t line = __LINE__)",
+      "parameters" : [
+       {
+        "name" : "msg",
+        "deco" : "Aya",
+        "default" : "null"
+       },
+       {
+        "name" : "file",
+        "deco" : "Aya",
+        "default" : "__FILE__"
+       },
+       {
+        "name" : "line",
+        "deco" : "m",
+        "default" : "cast(ulong)__LINE__"
+       }
+      ],
+      "endline" : 215,
+      "endchar" : 100
+     }
+    ]
+   },
+   {
+    "name" : "forbiddenHandler",
+    "kind" : "function",
+    "comment" : " Get a default forbidden handler\n",
+    "line" : 221,
+    "char" : 17,
+    "deco" : "FNfZDFZv",
+    "endline" : 232,
+    "endchar" : 1
+   },
+   {
+    "name" : "ignoreHandler",
+    "kind" : "function",
+    "comment" : " Get a default ignore handler\n",
+    "line" : 237,
+    "char" : 17,
+    "deco" : "FNfZDFZv",
+    "endline" : 240,
+    "endchar" : 1
+   },
+   {
+    "name" : "ConsumeMode",
+    "kind" : "enum",
+    "comment" : " Consume mode\n",
+    "line" : 245,
+    "char" : 1,
+    "baseDeco" : "i",
+    "members" : [
+     {
+      "name" : "combined",
+      "kind" : "enum member",
+      "value" : "0",
+      "comment" : " Events are consumed at the same time as addition.\n\n Add an event with the put method, since the put method consumes events on\n the fly, we automatically call the consume method.\n",
+      "line" : 254,
+      "char" : 2
+     },
+     {
+      "name" : "separate",
+      "kind" : "enum member",
+      "value" : "1",
+      "comment" : " Events are consumed at separate timing from the of addition\n\n Need to add an event with the put method and call the consume method for\n consumption.\n",
+      "line" : 262,
+      "char" : 2
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : " StateTransitor\n",
+    "line" : 268,
+    "char" : 1,
+    "name" : "StateTransitor",
+    "parameters" : [
+     {
+      "name" : "StateType",
+      "kind" : "type"
+     },
+     {
+      "name" : "EventType",
+      "kind" : "type"
+     },
+     {
+      "name" : "defaultStateParameter",
+      "kind" : "value",
+      "type" : "StateType",
+      "defaultValue" : "StateType.init"
+     },
+     {
+      "name" : "ProcHandler",
+      "kind" : "type",
+      "default" : "void delegate()[]"
+     },
+     {
+      "name" : "ExceptionHandler",
+      "kind" : "type",
+      "default" : "void delegate(Exception)[]"
+     },
+     {
+      "name" : "EventHandler",
+      "kind" : "type",
+      "default" : "void delegate(EventType)[]"
+     },
+     {
+      "name" : "StateChangedHandler",
+      "kind" : "type",
+      "default" : "void delegate(StateType newSts, StateType oldSts)[]"
+     },
+     {
+      "name" : "consumeMode",
+      "kind" : "value",
+      "deco" : "E7cushion4core11ConsumeMode",
+      "defaultValue" : "ConsumeMode.combined"
+     },
+     {
+      "name" : "EventContainer",
+      "kind" : "type",
+      "default" : "SList!EventType"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "StateTransitor",
+      "kind" : "struct",
+      "line" : 268,
+      "char" : 1,
+      "members" : [
+       {
+        "name" : "State",
+        "kind" : "alias",
+        "comment" : " State type of this StateTransitor\n",
+        "line" : 287,
+        "char" : 2,
+        "type" : "StateType"
+       },
+       {
+        "name" : "Event",
+        "kind" : "alias",
+        "comment" : " State type of this StateTransitor\n",
+        "line" : 292,
+        "char" : 2,
+        "type" : "EventType"
+       },
+       {
+        "name" : "stateCount",
+        "kind" : "variable",
+        "comment" : " Count of kind of state in this StateTransitor\n",
+        "line" : 297,
+        "char" : 14,
+        "storageClass" : [
+         "enum"
+        ],
+        "type" : "size_t",
+        "init" : "EnumMembers!State.length"
+       },
+       {
+        "name" : "eventCount",
+        "kind" : "variable",
+        "comment" : " Count of kind of event in this StateTransitor(Not a count of unconsumed event)\n",
+        "line" : 302,
+        "char" : 14,
+        "storageClass" : [
+         "enum"
+        ],
+        "type" : "size_t",
+        "init" : "EnumMembers!Event.length"
+       },
+       {
+        "name" : "defaultState",
+        "kind" : "variable",
+        "comment" : " Default state of this StateTransitor\n",
+        "line" : 307,
+        "char" : 13,
+        "storageClass" : [
+         "enum"
+        ],
+        "type" : "State",
+        "init" : "defaultStateParameter"
+       },
+       {
+        "name" : "Cell",
+        "kind" : "struct",
+        "comment" : " Cell of table\n",
+        "line" : 312,
+        "char" : 9,
+        "members" : [
+         {
+          "name" : "nextState",
+          "kind" : "variable",
+          "comment" : "next state\n",
+          "line" : 315,
+          "char" : 15,
+          "type" : "State",
+          "init" : "defaultState"
+         },
+         {
+          "name" : "handler",
+          "kind" : "variable",
+          "comment" : "handler\n",
+          "line" : 317,
+          "char" : 15,
+          "type" : "ProcHandler"
+         },
+         {
+          "name" : "this",
+          "kind" : "constructor",
+          "comment" : "Constructor\n",
+          "line" : 319,
+          "char" : 18,
+          "type" : "(State s, ProcHandler h)",
+          "parameters" : [
+           {
+            "name" : "s",
+            "type" : "State"
+           },
+           {
+            "name" : "h",
+            "type" : "ProcHandler"
+           }
+          ],
+          "endline" : 323,
+          "endchar" : 3
+         },
+         {
+          "kind" : "template",
+          "comment" : "ditto\n",
+          "line" : 325,
+          "char" : 18,
+          "name" : "this",
+          "parameters" : [
+           {
+            "name" : "Func",
+            "kind" : "type"
+           }
+          ],
+          "constraint" : "isHandlerAddable!(ProcHandler, Func)",
+          "members" : [
+           {
+            "name" : "this",
+            "kind" : "constructor",
+            "line" : 325,
+            "char" : 18,
+            "type" : "(State s, Func h)",
+            "parameters" : [
+             {
+              "name" : "s",
+              "type" : "State"
+             },
+             {
+              "name" : "h",
+              "type" : "Func"
+             }
+            ],
+            "endline" : 330,
+            "endchar" : 3
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "name" : "_table",
+        "kind" : "variable",
+        "line" : 333,
+        "char" : 31,
+        "type" : "Cell[stateCount][eventCount]"
+       },
+       {
+        "name" : "_currentState",
+        "kind" : "variable",
+        "line" : 334,
+        "char" : 31,
+        "type" : "State",
+        "init" : "defaultState"
+       },
+       {
+        "name" : "_matrixName",
+        "kind" : "variable",
+        "line" : 335,
+        "char" : 31,
+        "type" : "string"
+       },
+       {
+        "name" : "_stateNames",
+        "kind" : "variable",
+        "line" : 336,
+        "char" : 31,
+        "type" : "string[stateCount]"
+       },
+       {
+        "name" : "_eventNames",
+        "kind" : "variable",
+        "line" : 337,
+        "char" : 31,
+        "type" : "string[eventCount]"
+       },
+       {
+        "name" : "_exceptionHandler",
+        "kind" : "variable",
+        "line" : 338,
+        "char" : 31,
+        "type" : "ExceptionHandler"
+       },
+       {
+        "name" : "_eventHandler",
+        "kind" : "variable",
+        "line" : 339,
+        "char" : 31,
+        "type" : "EventHandler"
+       },
+       {
+        "name" : "_stateChangedHandler",
+        "kind" : "variable",
+        "line" : 340,
+        "char" : 31,
+        "type" : "StateChangedHandler"
+       },
+       {
+        "name" : "_events",
+        "kind" : "variable",
+        "line" : 341,
+        "char" : 31,
+        "type" : "EventContainer"
+       },
+       {
+        "name" : "this",
+        "kind" : "constructor",
+        "comment" : " Constractor\n",
+        "line" : 348,
+        "char" : 17,
+        "type" : "(Cell[stateCount][eventCount] tbl)",
+        "parameters" : [
+         {
+          "name" : "tbl",
+          "type" : "Cell[stateCount][eventCount]"
+         }
+        ],
+        "endline" : 351,
+        "endchar" : 2
+       },
+       {
+        "name" : "initialize",
+        "kind" : "function",
+        "comment" : " Initialize of table\n",
+        "line" : 356,
+        "char" : 22,
+        "type" : "void(Cell[stateCount][eventCount] tbl)",
+        "parameters" : [
+         {
+          "name" : "tbl",
+          "type" : "Cell[stateCount][eventCount]"
+         }
+        ],
+        "endline" : 364,
+        "endchar" : 2
+       },
+       {
+        "name" : "matrixName",
+        "kind" : "function",
+        "comment" : " Get/Set matrix name\n",
+        "line" : 369,
+        "char" : 7,
+        "type" : "pure nothrow @nogc @property @safe void(string str)",
+        "parameters" : [
+         {
+          "name" : "str",
+          "type" : "string"
+         }
+        ],
+        "endline" : 372,
+        "endchar" : 2
+       },
+       {
+        "name" : "matrixName",
+        "kind" : "function",
+        "comment" : "ditto\n",
+        "line" : 375,
+        "char" : 9,
+        "type" : "const pure nothrow @nogc @property @safe string()",
+        "endline" : 378,
+        "endchar" : 2
+       },
+       {
+        "name" : "setEventName",
+        "kind" : "function",
+        "comment" : " Set/Get event names\n",
+        "line" : 383,
+        "char" : 7,
+        "type" : "pure nothrow @nogc @safe void(Event ev, string evname)",
+        "parameters" : [
+         {
+          "name" : "ev",
+          "type" : "Event"
+         },
+         {
+          "name" : "evname",
+          "type" : "string"
+         }
+        ],
+        "endline" : 387,
+        "endchar" : 2
+       },
+       {
+        "name" : "getEventName",
+        "kind" : "function",
+        "comment" : "ditto\n",
+        "line" : 390,
+        "char" : 9,
+        "type" : "const pure @nogc @safe string(Event ev)",
+        "parameters" : [
+         {
+          "name" : "ev",
+          "type" : "Event"
+         }
+        ],
+        "endline" : 394,
+        "endchar" : 2
+       },
+       {
+        "name" : "eventNames",
+        "kind" : "function",
+        "comment" : "ditto\n",
+        "line" : 397,
+        "char" : 7,
+        "type" : "pure nothrow @nogc @property @safe void(in string[eventCount] names)",
+        "parameters" : [
+         {
+          "name" : "names",
+          "type" : "string[eventCount]",
+          "storageClass" : [
+           "in"
+          ]
+         }
+        ],
+        "endline" : 400,
+        "endchar" : 2
+       },
+       {
+        "name" : "eventNames",
+        "kind" : "function",
+        "comment" : "ditto\n",
+        "line" : 403,
+        "char" : 18,
+        "type" : "const pure nothrow @nogc @property @safe const(string)[]()",
+        "endline" : 406,
+        "endchar" : 2
+       },
+       {
+        "name" : "setStateName",
+        "kind" : "function",
+        "comment" : " Set/Get state names\n",
+        "line" : 412,
+        "char" : 7,
+        "type" : "pure nothrow @nogc @safe void(State st, string stname)",
+        "parameters" : [
+         {
+          "name" : "st",
+          "type" : "State"
+         },
+         {
+          "name" : "stname",
+          "type" : "string"
+         }
+        ],
+        "endline" : 416,
+        "endchar" : 2
+       },
+       {
+        "name" : "getStateName",
+        "kind" : "function",
+        "comment" : "ditto\n",
+        "line" : 419,
+        "char" : 9,
+        "type" : "const pure @nogc @safe string(State st)",
+        "parameters" : [
+         {
+          "name" : "st",
+          "type" : "State"
+         }
+        ],
+        "endline" : 423,
+        "endchar" : 2
+       },
+       {
+        "name" : "stateNames",
+        "kind" : "function",
+        "comment" : "ditto\n",
+        "line" : 426,
+        "char" : 7,
+        "type" : "pure nothrow @nogc @property @safe void(in string[stateCount] names)",
+        "parameters" : [
+         {
+          "name" : "names",
+          "type" : "string[stateCount]",
+          "storageClass" : [
+           "in"
+          ]
+         }
+        ],
+        "endline" : 429,
+        "endchar" : 2
+       },
+       {
+        "name" : "stateNames",
+        "kind" : "function",
+        "comment" : "ditto\n",
+        "line" : 432,
+        "char" : 18,
+        "type" : "const pure nothrow @property @safe const(string)[]()",
+        "endline" : 435,
+        "endchar" : 2
+       },
+       {
+        "name" : "currentState",
+        "kind" : "function",
+        "comment" : " Check current state\n",
+        "line" : 441,
+        "char" : 8,
+        "type" : "const pure nothrow @nogc @property @safe State()",
+        "endline" : 444,
+        "endchar" : 2
+       },
+       {
+        "name" : "enforceState",
+        "kind" : "function",
+        "comment" : " Change current state enforcely\n",
+        "line" : 450,
+        "char" : 7,
+        "type" : "pure nothrow @nogc @system void(State sts)",
+        "parameters" : [
+         {
+          "name" : "sts",
+          "type" : "State"
+         }
+        ],
+        "endline" : 453,
+        "endchar" : 2
+       },
+       {
+        "name" : "setNextState",
+        "kind" : "function",
+        "comment" : " Set next state\n\n If the state is `s` and event `e` is consumed, the next state will be `nextState`\n",
+        "line" : 461,
+        "char" : 7,
+        "type" : "void(State s, Event e, State nextState)",
+        "parameters" : [
+         {
+          "name" : "s",
+          "type" : "State"
+         },
+         {
+          "name" : "e",
+          "type" : "Event"
+         },
+         {
+          "name" : "nextState",
+          "type" : "State"
+         }
+        ],
+        "endline" : 464,
+        "endchar" : 2
+       },
+       {
+        "kind" : "template",
+        "comment" : " Set handler\n\n If the state is `s` and event `e` is consumed, the `handler` will be called.\n If other handler has already been set, the other handler is no longer used and replaced by `handler` instead.\n",
+        "line" : 472,
+        "char" : 7,
+        "name" : "setHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAssignable!(ProcHandler, Func)",
+        "members" : [
+         {
+          "name" : "setHandler",
+          "kind" : "function",
+          "line" : 472,
+          "char" : 7,
+          "type" : "void(State s, Event e, Func handler)",
+          "parameters" : [
+           {
+            "name" : "s",
+            "type" : "State"
+           },
+           {
+            "name" : "e",
+            "type" : "Event"
+           },
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 476,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "kind" : "template",
+        "comment" : " Add handler\n\n If the state is `s` and event `e` is consumed, the `handler` will be called.\n If other handler has already been set, `handler` will be added to the other handler and executed.\n",
+        "line" : 484,
+        "char" : 7,
+        "name" : "addHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAddable!(ProcHandler, Func)",
+        "members" : [
+         {
+          "name" : "addHandler",
+          "kind" : "function",
+          "line" : 484,
+          "char" : 7,
+          "type" : "void(State s, Event e, Func handler)",
+          "parameters" : [
+           {
+            "name" : "s",
+            "type" : "State"
+           },
+           {
+            "name" : "e",
+            "type" : "Event"
+           },
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 488,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "kind" : "template",
+        "comment" : " Remove handler related `s` and `e`.\n",
+        "line" : 494,
+        "char" : 7,
+        "name" : "removeHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAddable!(ProcHandler, Func)",
+        "members" : [
+         {
+          "name" : "removeHandler",
+          "kind" : "function",
+          "line" : 494,
+          "char" : 7,
+          "type" : "void(State s, Event e, Func handler)",
+          "parameters" : [
+           {
+            "name" : "s",
+            "type" : "State"
+           },
+           {
+            "name" : "e",
+            "type" : "Event"
+           },
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 498,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "name" : "clearHandler",
+        "kind" : "function",
+        "comment" : " Remove all handler related `s` and `e`.\n",
+        "line" : 503,
+        "char" : 7,
+        "type" : "void(State s, Event e)",
+        "parameters" : [
+         {
+          "name" : "s",
+          "type" : "State"
+         },
+         {
+          "name" : "e",
+          "type" : "Event"
+         }
+        ],
+        "endline" : 506,
+        "endchar" : 2
+       },
+       {
+        "kind" : "template",
+        "comment" : " Set exception handler\n\n If other handler has already been set, the other handler is no longer used and replaced by `handler` instead.\n",
+        "line" : 514,
+        "char" : 7,
+        "name" : "setExceptionHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAssignable!(ExceptionHandler, Func)",
+        "members" : [
+         {
+          "name" : "setExceptionHandler",
+          "kind" : "function",
+          "line" : 514,
+          "char" : 7,
+          "type" : "void(Func handler)",
+          "parameters" : [
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 518,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "kind" : "template",
+        "comment" : " Add exception handler\n\n If other handler has already been set, `handler` will be added to the other handler and executed.\n",
+        "line" : 525,
+        "char" : 7,
+        "name" : "addExceptionHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAddable!(ExceptionHandler, Func)",
+        "members" : [
+         {
+          "name" : "addExceptionHandler",
+          "kind" : "function",
+          "line" : 525,
+          "char" : 7,
+          "type" : "void(Func handler)",
+          "parameters" : [
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 529,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "kind" : "template",
+        "comment" : " Remove exception handler.\n",
+        "line" : 534,
+        "char" : 7,
+        "name" : "removeExceptionHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAddable!(ExceptionHandler, Func)",
+        "members" : [
+         {
+          "name" : "removeExceptionHandler",
+          "kind" : "function",
+          "line" : 534,
+          "char" : 7,
+          "type" : "void(Func handler)",
+          "parameters" : [
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 538,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "name" : "clearExceptionHandler",
+        "kind" : "function",
+        "comment" : " Remove all exception handler.\n",
+        "line" : 543,
+        "char" : 7,
+        "type" : "void()",
+        "endline" : 546,
+        "endchar" : 2
+       },
+       {
+        "kind" : "template",
+        "comment" : " Set event handler\n\n If other handler has already been set, the other handler is no longer used and replaced by `handler` instead.\n",
+        "line" : 554,
+        "char" : 7,
+        "name" : "setEventHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAssignable!(EventHandler, Func)",
+        "members" : [
+         {
+          "name" : "setEventHandler",
+          "kind" : "function",
+          "line" : 554,
+          "char" : 7,
+          "type" : "void(Func handler)",
+          "parameters" : [
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 558,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "kind" : "template",
+        "comment" : " Add event handler\n\n If other handler has already been set, `handler` will be added to the other handler and executed.\n",
+        "line" : 565,
+        "char" : 7,
+        "name" : "addEventHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAddable!(EventHandler, Func)",
+        "members" : [
+         {
+          "name" : "addEventHandler",
+          "kind" : "function",
+          "line" : 565,
+          "char" : 7,
+          "type" : "void(Func handler)",
+          "parameters" : [
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 569,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "kind" : "template",
+        "comment" : " Remove event handler.\n",
+        "line" : 574,
+        "char" : 7,
+        "name" : "removeEventHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAddable!(EventHandler, Func)",
+        "members" : [
+         {
+          "name" : "removeEventHandler",
+          "kind" : "function",
+          "line" : 574,
+          "char" : 7,
+          "type" : "void(Func handler)",
+          "parameters" : [
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 578,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "name" : "clearEventHandler",
+        "kind" : "function",
+        "comment" : " Remove all event handler.\n",
+        "line" : 583,
+        "char" : 7,
+        "type" : "void()",
+        "endline" : 586,
+        "endchar" : 2
+       },
+       {
+        "kind" : "template",
+        "comment" : " Set state changed handler\n\n If other handler has already been set, the other handler is no longer used and replaced by `handler` instead.\n",
+        "line" : 594,
+        "char" : 7,
+        "name" : "setStateChangedHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAssignable!(StateChangedHandler, Func)",
+        "members" : [
+         {
+          "name" : "setStateChangedHandler",
+          "kind" : "function",
+          "line" : 594,
+          "char" : 7,
+          "type" : "void(Func handler)",
+          "parameters" : [
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 598,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "kind" : "template",
+        "comment" : " Add state changed handler\n\n If other handler has already been set, `handler` will be added to the other handler and executed.\n",
+        "line" : 605,
+        "char" : 7,
+        "name" : "addStateChangedHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAddable!(StateChangedHandler, Func)",
+        "members" : [
+         {
+          "name" : "addStateChangedHandler",
+          "kind" : "function",
+          "line" : 605,
+          "char" : 7,
+          "type" : "void(Func handler)",
+          "parameters" : [
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 609,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "kind" : "template",
+        "comment" : " Remove state changed handler.\n",
+        "line" : 614,
+        "char" : 7,
+        "name" : "removeStateChangedHandler",
+        "parameters" : [
+         {
+          "name" : "Func",
+          "kind" : "type"
+         }
+        ],
+        "constraint" : "isHandlerAddable!(StateChangedHandler, Func)",
+        "members" : [
+         {
+          "name" : "removeStateChangedHandler",
+          "kind" : "function",
+          "line" : 614,
+          "char" : 7,
+          "type" : "void(Func handler)",
+          "parameters" : [
+           {
+            "name" : "handler",
+            "type" : "Func"
+           }
+          ],
+          "endline" : 618,
+          "endchar" : 2
+         }
+        ]
+       },
+       {
+        "name" : "clearStateChangedHandler",
+        "kind" : "function",
+        "comment" : " Remove all state changed handler.\n",
+        "line" : 623,
+        "char" : 7,
+        "type" : "void()",
+        "endline" : 626,
+        "endchar" : 2
+       },
+       {
+        "name" : "put",
+        "kind" : "function",
+        "comment" : " Add a event\n",
+        "line" : 631,
+        "char" : 7,
+        "type" : "@safe void(Event e)",
+        "parameters" : [
+         {
+          "name" : "e",
+          "type" : "Event"
+         }
+        ],
+        "endline" : 644,
+        "endchar" : 2
+       },
+       {
+        "name" : "consume",
+        "kind" : "function",
+        "comment" : " Consume a event\n",
+        "line" : 649,
+        "char" : 7,
+        "type" : "@safe void()",
+        "endline" : 691,
+        "endchar" : 2
+       },
+       {
+        "name" : "emptyEvents",
+        "kind" : "function",
+        "comment" : " Check for unconsumed events\n",
+        "line" : 696,
+        "char" : 7,
+        "type" : "const @property bool()",
+        "endline" : 699,
+        "endchar" : 2
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : "ditto\n",
+    "line" : 703,
+    "char" : 1,
+    "name" : "StateTransitor",
+    "parameters" : [
+     {
+      "name" : "Policy",
+      "kind" : "alias"
+     }
+    ],
+    "constraint" : "__traits(hasMember, Policy, \"State\") && __traits(hasMember, Policy, \"Event\")",
+    "members" : [
+     {
+      "name" : "State",
+      "kind" : "alias",
+      "line" : 707,
+      "char" : 2,
+      "type" : "Policy.State"
+     },
+     {
+      "name" : "Event",
+      "kind" : "alias",
+      "line" : 708,
+      "char" : 2,
+      "type" : "Policy.Event"
+     },
+     {
+      "name" : "StateTransitor",
+      "kind" : "alias",
+      "line" : 709,
+      "char" : 2,
+      "type" : ".StateTransitor!(State, Event, getMemberValue!(Policy, \"defaultStateParameter\", State.init), getMemberAlias!(Policy, \"ProcHandler\", void delegate()[]), getMemberAlias!(Policy, \"ExceptionHandler\", void delegate(Exception)[]), getMemberAlias!(Policy, \"EventHandler\", void delegate(Event)[]), getMemberAlias!(Policy, \"StateChangedHandler\", void delegate(State newSts, State oldSts)[]), getMemberValue!(Policy, \"consumeMode\", ConsumeMode.combined), getMemberAlias!(Policy, \"EventContainer\", SList!Event))"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L722_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 722,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 759,
+    "endchar" : 1
+   },
+   {
+    "name" : "__unittest_L759_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 759,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 799,
+    "endchar" : 1
+   },
+   {
+    "name" : "__unittest_L799_C7",
+    "kind" : "function",
+    "line" : 799,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 837,
+    "endchar" : 1
+   },
+   {
+    "name" : "__unittest_L837_C7",
+    "kind" : "function",
+    "line" : 837,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 869,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "comment" : " Default Policy of StateTransitor\n",
+    "line" : 869,
+    "char" : 1,
+    "name" : "CreateStateTransitorPolicy",
+    "parameters" : [
+     {
+      "name" : "State_",
+      "kind" : "type"
+     },
+     {
+      "name" : "Event_",
+      "kind" : "type"
+     },
+     {
+      "name" : "defaultStateParameter_",
+      "kind" : "value",
+      "type" : "State_",
+      "defaultValue" : "State_.init"
+     },
+     {
+      "name" : "ProcHandler_",
+      "kind" : "type",
+      "default" : "void delegate()[]"
+     },
+     {
+      "name" : "ExceptionHandler_",
+      "kind" : "type",
+      "default" : "void delegate(Exception)[]"
+     },
+     {
+      "name" : "EventHandler_",
+      "kind" : "type",
+      "default" : "void delegate(Event_)[]"
+     },
+     {
+      "name" : "StateChangedHandler_",
+      "kind" : "type",
+      "default" : "void delegate(State_ newSts, State_ oldSts)[]"
+     },
+     {
+      "name" : "consumeMode_",
+      "kind" : "value",
+      "deco" : "E7cushion4core11ConsumeMode",
+      "defaultValue" : "ConsumeMode.combined"
+     },
+     {
+      "name" : "EventContainer_",
+      "kind" : "type",
+      "default" : "SList!Event_"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "State",
+      "kind" : "alias",
+      "line" : 878,
+      "char" : 2,
+      "type" : "State_"
+     },
+     {
+      "name" : "Event",
+      "kind" : "alias",
+      "line" : 879,
+      "char" : 2,
+      "type" : "Event_"
+     },
+     {
+      "name" : "defaultStateParameter",
+      "kind" : "variable",
+      "line" : 880,
+      "char" : 14,
+      "storageClass" : [
+       "enum"
+      ],
+      "type" : "State_",
+      "init" : "defaultStateParameter_"
+     },
+     {
+      "name" : "ProcHandler",
+      "kind" : "alias",
+      "line" : 881,
+      "char" : 2,
+      "type" : "ProcHandler_"
+     },
+     {
+      "name" : "ExceptionHandler",
+      "kind" : "alias",
+      "line" : 882,
+      "char" : 2,
+      "type" : "ExceptionHandler_"
+     },
+     {
+      "name" : "EventHandler",
+      "kind" : "alias",
+      "line" : 883,
+      "char" : 2,
+      "type" : "EventHandler_"
+     },
+     {
+      "name" : "StateChangedHandler",
+      "kind" : "alias",
+      "line" : 884,
+      "char" : 2,
+      "type" : "StateChangedHandler_"
+     },
+     {
+      "name" : "consumeMode",
+      "kind" : "variable",
+      "line" : 885,
+      "char" : 19,
+      "storageClass" : [
+       "enum"
+      ],
+      "type" : "ConsumeMode",
+      "init" : "consumeMode_"
+     },
+     {
+      "name" : "EventContainer",
+      "kind" : "alias",
+      "line" : 886,
+      "char" : 2,
+      "type" : "EventContainer_"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L890_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 890,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 906,
+    "endchar" : 1
+   }
+  ]
+ },
+ {
+  "name" : "cushion.csvdecoder",
+  "kind" : "module",
+  "file" : "/home/travis/build/shoo/cushion/source/cushion/csvdecoder.d",
+  "comment" : " Decoder for STM of CSV\n\n Copyright: © 2019, SHOO\n License: [BSL-1.0](http://boost.org/LICENSE_1_0.txt).\n Author: SHOO\n",
+  "members" : [
+   {
+    "name" : "std.csv",
+    "kind" : "import",
+    "line" : 11,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.array",
+    "kind" : "import",
+    "line" : 11,
+    "char" : 17,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.algorithm",
+    "kind" : "import",
+    "line" : 11,
+    "char" : 28,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.range",
+    "kind" : "import",
+    "line" : 11,
+    "char" : 43,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.format",
+    "kind" : "import",
+    "line" : 11,
+    "char" : 54,
+    "protection" : "private"
+   },
+   {
+    "name" : "cushion.core",
+    "kind" : "import",
+    "line" : 12,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "cushion._internal.misc",
+    "kind" : "import",
+    "line" : 12,
+    "char" : 22,
+    "protection" : "private"
+   },
+   {
+    "name" : "decodeStmFromCsv",
+    "kind" : "function",
+    "comment" : " Decode to D language code from STM of CSV\n\n In the first argument, STM in CSV format is passed as a string.\n And in the second argument, replacement map in CSV format is passed as a string.\n This CSV pair will be decoded into the code in D language.\n\n\n STM by CSV is converted according to the following rules.\n\n $(UL\n   $(LI The cell at most top-left is described name of the STM.)\n   $(LI In the first row cells except the leftmost column, \"$(B state)\" names are described.)\n   $(LI Cells of leftmost column in rows 2 and 3 are ignored in program code.)\n   $(LI \"$(B Event)\" names are described on the leftmost 4th row and beyond.)\n   $(LI The 1st line of CSV describes \"$(B states)\")\n   $(LI \"$(B States)\" is always specified a string beginning with \"∇\" (default character) or `stateKey` that is user defined key character.)\n   $(LI The 2nd line of CSV describes \"$(B start activity)\")\n   $(LI The 3rd line of CSV describes \"$(B end activity)\")\n   $(LI \"$(B start activity)\" and \"$(B end activity)\" are described by some \"$(B processes)\")\n   $(LI When the \"$(B state transitions)\", the \"$(B process)\" described in the \"$(B start activity)\" of the \"$(B states)\" of after the transition are performed.)\n   $(LI In the other hand, the \"$(B processes)\" in the \"$(B end activity)\" are performed at before the transition.)\n   $(LI In cell where \"$(B state)\" and \"$(B event)\" intersect, \"$(B processes)\" are described)\n   $(LI For state transition, specify the state name starting with `stateKey` in the first line of the \"$(B processes)\" described in the cell)\n   $(LI A blank cell does not process the event and means to ignore it.)\n   $(LI Cells written with only `x` assert forbidden event handling.)\n )\n\n The replacement map is described according to the following specifications.\n\n $(UL\n   $(LI The replacement target of the replacement map CSV is the \"$(B state)\", \"$(B event)\", \"$(B state transition)\", and \"$(B process)\" of the STM)\n   $(LI The first column of CSV describes the string before conversion.)\n   $(LI The second column of CSV describes the string after conversion.)\n   $(LI The string in the left column is simply replaced by the string in the right column.)\n   $(LI After substitution, \"$(B process)\" must be complete D language code.)\n   $(LI \"$(B event)\" must be replaced to enum member of \"$(B Event)\".)\n   $(LI \"$(B state)\" must be replaced to enum member of \"$(B State)\".)\n   $(LI And also, \"$(B state transition)\" that are described together \"$(B process)\" must be replaced to enum member of \"$(B State)\".)\n )\n\n Since the string generated by this function is the source code of the D language, it can be embedded in the actual code after saving it in the file, or it can be used directly by mixin().\n The \"$(B states)\" are generated as an enum type named `State`, and the \"$(B events)\" are generated as an enum type named `Event`.\n STM instance is generated by executing the generated factory function that name can be specified by `factoryName` with makeStm as its default name.\n",
+    "line" : 59,
+    "char" : 8,
+    "deco" : "FAyaQdQfQhQjQlZQo",
+    "parameters" : [
+     {
+      "name" : "stmCsvContents",
+      "deco" : "Aya"
+     },
+     {
+      "name" : "mapCsvContents",
+      "deco" : "Aya"
+     },
+     {
+      "name" : "mapFileName",
+      "deco" : "Aya",
+      "default" : "null"
+     },
+     {
+      "name" : "stmFileName",
+      "deco" : "Aya",
+      "default" : "null"
+     },
+     {
+      "name" : "stateKey",
+      "deco" : "Aya",
+      "default" : "\"\\xe2\\x96\\xbd\""
+     },
+     {
+      "name" : "factoryName",
+      "deco" : "Aya",
+      "default" : "\"makeStm\""
+     }
+    ],
+    "endline" : 94,
+    "endchar" : 1
+   },
+   {
+    "name" : "__unittest_L131_C7",
+    "kind" : "function",
+    "comment" : " Example is following.\n\n This case explains how to operate the music player with the start button and the stop button.\n The players play music when the start button is pressed while stopping.\n And when you press the start button during playing, the behavior will change and music playback will pause.\n When the stop button is pressed, the player stops music playback and returns to the initial state.\n\n When this specification is made to STM, the following table can be created.\n\n stmcsv:\n $(TABLE\n   $(TR $(TH *MusicPlayer* )$(TH #>stop                   )$(TH #>play                                          )$(TH #>pause                 ) )\n   $(TR $(TH StartAct.     )$(TD                          )$(TD                                                 )$(TD                         ) )\n   $(TR $(TH EndAct.       )$(TD                          )$(TD                                                 )$(TD                         ) )\n   $(TR $(TH onStart       )$(TD #>play$(BR)- Start music )$(TD #>pause$(BR)- Stop music                        )$(TD #>play$(BR)- Start music) )\n   $(TR $(TH onStop        )$(TD                          )$(TD  #>stop$(BR)- Stop music$(BR)- Return to first  )$(TD #>stop$(BR)- Return to first) )\n )\n\n In each cell of the table, the transition destination and processing are described in natural language.\n Representations in natural language are replaced by the following map table and converted into a program expression in D.\n One line in each cell is subject to replacement. However, those that do not exist in the replacement map are not replaced.\n\n mapcsv:\n $(TABLE\n   $(TR $(TD #>stop            )$(TD stop           ) )\n   $(TR $(TD #>play            )$(TD play           ) )\n   $(TR $(TD #>pause           )$(TD pause          ) )\n   $(TR $(TD - Start music     )$(TD startMusic();  ) )\n   $(TR $(TD - Stop music      )$(TD stopMusic();   ) )\n   $(TR $(TD - Return to first )$(TD resetMusic();  ) )\n )\n\n To execute the pair of STM and replacement map as code, see the following code:\n",
+    "line" : 131,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 203,
+    "endchar" : 1
+   },
+   {
+    "name" : "__unittest_L203_C7",
+    "kind" : "function",
+    "comment" : "Following example is case of network communication in Japanese.\n",
+    "line" : 203,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 274,
+    "endchar" : 1
+   },
+   {
+    "name" : "__unittest_L274_C7",
+    "kind" : "function",
+    "line" : 274,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 363,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "comment" : " Load CSV file of STM and decode to D code.\n",
+    "line" : 363,
+    "char" : 8,
+    "name" : "loadStmFromCsvFilePair",
+    "parameters" : [
+     {
+      "name" : "stmFileName",
+      "kind" : "value",
+      "deco" : "Aya"
+     },
+     {
+      "name" : "mapFileName",
+      "kind" : "value",
+      "deco" : "Aya"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "loadStmFromCsvFilePair",
+      "kind" : "function",
+      "line" : 363,
+      "char" : 8,
+      "type" : "string(string stateKey = \"\\xe2\\x96\\xbd\", string factoryName = \"makeStm\")",
+      "parameters" : [
+       {
+        "name" : "stateKey",
+        "type" : "string",
+        "default" : "\"\\xe2\\x96\\xbd\""
+       },
+       {
+        "name" : "factoryName",
+        "type" : "string",
+        "default" : "\"makeStm\""
+       }
+      ],
+      "endline" : 376,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : "ditto\n",
+    "line" : 379,
+    "char" : 8,
+    "name" : "loadStmFromCsv",
+    "parameters" : [
+     {
+      "name" : "name",
+      "kind" : "value",
+      "deco" : "Aya"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "loadStmFromCsv",
+      "kind" : "function",
+      "line" : 379,
+      "char" : 8,
+      "type" : "string(string stateKey = \"\\xe2\\x96\\xbd\", string factoryName = \"makeStm\")",
+      "parameters" : [
+       {
+        "name" : "stateKey",
+        "type" : "string",
+        "default" : "\"\\xe2\\x96\\xbd\""
+       },
+       {
+        "name" : "factoryName",
+        "type" : "string",
+        "default" : "\"makeStm\""
+       }
+      ],
+      "endline" : 383,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : " Load CSV file of STM and decode to D code.\n",
+    "line" : 389,
+    "char" : 1,
+    "name" : "CreateStmPolicy",
+    "parameters" : [
+     {
+      "name" : "name_",
+      "kind" : "value",
+      "deco" : "Aya"
+     },
+     {
+      "name" : "ST",
+      "kind" : "alias",
+      "defaultAlias" : "cushion.core.StateTransitor"
+     },
+     {
+      "name" : "stateKey_",
+      "kind" : "value",
+      "deco" : "Aya",
+      "defaultValue" : "\"\\xe2\\x96\\xbd\""
+     },
+     {
+      "name" : "factoryName_",
+      "kind" : "value",
+      "deco" : "Aya",
+      "defaultValue" : "\"makeStm\""
+     }
+    ],
+    "members" : [
+     {
+      "name" : "name",
+      "kind" : "variable",
+      "line" : 395,
+      "char" : 14,
+      "storageClass" : [
+       "enum"
+      ],
+      "type" : "string",
+      "init" : "name_"
+     },
+     {
+      "name" : "stateKey",
+      "kind" : "variable",
+      "line" : 396,
+      "char" : 14,
+      "storageClass" : [
+       "enum"
+      ],
+      "type" : "string",
+      "init" : "stateKey_"
+     },
+     {
+      "name" : "factoryName",
+      "kind" : "variable",
+      "line" : 397,
+      "char" : 14,
+      "storageClass" : [
+       "enum"
+      ],
+      "type" : "string",
+      "init" : "factoryName_"
+     },
+     {
+      "name" : "StateTransitor",
+      "kind" : "alias",
+      "line" : 398,
+      "char" : 2,
+      "type" : "ST"
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : " Load CSV file of STM and decode to D code.\n",
+    "line" : 405,
+    "char" : 6,
+    "name" : "createStm",
+    "parameters" : [
+     {
+      "name" : "name",
+      "kind" : "value",
+      "deco" : "Aya"
+     },
+     {
+      "name" : "ALIASES",
+      "kind" : "tuple"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "createStm",
+      "kind" : "function",
+      "line" : 405,
+      "char" : 6,
+      "storageClass" : [
+       "auto"
+      ],
+      "type" : "()",
+      "endline" : 408,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : "ditto\n",
+    "line" : 411,
+    "char" : 6,
+    "name" : "createStm",
+    "parameters" : [
+     {
+      "name" : "basePolicy",
+      "kind" : "alias"
+     },
+     {
+      "name" : "ALIASES",
+      "kind" : "tuple"
+     }
+    ],
+    "constraint" : "__traits(hasMember, basePolicy, \"name\")",
+    "members" : [
+     {
+      "name" : "createStm",
+      "kind" : "function",
+      "line" : 411,
+      "char" : 6,
+      "storageClass" : [
+       "auto"
+      ],
+      "type" : "()",
+      "endline" : 432,
+      "endchar" : 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name" : "cushion.flow",
+  "kind" : "module",
+  "file" : "/home/travis/build/shoo/cushion/source/cushion/flow.d",
+  "comment" : " Flow module for state transion\n\n Copyright: © 2019, SHOO\n License: [BSL-1.0](http://boost.org/LICENSE_1_0.txt).\n Author: SHOO\n",
+  "members" : [
+   {
+    "name" : "cushion.handler",
+    "kind" : "import",
+    "line" : 10,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "cushion._internal.misc",
+    "kind" : "import",
+    "line" : 10,
+    "char" : 25,
+    "protection" : "private"
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 12,
+    "char" : 9,
+    "name" : "FlowHandler",
+    "parameters" : [
+     {
+      "name" : "Commands",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "FlowHandler",
+      "kind" : "interface",
+      "line" : 12,
+      "char" : 9,
+      "members" : [
+       {
+        "name" : "_onEnterChild",
+        "kind" : "function",
+        "comment" : "\n",
+        "line" : 16,
+        "char" : 7,
+        "type" : "@safe void(Commands child)",
+        "parameters" : [
+         {
+          "name" : "child",
+          "type" : "Commands"
+         }
+        ]
+       },
+       {
+        "name" : "_onExitChild",
+        "kind" : "function",
+        "comment" : "\n",
+        "line" : 18,
+        "char" : 7,
+        "type" : "@safe void(Commands child)",
+        "parameters" : [
+         {
+          "name" : "child",
+          "type" : "Commands"
+         }
+        ]
+       },
+       {
+        "name" : "_onEnter",
+        "kind" : "function",
+        "comment" : "\n",
+        "line" : 20,
+        "char" : 7,
+        "type" : "@safe void()"
+       },
+       {
+        "name" : "_onExit",
+        "kind" : "function",
+        "comment" : "\n",
+        "line" : 22,
+        "char" : 7,
+        "type" : "@safe void()"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : " Flow template class\n\n Flow is a template class that holds the state based on the 'state pattern'.\n The interface of the command set whose behavior changes depending on the state is given by the Commands parameter.\n The default base class of this template class is Object, but it can be specified by `Base`.\n The initial state of the concrete instance of Commands is given to the constructor of this template class,\n and transition is made according to the return value of each command.\n If the command returns null, the transition is ended.\n",
+    "line" : 35,
+    "char" : 1,
+    "name" : "Flow",
+    "parameters" : [
+     {
+      "name" : "Commands",
+      "kind" : "type"
+     },
+     {
+      "name" : "Base",
+      "kind" : "type",
+      "default" : "Object"
+     },
+     {
+      "name" : "EnterChildHandler",
+      "kind" : "type",
+      "default" : "void delegate(Commands, Commands)[]"
+     },
+     {
+      "name" : "ExitChildHandler",
+      "kind" : "type",
+      "default" : "void delegate(Commands, Commands)[]"
+     },
+     {
+      "name" : "EndFlowHandler",
+      "kind" : "type",
+      "default" : "void delegate(Commands)[]"
+     }
+    ],
+    "constraint" : "is(Commands == interface) && isHandler!EnterChildHandler && isHandler!ExitChildHandler && isHandler!EndFlowHandler",
+    "members" : [
+     {
+      "name" : "FlowHandler",
+      "kind" : "alias",
+      "line" : 44,
+      "char" : 2,
+      "type" : ".FlowHandler!Commands"
+     },
+     {
+      "name" : "FlowBase",
+      "kind" : "class",
+      "comment" : "\n",
+      "line" : 46,
+      "char" : 11,
+      "members" : [
+       {
+        "name" : "std.container",
+        "kind" : "import",
+        "line" : 49,
+        "char" : 10,
+        "protection" : "private"
+       },
+       {
+        "name" : "_stsStack",
+        "kind" : "variable",
+        "line" : 50,
+        "char" : 18,
+        "type" : "SList!Commands"
+       },
+       {
+        "name" : "_next",
+        "kind" : "variable",
+        "line" : 51,
+        "char" : 12,
+        "type" : "Commands"
+       },
+       {
+        "name" : "_onEnterChild",
+        "kind" : "function",
+        "line" : 53,
+        "char" : 8,
+        "type" : "@safe void(Commands parent, Commands child)",
+        "parameters" : [
+         {
+          "name" : "parent",
+          "type" : "Commands"
+         },
+         {
+          "name" : "child",
+          "type" : "Commands"
+         }
+        ],
+        "endline" : 64,
+        "endchar" : 3
+       },
+       {
+        "name" : "_onExitChild",
+        "kind" : "function",
+        "line" : 66,
+        "char" : 8,
+        "type" : "@safe void(Commands parent, Commands child)",
+        "parameters" : [
+         {
+          "name" : "parent",
+          "type" : "Commands"
+         },
+         {
+          "name" : "child",
+          "type" : "Commands"
+         }
+        ],
+        "endline" : 77,
+        "endchar" : 3
+       },
+       {
+        "name" : "_onEndFlow",
+        "kind" : "function",
+        "line" : 79,
+        "char" : 8,
+        "type" : "@safe void(Commands last)",
+        "parameters" : [
+         {
+          "name" : "last",
+          "type" : "Commands"
+         }
+        ],
+        "endline" : 82,
+        "endchar" : 3
+       },
+       {
+        "name" : "onEnterChild",
+        "kind" : "variable",
+        "comment" : "\n",
+        "line" : 85,
+        "char" : 21,
+        "type" : "EnterChildHandler"
+       },
+       {
+        "name" : "onExitChild",
+        "kind" : "variable",
+        "comment" : "\n",
+        "line" : 87,
+        "char" : 21,
+        "type" : "ExitChildHandler"
+       },
+       {
+        "name" : "onEndFlow",
+        "kind" : "variable",
+        "comment" : "\n",
+        "line" : 89,
+        "char" : 21,
+        "type" : "EndFlowHandler"
+       },
+       {
+        "name" : "this",
+        "kind" : "constructor",
+        "comment" : "\n",
+        "line" : 92,
+        "char" : 3,
+        "type" : "@safe (Commands root)",
+        "parameters" : [
+         {
+          "name" : "root",
+          "type" : "Commands"
+         }
+        ],
+        "endline" : 96,
+        "endchar" : 3
+       },
+       {
+        "name" : "current",
+        "kind" : "function",
+        "comment" : "\n",
+        "line" : 98,
+        "char" : 25,
+        "storageClass" : [
+         "final"
+        ],
+        "type" : "inout @property @trusted inout(Commands)()",
+        "endline" : 101,
+        "endchar" : 3
+       },
+       {
+        "name" : "_transit",
+        "kind" : "function",
+        "comment" : "internal\n",
+        "line" : 104,
+        "char" : 18,
+        "storageClass" : [
+         "final"
+        ],
+        "type" : "@safe Commands(Commands curr, Commands nxt)",
+        "parameters" : [
+         {
+          "name" : "curr",
+          "type" : "Commands"
+         },
+         {
+          "name" : "nxt",
+          "type" : "Commands"
+         }
+        ],
+        "endline" : 128,
+        "endchar" : 3
+       }
+      ]
+     },
+     {
+      "name" : "std.traits",
+      "kind" : "import",
+      "line" : 131,
+      "char" : 9,
+      "protection" : "private",
+      "selective" : [
+       "ReturnType"
+      ]
+     },
+     {
+      "name" : "std.typecons",
+      "kind" : "import",
+      "line" : 132,
+      "char" : 9,
+      "protection" : "private",
+      "selective" : [
+       "AutoImplement"
+      ]
+     },
+     {
+      "kind" : "template",
+      "line" : 133,
+      "char" : 7,
+      "name" : "generateTransferFunction",
+      "parameters" : [
+       {
+        "name" : "C",
+        "kind" : "type"
+       },
+       {
+        "name" : "fun",
+        "kind" : "alias"
+       }
+      ],
+      "members" : [
+       {
+        "name" : "generateTransferFunction",
+        "kind" : "variable",
+        "line" : 133,
+        "char" : 7,
+        "storageClass" : [
+         "enum"
+        ],
+        "init" : "\"\\x0a\\x09\\x09auto curr = current;\\x0a\\x09\\x09auto res = curr.\" ~ __traits(identifier, fun) ~ \"(args);\\x0a\\x09\\x09return _transit(curr, res);\\x0a\\x09\""
+       }
+      ]
+     },
+     {
+      "kind" : "template",
+      "line" : 140,
+      "char" : 7,
+      "name" : "isEventDistributor",
+      "parameters" : [
+       {
+        "name" : "func",
+        "kind" : "alias"
+       }
+      ],
+      "members" : [
+       {
+        "name" : "isEventDistributor",
+        "kind" : "variable",
+        "line" : 140,
+        "char" : 7,
+        "storageClass" : [
+         "enum"
+        ],
+        "init" : "is(ReturnType!func : Commands)"
+       }
+      ]
+     },
+     {
+      "name" : "Flow",
+      "kind" : "alias",
+      "line" : 142,
+      "char" : 2,
+      "type" : "AutoImplement!(Commands, FlowBase, generateTransferFunction, isEventDistributor)"
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : "ditto\n",
+    "line" : 147,
+    "char" : 1,
+    "name" : "Flow",
+    "parameters" : [
+     {
+      "name" : "Policy",
+      "kind" : "alias"
+     }
+    ],
+    "constraint" : "!is(Policy == interface) && __traits(hasMember, Policy, \"Commands\") && is(Policy.Commands == interface)",
+    "members" : [
+     {
+      "name" : "Commands",
+      "kind" : "alias",
+      "line" : 152,
+      "char" : 2,
+      "type" : "Policy.Commands"
+     },
+     {
+      "name" : "Flow",
+      "kind" : "alias",
+      "line" : 153,
+      "char" : 2,
+      "type" : ".Flow!(Commands, getMemberAlias!(Policy, \"Base\", Object), getMemberAlias!(Policy, \"EnterChildHandler\", void delegate(Commands, Commands)[]), getMemberAlias!(Policy, \"ExitChildHandler\", void delegate(Commands, Commands)[]), getMemberAlias!(Policy, \"EndFlowHandler\", void delegate(Commands)[]))"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L161_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 161,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 227,
+    "endchar" : 1
+   },
+   {
+    "name" : "__unittest_L227_C7",
+    "kind" : "function",
+    "line" : 227,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 311,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "comment" : " Base template class of state derived Commands\n\n This template class provides several convenience handlers and methods.\n To use this, instantiate this template class with Commands and inherit.\n In derived classes, the return value of each method of Commands is obtained by\n transferring the processing to the super class.\n",
+    "line" : 311,
+    "char" : 1,
+    "name" : "State",
+    "parameters" : [
+     {
+      "name" : "Commands",
+      "kind" : "type"
+     },
+     {
+      "name" : "Base",
+      "kind" : "type",
+      "default" : "Object"
+     },
+     {
+      "name" : "EnterChildHandler",
+      "kind" : "type",
+      "default" : "void delegate(Commands)[]"
+     },
+     {
+      "name" : "ExitChildHandler",
+      "kind" : "type",
+      "default" : "EnterChildHandler"
+     },
+     {
+      "name" : "EnterHandler",
+      "kind" : "type",
+      "default" : "void delegate()[]"
+     },
+     {
+      "name" : "ExitHandler",
+      "kind" : "type",
+      "default" : "EnterHandler"
+     }
+    ],
+    "constraint" : "is(Commands == interface) && isHandler!EnterChildHandler && isHandler!ExitChildHandler && isHandler!EnterHandler && isHandler!ExitHandler",
+    "members" : [
+     {
+      "name" : "StateBase",
+      "kind" : "class",
+      "comment" : "\n",
+      "line" : 323,
+      "char" : 11,
+      "members" : [
+       {
+        "name" : "_next",
+        "kind" : "variable",
+        "line" : 326,
+        "char" : 12,
+        "type" : "Commands"
+       },
+       {
+        "name" : "_getNext",
+        "kind" : "function",
+        "comment" : "internal\n",
+        "line" : 329,
+        "char" : 12,
+        "type" : "pure nothrow @nogc @safe Commands()",
+        "endline" : 334,
+        "endchar" : 3
+       },
+       {
+        "name" : "_onEnterChild",
+        "kind" : "function",
+        "comment" : "ditto\n",
+        "line" : 336,
+        "char" : 8,
+        "type" : "@safe void(Commands child)",
+        "parameters" : [
+         {
+          "name" : "child",
+          "type" : "Commands"
+         }
+        ],
+        "endline" : 339,
+        "endchar" : 3
+       },
+       {
+        "name" : "_onExitChild",
+        "kind" : "function",
+        "comment" : "ditto\n",
+        "line" : 341,
+        "char" : 8,
+        "type" : "@safe void(Commands child)",
+        "parameters" : [
+         {
+          "name" : "child",
+          "type" : "Commands"
+         }
+        ],
+        "endline" : 344,
+        "endchar" : 3
+       },
+       {
+        "name" : "_onEnter",
+        "kind" : "function",
+        "comment" : "ditto\n",
+        "line" : 346,
+        "char" : 8,
+        "type" : "@safe void()",
+        "endline" : 349,
+        "endchar" : 3
+       },
+       {
+        "name" : "_onExit",
+        "kind" : "function",
+        "comment" : "ditto\n",
+        "line" : 351,
+        "char" : 8,
+        "type" : "@safe void()",
+        "endline" : 354,
+        "endchar" : 3
+       },
+       {
+        "name" : "this",
+        "kind" : "constructor",
+        "comment" : "Constructor\n",
+        "line" : 357,
+        "char" : 3,
+        "type" : "pure nothrow @nogc @safe ()",
+        "endline" : 360,
+        "endchar" : 3
+       },
+       {
+        "name" : "onEnterChild",
+        "kind" : "variable",
+        "comment" : "Handler that will be called back when flow enter child state\n",
+        "line" : 362,
+        "char" : 21,
+        "type" : "EnterChildHandler"
+       },
+       {
+        "name" : "onExitChild",
+        "kind" : "variable",
+        "comment" : "Handler that will be called back when flow exit child state\n",
+        "line" : 364,
+        "char" : 21,
+        "type" : "ExitChildHandler"
+       },
+       {
+        "name" : "onEnter",
+        "kind" : "variable",
+        "comment" : "Handler that will be called back when flow enter this state\n",
+        "line" : 366,
+        "char" : 21,
+        "type" : "EnterHandler"
+       },
+       {
+        "name" : "onExit",
+        "kind" : "variable",
+        "comment" : "Handler that will be called back when flow exit this state\n",
+        "line" : 368,
+        "char" : 21,
+        "type" : "ExitHandler"
+       },
+       {
+        "name" : "setNext",
+        "kind" : "function",
+        "comment" : "Indicates the next state. The specified state becomes a child of this state.\n",
+        "line" : 370,
+        "char" : 8,
+        "type" : "pure nothrow @nogc @safe void(Commands cmd)",
+        "parameters" : [
+         {
+          "name" : "cmd",
+          "type" : "Commands"
+         }
+        ],
+        "endline" : 373,
+        "endchar" : 3
+       }
+      ]
+     },
+     {
+      "name" : "std.traits",
+      "kind" : "import",
+      "line" : 376,
+      "char" : 9,
+      "protection" : "private",
+      "selective" : [
+       "ReturnType"
+      ]
+     },
+     {
+      "name" : "std.typecons",
+      "kind" : "import",
+      "line" : 377,
+      "char" : 9,
+      "protection" : "private",
+      "selective" : [
+       "AutoImplement"
+      ]
+     },
+     {
+      "kind" : "template",
+      "line" : 378,
+      "char" : 7,
+      "name" : "generateCommandFunction",
+      "parameters" : [
+       {
+        "name" : "C",
+        "kind" : "type"
+       },
+       {
+        "name" : "fun",
+        "kind" : "alias"
+       }
+      ],
+      "members" : [
+       {
+        "name" : "generateCommandFunction",
+        "kind" : "variable",
+        "line" : 378,
+        "char" : 7,
+        "storageClass" : [
+         "enum"
+        ],
+        "init" : "\"return _getNext();\""
+       }
+      ]
+     },
+     {
+      "kind" : "template",
+      "line" : 379,
+      "char" : 7,
+      "name" : "isEventDistributor",
+      "parameters" : [
+       {
+        "name" : "func",
+        "kind" : "alias"
+       }
+      ],
+      "members" : [
+       {
+        "name" : "isEventDistributor",
+        "kind" : "variable",
+        "line" : 379,
+        "char" : 7,
+        "storageClass" : [
+         "enum"
+        ],
+        "init" : "is(ReturnType!func : Commands)"
+       }
+      ]
+     },
+     {
+      "name" : "State",
+      "kind" : "alias",
+      "line" : 380,
+      "char" : 2,
+      "type" : "AutoImplement!(Commands, StateBase, generateCommandFunction, isEventDistributor)"
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "comment" : "ditto\n",
+    "line" : 384,
+    "char" : 1,
+    "name" : "State",
+    "parameters" : [
+     {
+      "name" : "Policy",
+      "kind" : "alias"
+     }
+    ],
+    "constraint" : "!is(Policy == interface) && __traits(hasMember, Policy, \"Commands\") && is(Policy.Commands == interface)",
+    "members" : [
+     {
+      "name" : "Commands",
+      "kind" : "alias",
+      "line" : 389,
+      "char" : 2,
+      "type" : "Policy.Commands"
+     },
+     {
+      "name" : "State",
+      "kind" : "alias",
+      "line" : 390,
+      "char" : 2,
+      "type" : ".State!(Commands, getMemberAlias!(Policy, \"Base\", Object), getMemberAlias!(Policy, \"EnterChildHandler\", void delegate(Commands)), getMemberAlias!(Policy, \"ExitChildHandler\", void delegate(Commands)), getMemberAlias!(Policy, \"EnterHandler\", void delegate()), getMemberAlias!(Policy, \"ExitHandler\", void delegate()))"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L401_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 401,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 479,
+    "endchar" : 1
+   }
+  ]
+ },
+ {
+  "name" : "cushion.handler",
+  "kind" : "module",
+  "file" : "/home/travis/build/shoo/cushion/source/cushion/handler.d",
+  "comment" : " Handler type traits and operations\n\n Copyright: © 2019, SHOO\n License: [BSL-1.0](http://boost.org/LICENSE_1_0.txt).\n Author: SHOO\n",
+  "members" : [
+   {
+    "name" : "std.traits",
+    "kind" : "import",
+    "line" : 10,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.range",
+    "kind" : "import",
+    "line" : 10,
+    "char" : 20,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.array",
+    "kind" : "import",
+    "line" : 10,
+    "char" : 31,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.container",
+    "kind" : "import",
+    "line" : 10,
+    "char" : 42,
+    "protection" : "private"
+   },
+   {
+    "kind" : "template",
+    "comment" : " Judge traits of Handler\n",
+    "line" : 15,
+    "char" : 11,
+    "name" : "isHandler",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isHandler",
+      "kind" : "variable",
+      "line" : 15,
+      "char" : 11,
+      "storageClass" : [
+       "enum"
+      ],
+      "deco" : "b",
+      "init" : "__traits(compiles, ()\n{\nHandler handler = void;\nHandlerParameters!Handler args = void;\n.call(handler, args);\n}\n)"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L23_C9",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 23,
+    "char" : 9,
+    "storageClass" : [
+     "@system"
+    ],
+    "endline" : 40,
+    "endchar" : 1
+   },
+   {
+    "name" : "__unittest_L40_C7",
+    "kind" : "function",
+    "line" : 40,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 61,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "comment" : " Judge traits of Handler for operation of adding\n",
+    "line" : 61,
+    "char" : 11,
+    "name" : "isHandlerAddable",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     },
+     {
+      "name" : "Func",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isHandlerAddable",
+      "kind" : "variable",
+      "line" : 61,
+      "char" : 11,
+      "storageClass" : [
+       "enum"
+      ],
+      "deco" : "b",
+      "init" : "__traits(compiles, ()\n{\nHandler handler;\nFunc func = void;\n.add(handler, func);\n.remove(handler, func);\n.clear(handler);\n}\n)"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L71_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 71,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 85,
+    "endchar" : 1
+   },
+   {
+    "name" : "__unittest_L85_C7",
+    "kind" : "function",
+    "line" : 85,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 112,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "comment" : " Judge traits of Handler for operation of assign\n",
+    "line" : 112,
+    "char" : 11,
+    "name" : "isHandlerAssignable",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     },
+     {
+      "name" : "Func",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isHandlerAssignable",
+      "kind" : "variable",
+      "line" : 112,
+      "char" : 11,
+      "storageClass" : [
+       "enum"
+      ],
+      "deco" : "b",
+      "init" : "__traits(compiles, ()\n{\nHandler handler;\nFunc func = void;\n.set(handler, func);\n.clear(handler);\n}\n)"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L121_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 121,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 141,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "comment" : " Parameter of Handler\n",
+    "line" : 141,
+    "char" : 1,
+    "name" : "HandlerParameters",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "HandlerParameters",
+      "kind" : "alias",
+      "line" : 145,
+      "char" : 3,
+      "type" : "Parameters!Handler"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L155_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 155,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 168,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "comment" : " ReturnTypeOf of Handler\n",
+    "line" : 168,
+    "char" : 1,
+    "name" : "HandlerReturnType",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "HandlerReturnType",
+      "kind" : "alias",
+      "line" : 172,
+      "char" : 3,
+      "type" : "ReturnType!Handler"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L182_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 182,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 191,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 193,
+    "char" : 9,
+    "name" : "isIterableHandler",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "isIterableHandler",
+      "kind" : "variable",
+      "line" : 197,
+      "char" : 13,
+      "storageClass" : [
+       "enum"
+      ],
+      "deco" : "b",
+      "init" : "true"
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L205_C7",
+    "kind" : "function",
+    "protection" : "package",
+    "line" : 205,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 217,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "protection" : "package",
+    "line" : 217,
+    "char" : 21,
+    "name" : "call",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     },
+     {
+      "name" : "Args",
+      "kind" : "tuple"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "call",
+      "kind" : "function",
+      "line" : 217,
+      "char" : 21,
+      "type" : "@trusted void(ref Handler handler, Args args)",
+      "parameters" : [
+       {
+        "name" : "handler",
+        "type" : "Handler",
+        "storageClass" : [
+         "ref"
+        ]
+       },
+       {
+        "name" : "args",
+        "type" : "Args"
+       }
+      ],
+      "endline" : 248,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "protection" : "package",
+    "line" : 254,
+    "char" : 21,
+    "name" : "add",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     },
+     {
+      "name" : "Func",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "add",
+      "kind" : "function",
+      "line" : 254,
+      "char" : 21,
+      "type" : "@trusted void(ref Handler handler, Func func)",
+      "parameters" : [
+       {
+        "name" : "handler",
+        "type" : "Handler",
+        "storageClass" : [
+         "ref"
+        ]
+       },
+       {
+        "name" : "func",
+        "type" : "Func"
+       }
+      ],
+      "endline" : 299,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "protection" : "package",
+    "line" : 305,
+    "char" : 21,
+    "name" : "remove",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     },
+     {
+      "name" : "Func",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "remove",
+      "kind" : "function",
+      "line" : 305,
+      "char" : 21,
+      "type" : "@trusted void(ref Handler handler, Func func)",
+      "parameters" : [
+       {
+        "name" : "handler",
+        "type" : "Handler",
+        "storageClass" : [
+         "ref"
+        ]
+       },
+       {
+        "name" : "func",
+        "type" : "Func"
+       }
+      ],
+      "endline" : 367,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "protection" : "package",
+    "line" : 373,
+    "char" : 21,
+    "name" : "clear",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "clear",
+      "kind" : "function",
+      "line" : 373,
+      "char" : 21,
+      "type" : "@trusted void(ref Handler handler)",
+      "parameters" : [
+       {
+        "name" : "handler",
+        "type" : "Handler",
+        "storageClass" : [
+         "ref"
+        ]
+       }
+      ],
+      "endline" : 389,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "protection" : "package",
+    "line" : 396,
+    "char" : 21,
+    "name" : "set",
+    "parameters" : [
+     {
+      "name" : "Handler",
+      "kind" : "type"
+     },
+     {
+      "name" : "Func",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "set",
+      "kind" : "function",
+      "line" : 396,
+      "char" : 21,
+      "type" : "@trusted void(ref Handler handler, Func func)",
+      "parameters" : [
+       {
+        "name" : "handler",
+        "type" : "Handler",
+        "storageClass" : [
+         "ref"
+        ]
+       },
+       {
+        "name" : "func",
+        "type" : "Func"
+       }
+      ],
+      "endline" : 421,
+      "endchar" : 1
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L423_C7",
+    "kind" : "function",
+    "protection" : "package",
+    "line" : 423,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 431,
+    "endchar" : 1
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 431,
+    "char" : 14,
+    "name" : "linearRemoveElement",
+    "parameters" : [
+     {
+      "name" : "E",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "linearRemoveElement",
+      "kind" : "function",
+      "line" : 431,
+      "char" : 14,
+      "type" : "void(ref Array!E ary, E e)",
+      "parameters" : [
+       {
+        "name" : "ary",
+        "type" : "Array!E",
+        "storageClass" : [
+         "ref"
+        ]
+       },
+       {
+        "name" : "e",
+        "type" : "E"
+       }
+      ],
+      "endline" : 436,
+      "endchar" : 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "name" : "cushion.stmgen",
+  "kind" : "module",
+  "file" : "/home/travis/build/shoo/cushion/source/cushion/stmgen.d",
+  "members" : [
+   {
+    "name" : "std.array",
+    "kind" : "import",
+    "line" : 3,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.format",
+    "kind" : "import",
+    "line" : 3,
+    "char" : 19,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.string",
+    "kind" : "import",
+    "line" : 3,
+    "char" : 31,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.algorithm",
+    "kind" : "import",
+    "line" : 3,
+    "char" : 43,
+    "protection" : "private"
+   },
+   {
+    "name" : "cushion.core",
+    "kind" : "import",
+    "line" : 4,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "StmGenerator",
+    "kind" : "struct",
+    "protection" : "package",
+    "comment" : " Generator of STM\n",
+    "line" : 9,
+    "char" : 18,
+    "members" : [
+     {
+      "name" : "stmFileName",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 12,
+      "char" : 17,
+      "deco" : "Aya",
+      "offset" : 0
+     },
+     {
+      "name" : "mapFileName",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 14,
+      "char" : 17,
+      "deco" : "Aya",
+      "offset" : 16
+     },
+     {
+      "name" : "map",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 17,
+      "char" : 17,
+      "deco" : "HAyaQd",
+      "offset" : 32
+     },
+     {
+      "name" : "nameRaw",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 20,
+      "char" : 17,
+      "deco" : "Aya",
+      "offset" : 40
+     },
+     {
+      "name" : "statesRaw",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 22,
+      "char" : 17,
+      "deco" : "AAya",
+      "offset" : 56
+     },
+     {
+      "name" : "eventsRaw",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 24,
+      "char" : 17,
+      "deco" : "AAya",
+      "offset" : 72
+     },
+     {
+      "name" : "cellsRaw",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 26,
+      "char" : 17,
+      "deco" : "AAAya",
+      "offset" : 88
+     },
+     {
+      "name" : "stactsRaw",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 28,
+      "char" : 17,
+      "deco" : "AAya",
+      "offset" : 104
+     },
+     {
+      "name" : "edactsRaw",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 30,
+      "char" : 17,
+      "deco" : "AAya",
+      "offset" : 120
+     },
+     {
+      "name" : "states",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 33,
+      "char" : 17,
+      "deco" : "AAya",
+      "offset" : 136
+     },
+     {
+      "name" : "events",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 35,
+      "char" : 17,
+      "deco" : "AAya",
+      "offset" : 152
+     },
+     {
+      "name" : "procs",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 37,
+      "char" : 17,
+      "deco" : "AAAAya",
+      "offset" : 168
+     },
+     {
+      "name" : "nextsts",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 39,
+      "char" : 17,
+      "deco" : "AAAya",
+      "offset" : 184
+     },
+     {
+      "name" : "stacts",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 41,
+      "char" : 17,
+      "deco" : "AAAya",
+      "offset" : 200
+     },
+     {
+      "name" : "edacts",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 43,
+      "char" : 17,
+      "deco" : "AAAya",
+      "offset" : 216
+     },
+     {
+      "name" : "stateKey",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 46,
+      "char" : 17,
+      "deco" : "Aya",
+      "init" : "\"\\xe2\\x96\\xbd\"",
+      "offset" : 232
+     },
+     {
+      "name" : "factoryName",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 48,
+      "char" : 17,
+      "deco" : "Aya",
+      "init" : "\"makeStm\"",
+      "offset" : 248
+     },
+     {
+      "name" : "genCode",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 54,
+      "char" : 9,
+      "deco" : "FZAya",
+      "endline" : 63,
+      "endchar" : 2
+     },
+     {
+      "kind" : "template",
+      "protection" : "private",
+      "line" : 66,
+      "char" : 7,
+      "name" : "makeEnumStates",
+      "parameters" : [
+       {
+        "name" : "Range",
+        "kind" : "type"
+       }
+      ],
+      "members" : [
+       {
+        "name" : "makeEnumStates",
+        "kind" : "function",
+        "line" : 66,
+        "char" : 7,
+        "type" : "void(ref Range srcstr)",
+        "parameters" : [
+         {
+          "name" : "srcstr",
+          "type" : "Range",
+          "storageClass" : [
+           "ref"
+          ]
+         }
+        ],
+        "endline" : 105,
+        "endchar" : 2
+       }
+      ]
+     },
+     {
+      "kind" : "template",
+      "protection" : "private",
+      "line" : 108,
+      "char" : 7,
+      "name" : "makeEnumEvents",
+      "parameters" : [
+       {
+        "name" : "Range",
+        "kind" : "type"
+       }
+      ],
+      "members" : [
+       {
+        "name" : "makeEnumEvents",
+        "kind" : "function",
+        "line" : 108,
+        "char" : 7,
+        "type" : "void(ref Range srcstr)",
+        "parameters" : [
+         {
+          "name" : "srcstr",
+          "type" : "Range",
+          "storageClass" : [
+           "ref"
+          ]
+         }
+        ],
+        "endline" : 147,
+        "endchar" : 2
+       }
+      ]
+     },
+     {
+      "kind" : "template",
+      "protection" : "private",
+      "line" : 149,
+      "char" : 14,
+      "name" : "replaceProcContents",
+      "parameters" : [
+       {
+        "name" : "Range",
+        "kind" : "type"
+       }
+      ],
+      "members" : [
+       {
+        "name" : "replaceProcContents",
+        "kind" : "function",
+        "line" : 149,
+        "char" : 14,
+        "type" : "void(ref Range srcstr, ref string[] procs, string[string] map)",
+        "parameters" : [
+         {
+          "name" : "srcstr",
+          "type" : "Range",
+          "storageClass" : [
+           "ref"
+          ]
+         },
+         {
+          "name" : "procs",
+          "type" : "string[]",
+          "storageClass" : [
+           "ref"
+          ]
+         },
+         {
+          "name" : "map",
+          "type" : "string[string]"
+         }
+        ],
+        "endline" : 159,
+        "endchar" : 2
+       }
+      ]
+     },
+     {
+      "kind" : "template",
+      "protection" : "private",
+      "line" : 162,
+      "char" : 7,
+      "name" : "makeProcs",
+      "parameters" : [
+       {
+        "name" : "Range",
+        "kind" : "type"
+       }
+      ],
+      "members" : [
+       {
+        "name" : "makeProcs",
+        "kind" : "function",
+        "line" : 162,
+        "char" : 7,
+        "type" : "void(ref Range srcstr)",
+        "parameters" : [
+         {
+          "name" : "srcstr",
+          "type" : "Range",
+          "storageClass" : [
+           "ref"
+          ]
+         }
+        ],
+        "endline" : 197,
+        "endchar" : 2
+       }
+      ]
+     },
+     {
+      "kind" : "template",
+      "protection" : "private",
+      "line" : 200,
+      "char" : 7,
+      "name" : "makeActivities",
+      "parameters" : [
+       {
+        "name" : "Range",
+        "kind" : "type"
+       }
+      ],
+      "members" : [
+       {
+        "name" : "makeActivities",
+        "kind" : "function",
+        "line" : 200,
+        "char" : 7,
+        "type" : "void(ref Range srcstr)",
+        "parameters" : [
+         {
+          "name" : "srcstr",
+          "type" : "Range",
+          "storageClass" : [
+           "ref"
+          ]
+         }
+        ],
+        "endline" : 264,
+        "endchar" : 2
+       }
+      ]
+     },
+     {
+      "kind" : "template",
+      "protection" : "private",
+      "line" : 268,
+      "char" : 7,
+      "name" : "makeFactory",
+      "parameters" : [
+       {
+        "name" : "Range",
+        "kind" : "type"
+       }
+      ],
+      "members" : [
+       {
+        "name" : "makeFactory",
+        "kind" : "function",
+        "line" : 268,
+        "char" : 7,
+        "type" : "void(ref Range srcstr)",
+        "parameters" : [
+         {
+          "name" : "srcstr",
+          "type" : "Range",
+          "storageClass" : [
+           "ref"
+          ]
+         }
+        ],
+        "endline" : 328,
+        "endchar" : 2
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

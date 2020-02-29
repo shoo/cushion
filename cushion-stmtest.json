@@ -1,0 +1,1441 @@
+[
+ {
+  "name" : "examples.ut",
+  "kind" : "module",
+  "file" : "/home/travis/build/shoo/cushion/examples/ut.d",
+  "members" : [
+   {
+    "name" : "_sharedStaticCtor_L3_C7",
+    "kind" : "function",
+    "line" : 3,
+    "char" : 7,
+    "storageClass" : [
+     "static"
+    ],
+    "deco" : "FZv",
+    "endline" : 7,
+    "endchar" : 1
+   },
+   {
+    "name" : "_sharedStaticCtor_L3_C7",
+    "kind" : "function",
+    "line" : 3,
+    "char" : 7,
+    "storageClass" : [
+     "static"
+    ],
+    "deco" : "FZv",
+    "endline" : 7,
+    "endchar" : 1
+   },
+   {
+    "name" : "dmd_coverDestPath",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 11,
+    "char" : 26,
+    "type" : "extern (C) void(string pathname)",
+    "parameters" : [
+     {
+      "name" : "pathname",
+      "type" : "string"
+     }
+    ]
+   },
+   {
+    "name" : "dmd_coverSetMerge",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 12,
+    "char" : 26,
+    "type" : "extern (C) void(bool flag)",
+    "parameters" : [
+     {
+      "name" : "flag",
+      "deco" : "b"
+     }
+    ]
+   },
+   {
+    "name" : "CovOpt",
+    "kind" : "struct",
+    "comment" : "\n",
+    "line" : 14,
+    "char" : 10,
+    "members" : [
+     {
+      "name" : "dir",
+      "kind" : "variable",
+      "line" : 16,
+      "char" : 10,
+      "type" : "string"
+     },
+     {
+      "name" : "merge",
+      "kind" : "variable",
+      "line" : 17,
+      "char" : 10,
+      "deco" : "b"
+     }
+    ]
+   },
+   {
+    "name" : "getCovOptFromString",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 20,
+    "char" : 17,
+    "type" : "CovOpt(string str)",
+    "parameters" : [
+     {
+      "name" : "str",
+      "type" : "string"
+     }
+    ],
+    "endline" : 32,
+    "endchar" : 2
+   },
+   {
+    "name" : "__unittest_L34_C10",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 34,
+    "char" : 10,
+    "storageClass" : [
+     "@system"
+    ],
+    "endline" : 58,
+    "endchar" : 2
+   },
+   {
+    "name" : "getCovOpt",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 58,
+    "char" : 17,
+    "type" : "CovOpt(string[] searchDirs = [\".\"], string[] searchFileNames = [\".coverageopt\"])",
+    "parameters" : [
+     {
+      "name" : "searchDirs",
+      "type" : "string[]",
+      "default" : "[\".\"]"
+     },
+     {
+      "name" : "searchFileNames",
+      "type" : "string[]",
+      "default" : "[\".coverageopt\"]"
+     }
+    ],
+    "endline" : 80,
+    "endchar" : 2
+   },
+   {
+    "name" : "__unittest_L82_C10",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 82,
+    "char" : 10,
+    "storageClass" : [
+     "@system"
+    ],
+    "endline" : 100,
+    "endchar" : 2
+   },
+   {
+    "name" : "getCovOpt",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 100,
+    "char" : 17,
+    "type" : "CovOpt(string[string] env)",
+    "parameters" : [
+     {
+      "name" : "env",
+      "type" : "string[string]"
+     }
+    ],
+    "endline" : 109,
+    "endchar" : 2
+   },
+   {
+    "name" : "__unittest_L111_C10",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 111,
+    "char" : 10,
+    "storageClass" : [
+     "@system"
+    ],
+    "endline" : 129,
+    "endchar" : 2
+   },
+   {
+    "name" : "getCovOpt",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 129,
+    "char" : 17,
+    "type" : "CovOpt(string[string] env, string[] searchDirs, string[] searchFileNames)",
+    "parameters" : [
+     {
+      "name" : "env",
+      "type" : "string[string]"
+     },
+     {
+      "name" : "searchDirs",
+      "type" : "string[]"
+     },
+     {
+      "name" : "searchFileNames",
+      "type" : "string[]"
+     }
+    ],
+    "endline" : 135,
+    "endchar" : 2
+   },
+   {
+    "name" : "__unittest_L137_C10",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 137,
+    "char" : 10,
+    "storageClass" : [
+     "@system"
+    ],
+    "endline" : 146,
+    "endchar" : 2
+   },
+   {
+    "name" : "getCovOpt",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 146,
+    "char" : 17,
+    "type" : "CovOpt()",
+    "endline" : 153,
+    "endchar" : 2
+   },
+   {
+    "name" : "_sharedStaticCtor_L155_C2",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 155,
+    "char" : 2,
+    "storageClass" : [
+     "static"
+    ],
+    "endline" : 165,
+    "endchar" : 2
+   }
+  ]
+ },
+ {
+  "kind" : "module",
+  "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/app.d",
+  "members" : [
+   {
+    "name" : "std.stdio",
+    "kind" : "import",
+    "line" : 1,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "main",
+    "kind" : "function",
+    "line" : 4,
+    "char" : 6,
+    "deco" : "FNfZv",
+    "endline" : 6,
+    "endchar" : 1
+   },
+   {
+    "name" : "_d_cmain!()",
+    "kind" : "mixin",
+    "line" : 4,
+    "char" : 6
+   }
+  ]
+ },
+ {
+  "name" : "flow",
+  "kind" : "module",
+  "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d",
+  "members" : [
+   {
+    "name" : "std.range",
+    "kind" : "import",
+    "line" : 4,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.algorithm",
+    "kind" : "import",
+    "line" : 4,
+    "char" : 19,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.array",
+    "kind" : "import",
+    "line" : 4,
+    "char" : 34,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.format",
+    "kind" : "import",
+    "line" : 4,
+    "char" : 45,
+    "protection" : "private"
+   },
+   {
+    "name" : "cushion",
+    "kind" : "import",
+    "line" : 5,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "TestFlow",
+    "kind" : "interface",
+    "comment" : " Interface defines the method of the state\n\n This interface has an update method, that does anything\n and returns the next state.\n",
+    "line" : 14,
+    "char" : 1,
+    "members" : [
+     {
+      "name" : "update",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 17,
+      "char" : 11,
+      "storageClass" : [
+       "abstract"
+      ],
+      "deco" : "FNfZC4flow8TestFlow"
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 20,
+    "char" : 9,
+    "name" : "StateTransitorPolicy",
+    "parameters" : [
+     {
+      "name" : "MyState",
+      "kind" : "type"
+     },
+     {
+      "name" : "MyEvent",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "StateTransitorPolicy",
+      "kind" : "struct",
+      "line" : 20,
+      "char" : 9,
+      "members" : [
+       {
+        "name" : "State",
+        "kind" : "alias",
+        "line" : 22,
+        "char" : 2,
+        "type" : "MyState"
+       },
+       {
+        "name" : "Event",
+        "kind" : "alias",
+        "line" : 23,
+        "char" : 2,
+        "type" : "MyEvent"
+       },
+       {
+        "name" : "consumeMode",
+        "kind" : "variable",
+        "line" : 24,
+        "char" : 8,
+        "storageClass" : [
+         "enum"
+        ],
+        "init" : "ConsumeMode.separate"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "kind" : "template",
+    "protection" : "private",
+    "line" : 26,
+    "char" : 9,
+    "name" : "StateTransitor",
+    "parameters" : [
+     {
+      "name" : "State",
+      "kind" : "type"
+     },
+     {
+      "name" : "Event",
+      "kind" : "type"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "StateTransitor",
+      "kind" : "alias",
+      "line" : 26,
+      "char" : 9,
+      "type" : "cushion.StateTransitor!(StateTransitorPolicy!(State, Event))"
+     }
+    ]
+   },
+   {
+    "name" : "BaseTestFlow",
+    "kind" : "class",
+    "comment" : " Base class of state pattern\n\n This class is a class that inherits from the TestFlow interface,\n which is the base class for state patterns.\n TestFlow has a primitive implementation by passing through State.\n This provides an implementation for the `update` declared in\n the interface to return the next state specified in `setNext`.\n And some handlers [`onEnter`, `onExit`, `onEnterChild`, `onExitChild`]\n are available.\n",
+    "line" : 40,
+    "char" : 10,
+    "base" : "std.typecons.AutoImplement!(flow.TestFlow, cushion.flow.State!(TestFlow, Object, void delegate(TestFlow)[], void delegate(TestFlow)[], void delegate()[], void delegate()[]).StateBase, generateCommandFunction, isEventDistributor).AutoImplement",
+    "members" : [
+     {
+      "name" : "name",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 43,
+      "char" : 18,
+      "storageClass" : [
+       "abstract"
+      ],
+      "deco" : "xFNdZAya"
+     },
+     {
+      "name" : "this",
+      "kind" : "constructor",
+      "line" : 40,
+      "char" : 10,
+      "deco" : "FNaNbNfZC4flow12BaseTestFlow",
+      "originalType" : "pure nothrow @safe ()"
+     }
+    ]
+   },
+   {
+    "name" : "Child1Stm",
+    "kind" : "class",
+    "comment" : " Concrete class of state pattern named `Child1Stm`\n\n This class is a concrete class of state pattern.\n The implementation of the behavior that should be done by\n the `update` is complete, and STM is driven internally.\n",
+    "line" : 53,
+    "char" : 1,
+    "base" : "flow.BaseTestFlow",
+    "members" : [
+     {
+      "name" : "cushion.core",
+      "kind" : "static import",
+      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d-mixin-56",
+      "line" : 57,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "std.traits",
+      "kind" : "static import",
+      "line" : 58,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "State",
+      "kind" : "enum",
+      "protection" : "private",
+      "line" : 77,
+      "char" : 2,
+      "baseDeco" : "i",
+      "members" : [
+       {
+        "name" : "init",
+        "kind" : "enum member",
+        "value" : "0",
+        "line" : 79,
+        "char" : 3
+       },
+       {
+        "name" : "st1",
+        "kind" : "enum member",
+        "value" : "1",
+        "line" : 80,
+        "char" : 3
+       }
+      ]
+     },
+     {
+      "name" : "State",
+      "kind" : "alias",
+      "line" : 67,
+      "char" : 2,
+      "type" : "StateTransitor.State"
+     },
+     {
+      "name" : "cushion.core",
+      "kind" : "static import",
+      "line" : 84,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "std.traits",
+      "kind" : "static import",
+      "line" : 85,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "Event",
+      "kind" : "enum",
+      "protection" : "private",
+      "line" : 104,
+      "char" : 2,
+      "baseDeco" : "i",
+      "members" : [
+       {
+        "name" : "a",
+        "kind" : "enum member",
+        "value" : "0",
+        "line" : 106,
+        "char" : 3
+       },
+       {
+        "name" : "b",
+        "kind" : "enum member",
+        "value" : "1",
+        "line" : 107,
+        "char" : 3
+       }
+      ]
+     },
+     {
+      "name" : "Event",
+      "kind" : "alias",
+      "line" : 94,
+      "char" : 2,
+      "type" : "StateTransitor.Event"
+     },
+     {
+      "name" : "_stmStartActS0",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 110,
+      "char" : 6,
+      "deco" : "FZv",
+      "endline" : 113,
+      "endchar" : 1
+     },
+     {
+      "name" : "_stmEndActS0",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 114,
+      "char" : 6,
+      "deco" : "FZv",
+      "endline" : 117,
+      "endchar" : 1
+     },
+     {
+      "name" : "_onStEdActivity",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 118,
+      "char" : 6,
+      "deco" : "FE4flow9Child1Stm5StateQwZv",
+      "parameters" : [
+       {
+        "name" : "oldsts",
+        "deco" : "E4flow9Child1Stm5State"
+       },
+       {
+        "name" : "newsts",
+        "deco" : "E4flow9Child1Stm5State"
+       }
+      ],
+      "endline" : 136,
+      "endchar" : 1
+     },
+     {
+      "name" : "makeStm",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 138,
+      "char" : 6,
+      "storageClass" : [
+       "auto"
+      ],
+      "deco" : "FNfZS7cushion4core__T14StateTransitorTE4flow9Child1Stm5StateTEQxQu5EventVQBji0TADFZvTADFC9ExceptionZvTADFQBsZvTADFQCyQDbZvVEQEpQEk11ConsumeModei1TS3std9container5slist__T5SListTQEmZQlZQGh",
+      "originalType" : "@safe ()",
+      "endline" : 164,
+      "endchar" : 1
+     },
+     {
+      "name" : "_stepData",
+      "kind" : "variable",
+      "protection" : "private",
+      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d",
+      "line" : 57,
+      "char" : 12,
+      "deco" : "AAE4flow9Child1Stm5Event",
+      "offset" : 112
+     },
+     {
+      "name" : "_step",
+      "kind" : "variable",
+      "protection" : "private",
+      "line" : 58,
+      "char" : 12,
+      "deco" : "AE4flow9Child1Stm5Event",
+      "offset" : 128
+     },
+     {
+      "name" : "_stm",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 61,
+      "char" : 32,
+      "deco" : "S7cushion4core__T14StateTransitorTE4flow9Child1Stm5StateTEQxQu5EventVQBji0TADFZvTADFC9ExceptionZvTADFQBsZvTADFQCyQDbZvVEQEpQEk11ConsumeModei1TS3std9container5slist__T5SListTQEmZQlZQGh",
+      "originalType" : "StateTransitor!(State, Event)",
+      "offset" : 144
+     },
+     {
+      "name" : "this",
+      "kind" : "constructor",
+      "comment" : "\n",
+      "line" : 65,
+      "char" : 2,
+      "deco" : "FNfZC4flow9Child1Stm",
+      "originalType" : "@safe ()",
+      "endline" : 70,
+      "endchar" : 2
+     },
+     {
+      "name" : "initialize",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 72,
+      "char" : 13,
+      "storageClass" : [
+       "final"
+      ],
+      "deco" : "FNfZv",
+      "endline" : 76,
+      "endchar" : 2
+     },
+     {
+      "name" : "update",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 78,
+      "char" : 20,
+      "storageClass" : [
+       "override"
+      ],
+      "deco" : "FNfZC4flow8TestFlow",
+      "endline" : 87,
+      "endchar" : 2,
+      "overrides" : [
+       "std.typecons.AutoImplement!(TestFlow, StateBase, generateCommandFunction, isEventDistributor).AutoImplement.update"
+      ]
+     },
+     {
+      "name" : "name",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 89,
+      "char" : 18,
+      "storageClass" : [
+       "override"
+      ],
+      "deco" : "xFNdZAya",
+      "endline" : 92,
+      "endchar" : 2,
+      "overrides" : [
+       "flow.BaseTestFlow.name"
+      ]
+     }
+    ]
+   },
+   {
+    "name" : "Child2Stm",
+    "kind" : "class",
+    "comment" : " Concrete class of state pattern named `Child2Stm`\n\n Implement a different state from `Child1Stm`\n",
+    "line" : 100,
+    "char" : 1,
+    "base" : "flow.BaseTestFlow",
+    "members" : [
+     {
+      "name" : "cushion.core",
+      "kind" : "static import",
+      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d-mixin-103",
+      "line" : 104,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "std.traits",
+      "kind" : "static import",
+      "line" : 105,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "State",
+      "kind" : "enum",
+      "protection" : "private",
+      "line" : 126,
+      "char" : 2,
+      "baseDeco" : "i",
+      "members" : [
+       {
+        "name" : "init",
+        "kind" : "enum member",
+        "value" : "0",
+        "line" : 128,
+        "char" : 3
+       },
+       {
+        "name" : "st1",
+        "kind" : "enum member",
+        "value" : "1",
+        "line" : 129,
+        "char" : 3
+       },
+       {
+        "name" : "err",
+        "kind" : "enum member",
+        "value" : "2",
+        "line" : 130,
+        "char" : 3
+       }
+      ]
+     },
+     {
+      "name" : "State",
+      "kind" : "alias",
+      "line" : 115,
+      "char" : 2,
+      "type" : "StateTransitor.State"
+     },
+     {
+      "name" : "cushion.core",
+      "kind" : "static import",
+      "line" : 134,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "std.traits",
+      "kind" : "static import",
+      "line" : 135,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "Event",
+      "kind" : "enum",
+      "protection" : "private",
+      "line" : 154,
+      "char" : 2,
+      "baseDeco" : "i",
+      "members" : [
+       {
+        "name" : "a",
+        "kind" : "enum member",
+        "value" : "0",
+        "line" : 156,
+        "char" : 3
+       },
+       {
+        "name" : "b",
+        "kind" : "enum member",
+        "value" : "1",
+        "line" : 157,
+        "char" : 3
+       }
+      ]
+     },
+     {
+      "name" : "Event",
+      "kind" : "alias",
+      "line" : 144,
+      "char" : 2,
+      "type" : "StateTransitor.Event"
+     },
+     {
+      "name" : "_stmStartActS0",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 160,
+      "char" : 6,
+      "deco" : "FZv",
+      "endline" : 163,
+      "endchar" : 1
+     },
+     {
+      "name" : "_stmStartActS2",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 164,
+      "char" : 6,
+      "deco" : "FZv",
+      "endline" : 167,
+      "endchar" : 1
+     },
+     {
+      "name" : "_stmEndActS0",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 168,
+      "char" : 6,
+      "deco" : "FZv",
+      "endline" : 171,
+      "endchar" : 1
+     },
+     {
+      "name" : "_onStEdActivity",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 172,
+      "char" : 6,
+      "deco" : "FE4flow9Child2Stm5StateQwZv",
+      "parameters" : [
+       {
+        "name" : "oldsts",
+        "deco" : "E4flow9Child2Stm5State"
+       },
+       {
+        "name" : "newsts",
+        "deco" : "E4flow9Child2Stm5State"
+       }
+      ],
+      "endline" : 193,
+      "endchar" : 1
+     },
+     {
+      "name" : "makeStm",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 195,
+      "char" : 6,
+      "storageClass" : [
+       "auto"
+      ],
+      "deco" : "FNfZS7cushion4core__T14StateTransitorTE4flow9Child2Stm5StateTEQxQu5EventVQBji0TADFZvTADFC9ExceptionZvTADFQBsZvTADFQCyQDbZvVEQEpQEk11ConsumeModei1TS3std9container5slist__T5SListTQEmZQlZQGh",
+      "originalType" : "@safe ()",
+      "endline" : 221,
+      "endchar" : 1
+     },
+     {
+      "name" : "_stepData",
+      "kind" : "variable",
+      "protection" : "private",
+      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d",
+      "line" : 104,
+      "char" : 12,
+      "deco" : "AAE4flow9Child2Stm5Event",
+      "offset" : 112
+     },
+     {
+      "name" : "_step",
+      "kind" : "variable",
+      "protection" : "private",
+      "line" : 105,
+      "char" : 12,
+      "deco" : "AE4flow9Child2Stm5Event",
+      "offset" : 128
+     },
+     {
+      "name" : "_stm",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 108,
+      "char" : 32,
+      "deco" : "S7cushion4core__T14StateTransitorTE4flow9Child2Stm5StateTEQxQu5EventVQBji0TADFZvTADFC9ExceptionZvTADFQBsZvTADFQCyQDbZvVEQEpQEk11ConsumeModei1TS3std9container5slist__T5SListTQEmZQlZQGh",
+      "originalType" : "StateTransitor!(State, Event)",
+      "offset" : 144
+     },
+     {
+      "name" : "this",
+      "kind" : "constructor",
+      "comment" : "\n",
+      "line" : 112,
+      "char" : 2,
+      "deco" : "FNfZC4flow9Child2Stm",
+      "originalType" : "@safe ()",
+      "endline" : 117,
+      "endchar" : 2
+     },
+     {
+      "name" : "initialize",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 119,
+      "char" : 13,
+      "storageClass" : [
+       "final"
+      ],
+      "deco" : "FNfZv",
+      "endline" : 123,
+      "endchar" : 2
+     },
+     {
+      "name" : "update",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 125,
+      "char" : 20,
+      "storageClass" : [
+       "override"
+      ],
+      "deco" : "FNfZC4flow8TestFlow",
+      "endline" : 134,
+      "endchar" : 2,
+      "overrides" : [
+       "std.typecons.AutoImplement!(TestFlow, StateBase, generateCommandFunction, isEventDistributor).AutoImplement.update"
+      ]
+     },
+     {
+      "name" : "name",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 136,
+      "char" : 18,
+      "storageClass" : [
+       "override"
+      ],
+      "deco" : "xFNdZAya",
+      "endline" : 139,
+      "endchar" : 2,
+      "overrides" : [
+       "flow.BaseTestFlow.name"
+      ]
+     }
+    ]
+   },
+   {
+    "name" : "MainStm",
+    "kind" : "class",
+    "comment" : " Concrete class of state pattern named `MainStm`\n\n Implement a different state from `Child1Stm` / `Child2Stm`.\n This class acts as a parent to `Child1Stm` and `Child2Stm`.\n The `update` method of this class may return the child class\n `Child1Stm` or `Child2Stm` as the next state.\n This class is also \"previous state\", which backs when\n `Child1Stm` or `Child2Stm` ends.\n Also, in this class, there is a gimmick that can record the\n transition of state using each handler and output the result.\n",
+    "line" : 154,
+    "char" : 1,
+    "base" : "flow.BaseTestFlow",
+    "members" : [
+     {
+      "name" : "_child1",
+      "kind" : "variable",
+      "protection" : "private",
+      "line" : 157,
+      "char" : 12,
+      "deco" : "C4flow9Child1Stm",
+      "originalType" : "Child1Stm",
+      "offset" : 112
+     },
+     {
+      "name" : "_child2",
+      "kind" : "variable",
+      "protection" : "private",
+      "line" : 158,
+      "char" : 12,
+      "deco" : "C4flow9Child2Stm",
+      "originalType" : "Child2Stm",
+      "offset" : 120
+     },
+     {
+      "name" : "cushion.core",
+      "kind" : "static import",
+      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d-mixin-160",
+      "line" : 161,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "std.traits",
+      "kind" : "static import",
+      "line" : 162,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "State",
+      "kind" : "enum",
+      "protection" : "private",
+      "line" : 185,
+      "char" : 2,
+      "baseDeco" : "i",
+      "members" : [
+       {
+        "name" : "init",
+        "kind" : "enum member",
+        "value" : "0",
+        "line" : 187,
+        "char" : 3
+       },
+       {
+        "name" : "st1",
+        "kind" : "enum member",
+        "value" : "1",
+        "line" : 188,
+        "char" : 3
+       },
+       {
+        "name" : "st2",
+        "kind" : "enum member",
+        "value" : "2",
+        "line" : 189,
+        "char" : 3
+       },
+       {
+        "name" : "err",
+        "kind" : "enum member",
+        "value" : "3",
+        "line" : 190,
+        "char" : 3
+       }
+      ]
+     },
+     {
+      "name" : "State",
+      "kind" : "alias",
+      "line" : 173,
+      "char" : 2,
+      "type" : "StateTransitor.State"
+     },
+     {
+      "name" : "cushion.core",
+      "kind" : "static import",
+      "line" : 194,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "std.traits",
+      "kind" : "static import",
+      "line" : 195,
+      "char" : 15,
+      "protection" : "private"
+     },
+     {
+      "name" : "Event",
+      "kind" : "enum",
+      "protection" : "private",
+      "line" : 218,
+      "char" : 2,
+      "baseDeco" : "i",
+      "members" : [
+       {
+        "name" : "test",
+        "kind" : "enum member",
+        "value" : "0",
+        "line" : 220,
+        "char" : 3
+       },
+       {
+        "name" : "stm1exit",
+        "kind" : "enum member",
+        "value" : "1",
+        "line" : 221,
+        "char" : 3
+       },
+       {
+        "name" : "stm2exit",
+        "kind" : "enum member",
+        "value" : "2",
+        "line" : 222,
+        "char" : 3
+       },
+       {
+        "name" : "stm2err",
+        "kind" : "enum member",
+        "value" : "3",
+        "line" : 223,
+        "char" : 3
+       }
+      ]
+     },
+     {
+      "name" : "Event",
+      "kind" : "alias",
+      "line" : 206,
+      "char" : 2,
+      "type" : "StateTransitor.Event"
+     },
+     {
+      "name" : "_stmStartActS1",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 226,
+      "char" : 6,
+      "deco" : "FZv",
+      "endline" : 230,
+      "endchar" : 1
+     },
+     {
+      "name" : "_stmStartActS2",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 231,
+      "char" : 6,
+      "deco" : "FZv",
+      "endline" : 235,
+      "endchar" : 1
+     },
+     {
+      "name" : "_stmStartActS3",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 236,
+      "char" : 6,
+      "deco" : "FZv",
+      "endline" : 239,
+      "endchar" : 1
+     },
+     {
+      "name" : "_stmEndActS0",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 240,
+      "char" : 6,
+      "deco" : "FZv",
+      "endline" : 243,
+      "endchar" : 1
+     },
+     {
+      "name" : "_onStEdActivity",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 244,
+      "char" : 6,
+      "deco" : "FE4flow7MainStm5StateQuZv",
+      "parameters" : [
+       {
+        "name" : "oldsts",
+        "deco" : "E4flow7MainStm5State"
+       },
+       {
+        "name" : "newsts",
+        "deco" : "E4flow7MainStm5State"
+       }
+      ],
+      "endline" : 268,
+      "endchar" : 1
+     },
+     {
+      "name" : "makeStm",
+      "kind" : "function",
+      "protection" : "private",
+      "line" : 270,
+      "char" : 6,
+      "storageClass" : [
+       "auto"
+      ],
+      "deco" : "FNfZS7cushion4core__T14StateTransitorTE4flow7MainStm5StateTEQvQs5EventVQBhi0TADFZvTADFC9ExceptionZvTADFQBsZvTADFQCwQCzZvVEQEnQEi11ConsumeModei1TS3std9container5slist__T5SListTQEmZQlZQGf",
+      "originalType" : "@safe ()",
+      "endline" : 298,
+      "endchar" : 1
+     },
+     {
+      "name" : "_step",
+      "kind" : "variable",
+      "protection" : "private",
+      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d",
+      "line" : 161,
+      "char" : 10,
+      "deco" : "AE4flow7MainStm5Event",
+      "offset" : 128
+     },
+     {
+      "name" : "_stm",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 164,
+      "char" : 32,
+      "deco" : "S7cushion4core__T14StateTransitorTE4flow7MainStm5StateTEQvQs5EventVQBhi0TADFZvTADFC9ExceptionZvTADFQBsZvTADFQCwQCzZvVEQEnQEi11ConsumeModei1TS3std9container5slist__T5SListTQEmZQlZQGf",
+      "originalType" : "StateTransitor!(State, Event)",
+      "offset" : 144
+     },
+     {
+      "name" : "onError",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 168,
+      "char" : 18,
+      "deco" : "DFZv",
+      "offset" : 736
+     },
+     {
+      "name" : "message",
+      "kind" : "variable",
+      "comment" : "\n",
+      "line" : 170,
+      "char" : 18,
+      "deco" : "S3std5array__T8AppenderTAyaZQo",
+      "offset" : 752
+     },
+     {
+      "name" : "this",
+      "kind" : "constructor",
+      "comment" : "\n",
+      "line" : 172,
+      "char" : 2,
+      "deco" : "FNfZC4flow7MainStm",
+      "originalType" : "@safe ()",
+      "endline" : 230,
+      "endchar" : 2
+     },
+     {
+      "name" : "initialize",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 232,
+      "char" : 13,
+      "storageClass" : [
+       "final"
+      ],
+      "deco" : "FNfZv",
+      "endline" : 236,
+      "endchar" : 2
+     },
+     {
+      "name" : "update",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 238,
+      "char" : 20,
+      "storageClass" : [
+       "override"
+      ],
+      "deco" : "FNfZC4flow8TestFlow",
+      "endline" : 247,
+      "endchar" : 2,
+      "overrides" : [
+       "std.typecons.AutoImplement!(TestFlow, StateBase, generateCommandFunction, isEventDistributor).AutoImplement.update"
+      ]
+     },
+     {
+      "name" : "name",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 249,
+      "char" : 18,
+      "storageClass" : [
+       "override"
+      ],
+      "deco" : "xFNdZAya",
+      "endline" : 252,
+      "endchar" : 2,
+      "overrides" : [
+       "flow.BaseTestFlow.name"
+      ]
+     },
+     {
+      "name" : "toString",
+      "kind" : "function",
+      "comment" : "\n",
+      "line" : 254,
+      "char" : 18,
+      "storageClass" : [
+       "override"
+      ],
+      "deco" : "xFNfZAya",
+      "endline" : 257,
+      "endchar" : 2,
+      "overrides" : [
+       "object.Object.toString"
+      ]
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L261_C7",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 261,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 279,
+    "endchar" : 1
+   }
+  ]
+ },
+ {
+  "name" : "handler",
+  "kind" : "module",
+  "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/handler.d",
+  "members" : [
+   {
+    "name" : "cushion",
+    "kind" : "import",
+    "line" : 3,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.datetime.stopwatch",
+    "kind" : "import",
+    "line" : 4,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "kind" : "template",
+    "comment" : "\n",
+    "line" : 8,
+    "char" : 1,
+    "name" : "Handler",
+    "parameters" : [
+     {
+      "name" : "Args",
+      "kind" : "tuple"
+     }
+    ],
+    "members" : [
+     {
+      "name" : "Handler",
+      "kind" : "struct",
+      "line" : 8,
+      "char" : 1,
+      "members" : [
+       {
+        "name" : "_dgs",
+        "kind" : "variable",
+        "line" : 11,
+        "char" : 24,
+        "type" : "void delegate(Args)[]"
+       },
+       {
+        "name" : "connect",
+        "kind" : "function",
+        "comment" : "\n",
+        "line" : 14,
+        "char" : 7,
+        "type" : "void(void delegate(Args) dg)",
+        "parameters" : [
+         {
+          "name" : "dg",
+          "type" : "void delegate(Args)"
+         }
+        ],
+        "endline" : 17,
+        "endchar" : 2
+       },
+       {
+        "name" : "disconnect",
+        "kind" : "function",
+        "comment" : "\n",
+        "line" : 20,
+        "char" : 7,
+        "type" : "void(void delegate(Args) dg)",
+        "parameters" : [
+         {
+          "name" : "dg",
+          "type" : "void delegate(Args)"
+         }
+        ],
+        "endline" : 24,
+        "endchar" : 2
+       },
+       {
+        "name" : "emit",
+        "kind" : "function",
+        "comment" : "\n",
+        "line" : 27,
+        "char" : 7,
+        "type" : "void(Args args)",
+        "parameters" : [
+         {
+          "name" : "args",
+          "type" : "Args"
+         }
+        ],
+        "endline" : 31,
+        "endchar" : 2
+       },
+       {
+        "name" : "clear",
+        "kind" : "function",
+        "comment" : "\n",
+        "line" : 34,
+        "char" : 7,
+        "type" : "void()",
+        "endline" : 37,
+        "endchar" : 2
+       },
+       {
+        "name" : "opCall",
+        "kind" : "alias",
+        "comment" : "\n",
+        "line" : 40,
+        "char" : 2,
+        "type" : "emit"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name" : "__unittest_L48_C7",
+    "kind" : "function",
+    "line" : 48,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 92,
+    "endchar" : 2
+   }
+  ]
+ },
+ {
+  "name" : "music_player",
+  "kind" : "module",
+  "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/music_player.d",
+  "members" : [
+   {
+    "name" : "cushion",
+    "kind" : "import",
+    "line" : 3,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "std.datetime.stopwatch",
+    "kind" : "import",
+    "line" : 4,
+    "char" : 8,
+    "protection" : "private"
+   },
+   {
+    "name" : "__unittest_L6_C7",
+    "kind" : "function",
+    "line" : 6,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 49,
+    "endchar" : 1
+   },
+   {
+    "name" : "__unittest_L49_C7",
+    "kind" : "function",
+    "line" : 49,
+    "char" : 7,
+    "storageClass" : [
+     "@safe"
+    ],
+    "endline" : 98,
+    "endchar" : 2
+   }
+  ]
+ }
+]
