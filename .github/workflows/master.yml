@@ -597,7 +597,7 @@ jobs:
           name: cov
           path: .cov
       - name: Upload coverage to Codecov
-        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s cov
+        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s .cov
   
   # Deploy Pages
   deproy-pages:
