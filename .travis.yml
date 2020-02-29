@@ -42,21 +42,21 @@ jobs:
       os: osx
       env: TEST_TARGET_ARCH=x86_64
     # ========================== Documentation Stage  ==========================
-    - stage: Documentation
-      d: ldc
-      os: linux
-      script: echo "Deploying to GitHub pages ..." && dub run gendoc -y
-      deploy:
-        - provider: pages
-          skip_cleanup: true
-          local_dir: docs
-          github_token: $GH_REPO_TOKEN
-          on:
-            tags: false
-            branch: master
+    #- stage: Documentation
+    #  d: ldc
+    #  os: linux
+    #  script: echo "Deploying to GitHub pages ..." && dub run gendoc -y
+    #  deploy:
+    #    - provider: pages
+    #      skip_cleanup: true
+    #      local_dir: docs
+    #      github_token: $GH_REPO_TOKEN
+    #      on:
+    #        tags: false
+    #        branch: master
 
 stages:
   - name: test
     if: type = pull_request or (type = push and branch = master)
-  - name: Documentation
-    if: type = push and branch = master
+  #- name: Documentation
+  #  if: type = push and branch = master
