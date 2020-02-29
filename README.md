@@ -2,7 +2,8 @@
 
 [![GitHub tag](https://img.shields.io/github/tag/shoo/cushion.svg?maxAge=86400)](#)
 [![CI Status](https://travis-ci.com/shoo/cushion.svg)](https://travis-ci.com/shoo/cushion)
-[![codecov](https://codecov.io/gh/shoo/cushion/branch/master/graph/badge.svg)](https://codecov.io/gh/shoo/gendoc)
+[![master](https://github.com/shoo/cushion/workflows/master/badge.svg?branch=master)](https://github.com/shoo/cushion/actions?query=workflow%3Amaster)
+[![codecov](https://codecov.io/gh/shoo/cushion/branch/master/graph/badge.svg)](https://codecov.io/gh/shoo/cushion)
 
 This library aims to process the table which is state transition matrix designed on the D language source code.
 Tables written in csv file will be converted to D language source code at compile time.
@@ -72,7 +73,7 @@ The matrix that expresses state transitions based on rules is called a STM(State
 
 When this specification is made to STM, the following table can be created.
 
-| *MusicPlayer* |#>stop                   | #>play                  | #>pause                 |
+| *MusicPlayer* | #>stop                  | #>play                  | #>pause                 |
 |:--------------|:------------------------|:------------------------|:------------------------|
 | onStart       | #>play<br>- Start music | #>pause<br>- Stop music | #>play<br>- Start music |
 | onStop        |                         | #>stop<br>- Stop music<br>- Return to first | #>stop<br>- Return to first |
