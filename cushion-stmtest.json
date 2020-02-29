@@ -2,7 +2,7 @@
  {
   "name" : "examples.ut",
   "kind" : "module",
-  "file" : "/home/travis/build/shoo/cushion/examples/ut.d",
+  "file" : "/home/runner/work/cushion/cushion/examples/ut.d",
   "members" : [
    {
     "name" : "_sharedStaticCtor_L3_C7",
@@ -12,19 +12,6 @@
     "storageClass" : [
      "static"
     ],
-    "deco" : "FZv",
-    "endline" : 7,
-    "endchar" : 1
-   },
-   {
-    "name" : "_sharedStaticCtor_L3_C7",
-    "kind" : "function",
-    "line" : 3,
-    "char" : 7,
-    "storageClass" : [
-     "static"
-    ],
-    "deco" : "FZv",
     "endline" : 7,
     "endchar" : 1
    },
@@ -231,7 +218,7 @@
  },
  {
   "kind" : "module",
-  "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/app.d",
+  "file" : "/home/runner/work/cushion/cushion/examples/stmtest/source/app.d",
   "members" : [
    {
     "name" : "std.stdio",
@@ -260,7 +247,7 @@
  {
   "name" : "flow",
   "kind" : "module",
-  "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d",
+  "file" : "/home/runner/work/cushion/cushion/examples/stmtest/source/flow.d",
   "members" : [
    {
     "name" : "std.range",
@@ -434,7 +421,7 @@
      {
       "name" : "cushion.core",
       "kind" : "static import",
-      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d-mixin-56",
+      "file" : "/home/runner/work/cushion/cushion/examples/stmtest/source/flow.d-mixin-56",
       "line" : 57,
       "char" : 15,
       "protection" : "private"
@@ -580,7 +567,7 @@
       "name" : "_stepData",
       "kind" : "variable",
       "protection" : "private",
-      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d",
+      "file" : "/home/runner/work/cushion/cushion/examples/stmtest/source/flow.d",
       "line" : 57,
       "char" : 12,
       "deco" : "AAE4flow9Child1Stm5Event",
@@ -674,7 +661,7 @@
      {
       "name" : "cushion.core",
       "kind" : "static import",
-      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d-mixin-103",
+      "file" : "/home/runner/work/cushion/cushion/examples/stmtest/source/flow.d-mixin-103",
       "line" : 104,
       "char" : 15,
       "protection" : "private"
@@ -837,7 +824,7 @@
       "name" : "_stepData",
       "kind" : "variable",
       "protection" : "private",
-      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d",
+      "file" : "/home/runner/work/cushion/cushion/examples/stmtest/source/flow.d",
       "line" : 104,
       "char" : 12,
       "deco" : "AAE4flow9Child2Stm5Event",
@@ -951,7 +938,7 @@
      {
       "name" : "cushion.core",
       "kind" : "static import",
-      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d-mixin-160",
+      "file" : "/home/runner/work/cushion/cushion/examples/stmtest/source/flow.d-mixin-160",
       "line" : 161,
       "char" : 15,
       "protection" : "private"
@@ -1145,7 +1132,7 @@
       "name" : "_step",
       "kind" : "variable",
       "protection" : "private",
-      "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/flow.d",
+      "file" : "/home/runner/work/cushion/cushion/examples/stmtest/source/flow.d",
       "line" : 161,
       "char" : 10,
       "deco" : "AE4flow7MainStm5Event",
@@ -1270,7 +1257,7 @@
  {
   "name" : "handler",
   "kind" : "module",
-  "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/handler.d",
+  "file" : "/home/runner/work/cushion/cushion/examples/stmtest/source/handler.d",
   "members" : [
    {
     "name" : "cushion",
@@ -1398,7 +1385,7 @@
  {
   "name" : "music_player",
   "kind" : "module",
-  "file" : "/home/travis/build/shoo/cushion/examples/stmtest/source/music_player.d",
+  "file" : "/home/runner/work/cushion/cushion/examples/stmtest/source/music_player.d",
   "members" : [
    {
     "name" : "cushion",
