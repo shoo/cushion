@@ -170,7 +170,8 @@ void unitTest(string[] exDubOpts = null)
 		"test",
 		"-a",              config.hostArch,
 		"--coverage",
-		"--compiler",      config.hostCompiler] ~ exDubOpts);
+		"--compiler",      config.hostCompiler] ~ exDubOpts,
+		null, env);
 }
 
 ///
@@ -400,7 +401,8 @@ void createArchive()
 	import std.file;
 	if (!"build".exists)
 		return;
-	auto archiveName = format!"%s-%s-%s-%s%s"(config.projectName, config.refName, config.os, config.arch, config.archiveSuffix);
+	auto archiveName = format!"%s-%s-%s-%s%s"(
+		config.projectName, config.refName, config.os, config.arch, config.archiveSuffix);
 	scope (success)
 		writeln("::set-output name=ARCNAME::", archiveName);
 	version (Windows)
