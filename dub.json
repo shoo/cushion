@@ -15,7 +15,7 @@
 			"name": "default"
 		},
 		{
-			"name": "ut",
+			"name": "unittest",
 			"targetType": "executable",
 			"targetName": "cushion-ut",
 			"importPaths": ["source", "."],

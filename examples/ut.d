@@ -61,13 +61,19 @@ version (D_Coverage) version(unittest)
 		CovOpt ret;
 		foreach (d; searchDirs)
 		{
-			if (d.exists && d.isDir)
-				ret.dir = d;
 			foreach (f; searchFileNames)
 			{
 				auto filepath = d.buildPath(f);
 				if (filepath.exists && filepath.isFile)
-					return getCovOptFromString(readText(filepath));
+				{
+					ret = getCovOptFromString(readText(filepath));
+					break;
+				}
+			}
+			if (ret.dir.length == 0 && d.exists && d.isDir)
+			{
+				ret.dir = d;
+				break;
 			}
 		}
 		return ret;
