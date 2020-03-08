@@ -260,6 +260,15 @@ public:
 ///
 @safe unittest
 {
+	string fixLines(string s)
+	{
+		version (Windows)
+		{
+			import std.array: replace;
+			return s.replace("\r\n", "\n");
+		}
+		else return s;
+	}
 	// Create a MainStm
 	auto stm = new MainStm;
 	
@@ -274,5 +283,5 @@ public:
 	}
 	
 	// Finally check the result
-	assert(stm.toString() == import("flow-result.txt"));
+	assert(stm.toString() == fixLines(import("flow-result.txt")));
 }
