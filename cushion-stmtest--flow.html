@@ -59,7 +59,7 @@
 		
 		
 
-	<li><a title="" href="cushion-stmtest--_extra_.ut.html"><span >ut</span></a></li>
+	<li><a title="Features for unit testing" href="cushion-stmtest--_extra_.ut.html"><span >ut</span></a></li>
 
 
 	</ul></li>
@@ -182,7 +182,16 @@
  Also, in this class, there is a gimmick that can record the
  transition of state using each handler and output the result.</div>
 <span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
- <pre class="d_code notranslate"><span class="d_comment">// Create a MainStm
+ <pre class="d_code notranslate">string fixLines(string s)
+{
+	<span class="d_keyword">version</span> (Windows)
+	{
+		<span class="d_keyword">import</span> std.array: replace;
+		<span class="d_keyword">return</span> s.replace(<span class="d_string">"\r\n"</span>, <span class="d_string">"\n"</span>);
+	}
+	<span class="d_keyword">else</span> <span class="d_keyword">return</span> s;
+}
+<span class="d_comment">// Create a MainStm
 </span><span class="d_keyword">auto</span> stm = <span class="d_keyword">new</span> <span class="d_psymbol">MainStm</span>;
 
 <span class="d_comment">// Create a context class of TestFlow
@@ -196,7 +205,7 @@
 }
 
 <span class="d_comment">// Finally check the result
-</span><span class="d_keyword">assert</span>(stm.toString() == <span class="d_keyword">import</span>(<span class="d_string">"flow-result.txt"</span>));
+</span><span class="d_keyword">assert</span>(stm.toString() == fixLines(<span class="d_keyword">import</span>(<span class="d_string">"flow-result.txt"</span>)));
 </pre>
 </div>
 <dl class="ddoc_members"><div class="ddoc_class_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".MainStm._stm"></span><div class="quickindex" id="quickindex.MainStm._stm"></div>StateTransitor!(State, Event) <code class="ddoc_psymbol">_stm</code>;

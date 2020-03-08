@@ -3,23 +3,38 @@
   "name" : "examples.ut",
   "kind" : "module",
   "file" : "/home/runner/work/cushion/cushion/examples/ut.d",
+  "comment" : " Features for unit testing\n\n Fine-tune the output destination of coverage, etc.\n",
   "members" : [
    {
-    "name" : "_sharedStaticCtor_L3_C7",
+    "name" : "_sharedStaticCtor_L8_C7",
     "kind" : "function",
-    "line" : 3,
+    "line" : 8,
     "char" : 7,
     "storageClass" : [
      "static"
     ],
-    "endline" : 7,
+    "endline" : 12,
     "endchar" : 1
    },
    {
     "name" : "dmd_coverDestPath",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 11,
+    "line" : 16,
+    "char" : 26,
+    "type" : "extern (C) void(string pathname)",
+    "parameters" : [
+     {
+      "name" : "pathname",
+      "type" : "string"
+     }
+    ]
+   },
+   {
+    "name" : "dmd_coverSourcePath",
+    "kind" : "function",
+    "comment" : "\n",
+    "line" : 17,
     "char" : 26,
     "type" : "extern (C) void(string pathname)",
     "parameters" : [
@@ -33,7 +48,7 @@
     "name" : "dmd_coverSetMerge",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 12,
+    "line" : 18,
     "char" : 26,
     "type" : "extern (C) void(bool flag)",
     "parameters" : [
@@ -47,20 +62,20 @@
     "name" : "CovOpt",
     "kind" : "struct",
     "comment" : "\n",
-    "line" : 14,
+    "line" : 20,
     "char" : 10,
     "members" : [
      {
       "name" : "dir",
       "kind" : "variable",
-      "line" : 16,
+      "line" : 22,
       "char" : 10,
       "type" : "string"
      },
      {
       "name" : "merge",
       "kind" : "variable",
-      "line" : 17,
+      "line" : 23,
       "char" : 10,
       "deco" : "b"
      }
@@ -70,7 +85,7 @@
     "name" : "getCovOptFromString",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 20,
+    "line" : 26,
     "char" : 17,
     "type" : "CovOpt(string str)",
     "parameters" : [
@@ -79,26 +94,26 @@
       "type" : "string"
      }
     ],
-    "endline" : 32,
+    "endline" : 38,
     "endchar" : 2
    },
    {
-    "name" : "__unittest_L34_C10",
+    "name" : "__unittest_L40_C10",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 34,
+    "line" : 40,
     "char" : 10,
     "storageClass" : [
      "@system"
     ],
-    "endline" : 58,
+    "endline" : 64,
     "endchar" : 2
    },
    {
     "name" : "getCovOpt",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 58,
+    "line" : 64,
     "char" : 17,
     "type" : "CovOpt(string[] searchDirs = [\".\"], string[] searchFileNames = [\".coverageopt\"])",
     "parameters" : [
@@ -113,26 +128,26 @@
       "default" : "[\".coverageopt\"]"
      }
     ],
-    "endline" : 80,
+    "endline" : 86,
     "endchar" : 2
    },
    {
-    "name" : "__unittest_L82_C10",
+    "name" : "__unittest_L88_C10",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 82,
+    "line" : 88,
     "char" : 10,
     "storageClass" : [
      "@system"
     ],
-    "endline" : 100,
+    "endline" : 106,
     "endchar" : 2
    },
    {
     "name" : "getCovOpt",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 100,
+    "line" : 106,
     "char" : 17,
     "type" : "CovOpt(string[string] env)",
     "parameters" : [
@@ -141,26 +156,26 @@
       "type" : "string[string]"
      }
     ],
-    "endline" : 109,
+    "endline" : 115,
     "endchar" : 2
    },
    {
-    "name" : "__unittest_L111_C10",
+    "name" : "__unittest_L117_C10",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 111,
+    "line" : 117,
     "char" : 10,
     "storageClass" : [
      "@system"
     ],
-    "endline" : 129,
+    "endline" : 135,
     "endchar" : 2
    },
    {
     "name" : "getCovOpt",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 129,
+    "line" : 135,
     "char" : 17,
     "type" : "CovOpt(string[string] env, string[] searchDirs, string[] searchFileNames)",
     "parameters" : [
@@ -177,41 +192,41 @@
       "type" : "string[]"
      }
     ],
-    "endline" : 135,
+    "endline" : 141,
     "endchar" : 2
    },
    {
-    "name" : "__unittest_L137_C10",
+    "name" : "__unittest_L143_C10",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 137,
+    "line" : 143,
     "char" : 10,
     "storageClass" : [
      "@system"
     ],
-    "endline" : 146,
+    "endline" : 152,
     "endchar" : 2
    },
    {
     "name" : "getCovOpt",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 146,
+    "line" : 152,
     "char" : 17,
     "type" : "CovOpt()",
-    "endline" : 153,
+    "endline" : 159,
     "endchar" : 2
    },
    {
-    "name" : "_sharedStaticCtor_L155_C2",
+    "name" : "_sharedStaticCtor_L161_C2",
     "kind" : "function",
     "comment" : "\n",
-    "line" : 155,
+    "line" : 161,
     "char" : 2,
     "storageClass" : [
      "static"
     ],
-    "endline" : 165,
+    "endline" : 173,
     "endchar" : 2
    }
   ]
@@ -1249,7 +1264,7 @@
     "storageClass" : [
      "@safe"
     ],
-    "endline" : 279,
+    "endline" : 288,
     "endchar" : 1
    }
   ]
