@@ -1,3 +1,8 @@
+/***************************************************************
+ * Features for unit testing
+ * 
+ * Fine-tune the output destination of coverage, etc.
+ */
 module examples.ut;
 
 debug shared static this()
@@ -6,9 +11,10 @@ debug shared static this()
 	setvbuf(stdout, null, _IONBF, 0);
 }
 ///
-version (D_Coverage) version(unittest)
+version (D_Coverage)
 {
 	private extern (C) void dmd_coverDestPath( string pathname );
+	private extern (C) void dmd_coverSourcePath( string pathname );
 	private extern (C) void dmd_coverSetMerge( bool flag );
 	
 	private struct CovOpt
@@ -158,8 +164,10 @@ version (D_Coverage) version(unittest)
 		auto covopt = getCovOpt();
 		if (covopt.dir.length > 0)
 		{
+			enum rootDir = __FILE_FULL_PATH__.dirName.dirName.buildNormalizedPath();
 			if (!covopt.dir.exists) mkdirRecurse(covopt.dir);
 			dmd_coverSetMerge(covopt.merge);
+			dmd_coverSourcePath(rootDir);
 			dmd_coverDestPath(covopt.dir);
 		}
 	}

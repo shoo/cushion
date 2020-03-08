@@ -26,8 +26,8 @@ jobs:
   # 18. macOS   x86     ldc        x   x   x   x   x
   # 19. macOS   x86     dmd-master x   x   x   x   x
   # 20. macOS   x86     ldc-master x   x   x   x   x
-  # 21. macOS   x86_64  dmd        o   x   o   o   x
-  # 22. macOS   x86_64  ldc        o   o   x   x   o
+  # 21. macOS   x86_64  dmd        o   o   x   x   o
+  # 22. macOS   x86_64  ldc        o   x   o   o   x
   # 23. macOS   x86_64  dmd-master x   x   x   x   x
   # 24. macOS   x86_64  ldc-master x   x   x   x   x
 
@@ -197,7 +197,7 @@ jobs:
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
   # 11. Ubuntu  x86     dmd-master x   x   x   x   x
   # do-nothing
-  
+
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
   # 12. Ubuntu  x86     ldc-master x   x   x   x   x
   # do-nothing
@@ -285,7 +285,7 @@ jobs:
   # do-nothing
 
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
-  # 21. macOS   x86_64  dmd        o   x   o   o   x
+  # 21. macOS   x86_64  dmd        o   o   x   x   o
   test-osx-x86_64-dmd-latest:
     name: test-osx-x86_64-dmd-latest
     runs-on: macos-latest
@@ -297,14 +297,17 @@ jobs:
           compiler: dmd-latest
       - name: Run unit tests
         run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
-      - name: Build tests
-        run: dub build -a=x86_64 -b=release -c=default
-      - name: Generate document tests
-        run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
+      - name: Run integration tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
+      - name: Upload coverage result
+        uses: actions/upload-artifact@v1
+        with:
+          name: coverage-osx
+          path: .cov
 
 
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
-  # 22. macOS   x86_64  ldc        o   o   x   x   o
+  # 22. macOS   x86_64  ldc        o   x   o   o   x
   test-osx-x86_64-ldc-latest:
     name: test-osx-x86_64-ldc-latest
     runs-on: macos-latest
@@ -316,13 +319,10 @@ jobs:
           compiler: ldc-latest
       - name: Run unit tests
         run: rdmd ./.github/runner.d -a=x86_64 --mode=unit-test
-      - name: Run integration tests
-        run: rdmd ./.github/runner.d -a=x86_64 --mode=integration-test
-      - name: Upload coverage result
-        uses: actions/upload-artifact@v1
-        with:
-          name: coverage-osx
-          path: .cov
+      - name: Build tests
+        run: dub build -a=x86_64 -b=release -c=default
+      - name: Generate document tests
+        run: rdmd ./.github/runner.d -a=x86_64 --mode=generate-document
 
   # No. OS      ARCH    COMPILER   UT  TT  BLD DOC COV
   # 23. macOS   x86_64  dmd-master x   x   x   x   x
@@ -360,23 +360,3 @@ jobs:
           path: coverage-osx
       - name: Upload coverage to Codecov
         run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }} -s coverage-osx
-
-  # Deploy Pages
-  deproy-pages:
-    name: deploy-pages
-    needs: upload-codecov
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download generated pages
-        uses: actions/download-artifact@v1
-        with:
-          name: docs
-      - name: Deploy pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          allow_empty_commit: false
-          publish_dir: docs
-          publish_branch: gh-pages
-          user_name: GitHub Actions Bot
-          user_email: <>
