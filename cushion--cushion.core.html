@@ -1,6 +1,7 @@
 
 <!DOCTYPE html>
-<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+<html>    <head>        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script type="text/javascript" src="js/sidebar.js"></script>
@@ -22,11 +23,12 @@
     <ul>
 
 	
-	<li class="expand-container open"><a class='expand-toggle' href="#"><span >cushion</span></a><ul>
-		
-			<li><a title="Cushion - A library to help state transition matrix design" href="cushion--cushion.html"><span >package</span></a></li>
-		
-		
+	
+		<li class="expand-container open"><a title='Cushion - A library to help state transition matrix design
+		' class='expand-toggle' href='#'><span >cushion</span></a><ul><li><a title='Cushion - A library to help state transition matrix design
+		' href="
+			cushion--cushion.html"><span >package</span></a></li>
+			
 
 	<li><a title="Core module for state transion" href="cushion--cushion.core.html"><span >core</span></a></li>
 
@@ -46,8 +48,10 @@
 
 	<li><a title="" href="cushion--cushion.stmgen.html"><span >stmgen</span></a></li>
 
+</ul></li>
+	
+	
 
-	</ul></li>
 
 
 
@@ -55,14 +59,17 @@
 
 
 	
-	<li class="expand-container open"><a class='expand-toggle' href="#"><span >(extra)</span></a><ul>
-		
-		
+	
+	
+		<li class="expand-container open"><a class='expand-toggle' href="#"><span >(extra)</span></a><ul>
+			
 
 	<li><a title="Features for unit testing" href="cushion-stmtest--_extra_.ut.html"><span >ut</span></a></li>
 
 
-	</ul></li>
+		</ul></li>
+	
+
 
 
 
@@ -103,7 +110,7 @@ SHOO</div>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".isProcessHandler"></span><div class="quickindex" id="quickindex.isProcessHandler"></div>template <code class="ddoc_psymbol">isProcessHandler</code>(Handler)<br></div></dt>
 <dd><div class="ddoc_summary">Judge StateTransitor's ProcHandler</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".isExceptionHandler"></span><div class="quickindex" id="quickindex.isExceptionHandler"></div>template <code class="ddoc_psymbol">isExceptionHandler</code>(Handler)<br></div></dt>
-<dd><div class="ddoc_summary">Judge StateTransitor's ExceptionHandler</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+<dd><div class="ddoc_summary">Judge StateTransitor's ExceptionHandler</div><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
  <pre class="d_code notranslate"><span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isExceptionHandler</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(Exception)@safe[]));
 </pre>
 </div>
@@ -111,14 +118,14 @@ SHOO</div>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".isEventHandler"></span><div class="quickindex" id="quickindex.isEventHandler"></div>template <code class="ddoc_psymbol">isEventHandler</code>(Handler, Event)<br></div></dt>
 <dd><div class="ddoc_summary">Judge StateTransitor's EventHandler</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".isStateChangedHandler"></span><div class="quickindex" id="quickindex.isStateChangedHandler"></div>template <code class="ddoc_psymbol">isStateChangedHandler</code>(Handler, State)<br></div></dt>
-<dd><div class="ddoc_summary">Judge StateTransitor's EventHandler</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+<dd><div class="ddoc_summary">Judge StateTransitor's EventHandler</div><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
  <pre class="d_code notranslate"><span class="d_keyword">enum</span> State {a, b, c}
 <span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isStateChangedHandler</span>!(<span class="d_keyword">void</span> <span class="d_keyword">delegate</span>(State,State), State));
 </pre>
 </div>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".isEventContainer"></span><div class="quickindex" id="quickindex.isEventContainer"></div>template <code class="ddoc_psymbol">isEventContainer</code>(Container)<br></div></dt>
-<dd><div class="ddoc_summary">Judge StateTransitor's EventContainer</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+<dd><div class="ddoc_summary">Judge StateTransitor's EventContainer</div><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
  <pre class="d_code notranslate"><span class="d_keyword">enum</span> E {a, b, c}
 <span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isEventContainer</span>!(E[]));
 <span class="d_keyword">static</span> <span class="d_keyword">assert</span>(<span class="d_psymbol">isEventContainer</span>!(SList!E));
@@ -154,7 +161,7 @@ SHOO</div>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor"></span><div class="quickindex" id="quickindex.StateTransitor"></div>struct <code class="ddoc_psymbol">StateTransitor</code>(StateType, EventType, StateType defaultStateParameter = StateType.init, ProcHandler = void delegate()[], ExceptionHandler = void delegate(Exception)[], EventHandler = void delegate(EventType)[], StateChangedHandler = void delegate(StateType newSts, StateType oldSts)[], ConsumeMode consumeMode = ConsumeMode.combined, EventContainer = SList!EventType);
 <br>
 template <code class="ddoc_psymbol">StateTransitor</code>(alias Policy) if (__traits(hasMember, Policy, "State") &amp;&amp; __traits(hasMember, Policy, "Event"))<br></div></dt>
-<dd><div class="ddoc_summary"><code class="ddoc_psymbol">StateTransitor</code></div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+<dd><div class="ddoc_summary"><code class="ddoc_psymbol">StateTransitor</code></div><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
  <pre class="d_code notranslate"><span class="d_keyword">enum</span> State { a, b }
 <span class="d_keyword">enum</span> Event { e1, e2, e3 }
 
@@ -189,7 +196,7 @@ sm.put(Event.e1);
 <span class="d_keyword">assert</span>(msg == <span class="d_string">"a-1"</span>);
 </pre>
 </div>
-<span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+<div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
  <pre class="d_code notranslate"><span class="d_keyword">struct</span> Policy
 {
 	<span class="d_keyword">enum</span> State { a, b }
@@ -295,35 +302,35 @@ const pure nothrow @property @safe const(string)[] <code class="ddoc_psymbol">st
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setNextState"></span><div class="quickindex" id="quickindex.StateTransitor.setNextState"></div>void <code class="ddoc_psymbol">setNextState</code>(State <span class="ddoc_param">s</span>, Event <span class="ddoc_param">e</span>, State <span class="ddoc_param">nextState</span>);
 <br></div></dt>
 <dd><div class="ddoc_summary">Set next state
-</div><div class="ddoc_description">If the state is <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></span> and event <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></span> is consumed, the next state will be <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">nextState</span></span></div>
+</div><div class="ddoc_description">If the state is <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></code> and event <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></code> is consumed, the next state will be <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">nextState</span></code></div>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setHandler"></span><div class="quickindex" id="quickindex.StateTransitor.setHandler"></div>void <code class="ddoc_psymbol">setHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(State <span class="ddoc_param">s</span>, Event <span class="ddoc_param">e</span>, Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAssignable!(ProcHandler, Func))</span>;
 <br></div></dt>
 <dd><div class="ddoc_summary">Set <span class="ddoc_param">handler</span>
-</div><div class="ddoc_description">If the state is <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></span> and event <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></span> is consumed, the <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be called.
- If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> instead.</div>
+</div><div class="ddoc_description">If the state is <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></code> and event <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></code> is consumed, the <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></code> will be called.
+ If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></code> instead.</div>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.addHandler"></span><div class="quickindex" id="quickindex.StateTransitor.addHandler"></div>void <code class="ddoc_psymbol">addHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(State <span class="ddoc_param">s</span>, Event <span class="ddoc_param">e</span>, Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(ProcHandler, Func))</span>;
 <br></div></dt>
 <dd><div class="ddoc_summary">Add <span class="ddoc_param">handler</span>
-</div><div class="ddoc_description">If the state is <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></span> and event <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></span> is consumed, the <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be called.
- If other <span class="ddoc_param">handler</span> has already been set, <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
+</div><div class="ddoc_description">If the state is <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></code> and event <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></code> is consumed, the <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></code> will be called.
+ If other <span class="ddoc_param">handler</span> has already been set, <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></code> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.removeHandler"></span><div class="quickindex" id="quickindex.StateTransitor.removeHandler"></div>void <code class="ddoc_psymbol">removeHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(State <span class="ddoc_param">s</span>, Event <span class="ddoc_param">e</span>, Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(ProcHandler, Func))</span>;
 <br></div></dt>
-<dd><div class="ddoc_summary">Remove <span class="ddoc_param">handler</span> related <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></span> and <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></span>.</div></dd>
+<dd><div class="ddoc_summary">Remove <span class="ddoc_param">handler</span> related <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></code> and <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></code>.</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.clearHandler"></span><div class="quickindex" id="quickindex.StateTransitor.clearHandler"></div>void <code class="ddoc_psymbol">clearHandler</code>(State <span class="ddoc_param">s</span>, Event <span class="ddoc_param">e</span>);
 <br></div></dt>
-<dd><div class="ddoc_summary">Remove all handler related <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></span> and <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></span>.</div></dd>
+<dd><div class="ddoc_summary">Remove all handler related <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">s</span></code> and <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">e</span></code>.</div></dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setExceptionHandler"></span><div class="quickindex" id="quickindex.StateTransitor.setExceptionHandler"></div>void <code class="ddoc_psymbol">setExceptionHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAssignable!(ExceptionHandler, Func))</span>;
 <br></div></dt>
 <dd><div class="ddoc_summary">Set exception <span class="ddoc_param">handler</span>
-</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> instead.</div>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></code> instead.</div>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.addExceptionHandler"></span><div class="quickindex" id="quickindex.StateTransitor.addExceptionHandler"></div>void <code class="ddoc_psymbol">addExceptionHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(ExceptionHandler, Func))</span>;
 <br></div></dt>
 <dd><div class="ddoc_summary">Add exception <span class="ddoc_param">handler</span>
-</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></code> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.removeExceptionHandler"></span><div class="quickindex" id="quickindex.StateTransitor.removeExceptionHandler"></div>void <code class="ddoc_psymbol">removeExceptionHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(ExceptionHandler, Func))</span>;
 <br></div></dt>
@@ -334,12 +341,12 @@ const pure nothrow @property @safe const(string)[] <code class="ddoc_psymbol">st
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setEventHandler"></span><div class="quickindex" id="quickindex.StateTransitor.setEventHandler"></div>void <code class="ddoc_psymbol">setEventHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAssignable!(EventHandler, Func))</span>;
 <br></div></dt>
 <dd><div class="ddoc_summary">Set event <span class="ddoc_param">handler</span>
-</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> instead.</div>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></code> instead.</div>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.addEventHandler"></span><div class="quickindex" id="quickindex.StateTransitor.addEventHandler"></div>void <code class="ddoc_psymbol">addEventHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(EventHandler, Func))</span>;
 <br></div></dt>
 <dd><div class="ddoc_summary">Add event <span class="ddoc_param">handler</span>
-</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></code> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.removeEventHandler"></span><div class="quickindex" id="quickindex.StateTransitor.removeEventHandler"></div>void <code class="ddoc_psymbol">removeEventHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(EventHandler, Func))</span>;
 <br></div></dt>
@@ -350,12 +357,12 @@ const pure nothrow @property @safe const(string)[] <code class="ddoc_psymbol">st
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.setStateChangedHandler"></span><div class="quickindex" id="quickindex.StateTransitor.setStateChangedHandler"></div>void <code class="ddoc_psymbol">setStateChangedHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAssignable!(StateChangedHandler, Func))</span>;
 <br></div></dt>
 <dd><div class="ddoc_summary">Set state changed <span class="ddoc_param">handler</span>
-</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> instead.</div>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, the other <span class="ddoc_param">handler</span> is no longer used and replaced by <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></code> instead.</div>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.addStateChangedHandler"></span><div class="quickindex" id="quickindex.StateTransitor.addStateChangedHandler"></div>void <code class="ddoc_psymbol">addStateChangedHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(StateChangedHandler, Func))</span>;
 <br></div></dt>
 <dd><div class="ddoc_summary">Add state changed <span class="ddoc_param">handler</span>
-</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, <span class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></span> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
+</div><div class="ddoc_description">If other <span class="ddoc_param">handler</span> has already been set, <code class="d_inlinecode donthyphenate notranslate"><span class="ddoc_param">handler</span></code> will be added to the other <span class="ddoc_param">handler</span> and executed.</div>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".StateTransitor.removeStateChangedHandler"></span><div class="quickindex" id="quickindex.StateTransitor.removeStateChangedHandler"></div>void <code class="ddoc_psymbol">removeStateChangedHandler</code><span class="ddoc_template_param_list" title="Template parameter list">(Func)</span>(Func <span class="ddoc_param">handler</span>)<br><span class="ddoc_constraint">if(isHandlerAddable!(StateChangedHandler, Func))</span>;
 <br></div></dt>
@@ -375,7 +382,7 @@ const pure nothrow @property @safe const(string)[] <code class="ddoc_psymbol">st
 </div></dl>
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".CreateStateTransitorPolicy"></span><div class="quickindex" id="quickindex.CreateStateTransitorPolicy"></div>template <code class="ddoc_psymbol">CreateStateTransitorPolicy</code>(State_, Event_, State_ defaultStateParameter_ = State_.init, ProcHandler_ = void delegate()[], ExceptionHandler_ = void delegate(Exception)[], EventHandler_ = void delegate(Event_)[], StateChangedHandler_ = void delegate(State_ newSts, State_ oldSts)[], ConsumeMode consumeMode_ = ConsumeMode.combined, EventContainer_ = SList!Event_)<br></div></dt>
-<dd><div class="ddoc_summary">Default Policy of StateTransitor</div><span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+<dd><div class="ddoc_summary">Default Policy of StateTransitor</div><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
  <pre class="d_code notranslate"><span class="d_keyword">enum</span> MyState { a }
 <span class="d_keyword">enum</span> MyEvent { a }
 <span class="d_keyword">alias</span> ST1 = StateTransitor!(MyState, MyEvent);

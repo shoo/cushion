@@ -1,6 +1,7 @@
 
 <!DOCTYPE html>
-<html>    <head>        <META http-equiv="content-type" content="text/html; charset=utf-8">
+<html>    <head>        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="css/proj_docs.css">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script type="text/javascript" src="js/sidebar.js"></script>
@@ -22,11 +23,12 @@
     <ul>
 
 	
-	<li class="expand-container open"><a class='expand-toggle' href="#"><span >cushion</span></a><ul>
-		
-			<li><a title="Cushion - A library to help state transition matrix design" href="cushion--cushion.html"><span >package</span></a></li>
-		
-		
+	
+		<li class="expand-container open"><a title='Cushion - A library to help state transition matrix design
+		' class='expand-toggle' href='#'><span >cushion</span></a><ul><li><a title='Cushion - A library to help state transition matrix design
+		' href="
+			cushion--cushion.html"><span >package</span></a></li>
+			
 
 	<li><a title="Core module for state transion" href="cushion--cushion.core.html"><span >core</span></a></li>
 
@@ -46,8 +48,10 @@
 
 	<li><a title="" href="cushion--cushion.stmgen.html"><span >stmgen</span></a></li>
 
+</ul></li>
+	
+	
 
-	</ul></li>
 
 
 
@@ -55,14 +59,17 @@
 
 
 	
-	<li class="expand-container open"><a class='expand-toggle' href="#"><span >(extra)</span></a><ul>
-		
-		
+	
+	
+		<li class="expand-container open"><a class='expand-toggle' href="#"><span >(extra)</span></a><ul>
+			
 
 	<li><a title="Features for unit testing" href="cushion-stmtest--_extra_.ut.html"><span >ut</span></a></li>
 
 
-	</ul></li>
+		</ul></li>
+	
+
 
 
 
@@ -106,9 +113,9 @@
 </div><div class="ddoc_description">This class is a class that inherits from the TestFlow interface,
  which is the base class for state patterns.
  TestFlow has a primitive implementation by passing through State.
- This provides an implementation for the <span class="d_inlinecode donthyphenate notranslate">update</span> declared in
- the interface to return the next state specified in <span class="d_inlinecode donthyphenate notranslate">setNext</span>.
- And some handlers [<span class="d_inlinecode donthyphenate notranslate">onEnter</span>, <span class="d_inlinecode donthyphenate notranslate">onExit</span>, <span class="d_inlinecode donthyphenate notranslate">onEnterChild</span>, <span class="d_inlinecode donthyphenate notranslate">onExitChild</span>]
+ This provides an implementation for the <code class="d_inlinecode donthyphenate notranslate">update</code> declared in
+ the interface to return the next state specified in <code class="d_inlinecode donthyphenate notranslate">setNext</code>.
+ And some handlers [<code class="d_inlinecode donthyphenate notranslate">onEnter</code>, <code class="d_inlinecode donthyphenate notranslate">onExit</code>, <code class="d_inlinecode donthyphenate notranslate">onEnterChild</code>, <code class="d_inlinecode donthyphenate notranslate">onExitChild</code>]
  are available.</div>
 <dl class="ddoc_members"><div class="ddoc_class_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".BaseTestFlow.name"></span><div class="quickindex" id="quickindex.BaseTestFlow.name"></div>abstract const @property string <code class="ddoc_psymbol">name</code>();
 <br></div></dt>
@@ -118,10 +125,10 @@
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child1Stm"></span><div class="quickindex" id="quickindex.Child1Stm"></div>class <code class="ddoc_psymbol">Child1Stm</code>: <span class="ddoc_psuper_symbol">flow.BaseTestFlow</span>;
 <br></div></dt>
-<dd><div class="ddoc_summary">Concrete class of state pattern named <span class="d_inlinecode donthyphenate notranslate"><code class="ddoc_psymbol">Child1Stm</code></span>
+<dd><div class="ddoc_summary">Concrete class of state pattern named <code class="d_inlinecode donthyphenate notranslate"><code class="ddoc_psymbol">Child1Stm</code></code>
 </div><div class="ddoc_description">This class is a concrete class of state pattern.
  The implementation of the behavior that should be done by
- the <span class="d_inlinecode donthyphenate notranslate">update</span> is complete, and STM is driven internally.</div>
+ the <code class="d_inlinecode donthyphenate notranslate">update</code> is complete, and STM is driven internally.</div>
 <dl class="ddoc_members"><div class="ddoc_class_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child1Stm._stm"></span><div class="quickindex" id="quickindex.Child1Stm._stm"></div>StateTransitor!(State, Event) <code class="ddoc_psymbol">_stm</code>;
 <br></div></dt>
 <dd>
@@ -146,8 +153,8 @@
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child2Stm"></span><div class="quickindex" id="quickindex.Child2Stm"></div>class <code class="ddoc_psymbol">Child2Stm</code>: <span class="ddoc_psuper_symbol">flow.BaseTestFlow</span>;
 <br></div></dt>
-<dd><div class="ddoc_summary">Concrete class of state pattern named <span class="d_inlinecode donthyphenate notranslate"><code class="ddoc_psymbol">Child2Stm</code></span>
-</div><div class="ddoc_description">Implement a different state from <span class="d_inlinecode donthyphenate notranslate">Child1Stm</span></div>
+<dd><div class="ddoc_summary">Concrete class of state pattern named <code class="d_inlinecode donthyphenate notranslate"><code class="ddoc_psymbol">Child2Stm</code></code>
+</div><div class="ddoc_description">Implement a different state from <code class="d_inlinecode donthyphenate notranslate">Child1Stm</code></div>
 <dl class="ddoc_members"><div class="ddoc_class_members"><dt class="ddoc_decl"><div ><span class="def-anchor" id=".Child2Stm._stm"></span><div class="quickindex" id="quickindex.Child2Stm._stm"></div>StateTransitor!(State, Event) <code class="ddoc_psymbol">_stm</code>;
 <br></div></dt>
 <dd>
@@ -172,16 +179,16 @@
 </dd>
 <dt class="ddoc_decl"><div ><span class="def-anchor" id=".MainStm"></span><div class="quickindex" id="quickindex.MainStm"></div>class <code class="ddoc_psymbol">MainStm</code>: <span class="ddoc_psuper_symbol">flow.BaseTestFlow</span>;
 <br></div></dt>
-<dd><div class="ddoc_summary">Concrete class of state pattern named <span class="d_inlinecode donthyphenate notranslate"><code class="ddoc_psymbol">MainStm</code></span>
-</div><div class="ddoc_description">Implement a different state from <span class="d_inlinecode donthyphenate notranslate">Child1Stm</span> / <span class="d_inlinecode donthyphenate notranslate">Child2Stm</span>.
- This class acts as a parent to <span class="d_inlinecode donthyphenate notranslate">Child1Stm</span> and <span class="d_inlinecode donthyphenate notranslate">Child2Stm</span>.
- The <span class="d_inlinecode donthyphenate notranslate">update</span> method of this class may return the child class
- <span class="d_inlinecode donthyphenate notranslate">Child1Stm</span> or <span class="d_inlinecode donthyphenate notranslate">Child2Stm</span> as the next state.
+<dd><div class="ddoc_summary">Concrete class of state pattern named <code class="d_inlinecode donthyphenate notranslate"><code class="ddoc_psymbol">MainStm</code></code>
+</div><div class="ddoc_description">Implement a different state from <code class="d_inlinecode donthyphenate notranslate">Child1Stm</code> / <code class="d_inlinecode donthyphenate notranslate">Child2Stm</code>.
+ This class acts as a parent to <code class="d_inlinecode donthyphenate notranslate">Child1Stm</code> and <code class="d_inlinecode donthyphenate notranslate">Child2Stm</code>.
+ The <code class="d_inlinecode donthyphenate notranslate">update</code> method of this class may return the child class
+ <code class="d_inlinecode donthyphenate notranslate">Child1Stm</code> or <code class="d_inlinecode donthyphenate notranslate">Child2Stm</code> as the next state.
  This class is also "previous state", which backs when
- <span class="d_inlinecode donthyphenate notranslate">Child1Stm</span> or <span class="d_inlinecode donthyphenate notranslate">Child2Stm</span> ends.
+ <code class="d_inlinecode donthyphenate notranslate">Child1Stm</code> or <code class="d_inlinecode donthyphenate notranslate">Child2Stm</code> ends.
  Also, in this class, there is a gimmick that can record the
  transition of state using each handler and output the result.</div>
-<span class="dlang_runnable"></span><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+<div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
  <pre class="d_code notranslate">string fixLines(string s)
 {
 	<span class="d_keyword">version</span> (Windows)
