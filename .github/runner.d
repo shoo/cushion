@@ -6,7 +6,7 @@ struct Defines
 static:
 	/// ドキュメントジェネレータを指定します。
 	/// gendocのバージョンが更新されたら変更してください。
-	immutable documentGenerator = "gendoc@0.0.4";
+	immutable documentGenerator = "gendoc";
 	
 	/// テスト対象にするサブパッケージを指定します。
 	/// サブパッケージが追加されたらここにも追加してください。
@@ -357,7 +357,7 @@ void integrationTest(string[] exDubOpts = null)
 			{
 				auto dubArgs = (runOpt.dubArgs.length > 0 ? dubCommonArgs ~ runOpt.dubArgs : dubCommonArgs)
 				             ~ (!no_coverage ? ["-b=cov"] : ["-b=debug"]);
-				auto desc = cmd(["dub", "describe"] ~ dubArgs, runOpt.dubWorkDir, runOpt.env).parseJSON();
+				auto desc = cmd(["dub", "describe", "--verror"] ~ dubArgs, runOpt.dubWorkDir, runOpt.env).parseJSON();
 				auto targetExe = buildNormalizedPath(
 					desc["packages"][0]["path"].str,
 					desc["packages"][0]["targetPath"].str,
@@ -430,7 +430,7 @@ void integrationTest(string[] exDubOpts = null)
 		auto dubCommonArgs = [
 			"-a",         config.targetArch,
 			"--compiler", config.targetCompiler] ~ exDubOpts;
-		auto desc = cmd(["dub", "describe", ":" ~ pkgName] ~ dubCommonArgs, null, env).parseJSON();
+		auto desc = cmd(["dub", "describe", ":" ~ pkgName, "--verror"] ~ dubCommonArgs, null, env).parseJSON();
 		if (desc["packages"][0]["targetType"].str != "executable")
 			return false;
 		auto targetExe = buildNormalizedPath(
@@ -488,6 +488,7 @@ void integrationTest(string[] exDubOpts = null)
 		writeln("## Integration Test Summary          ##");
 		writeln("#######################################");
 	}
+	bool failed;
 	if (dirTests.length > 0)
 	{
 		writeln("##### Test Summary of Directory Entries");
@@ -499,6 +500,7 @@ void integrationTest(string[] exDubOpts = null)
 			if (res.exception)
 			{
 				writefln("[X] %s: %s", res.name, res.exception.msg);
+				failed = true;
 			}
 			else if (res.executed)
 			{
@@ -518,9 +520,9 @@ void integrationTest(string[] exDubOpts = null)
 		writefln("Skipped:   %s / %s", subpkgTests.count!(a => !a.executed && !a.exception), subpkgTests.length);
 		foreach (res; subpkgTests)
 		{
-				continue;
 			if (res.exception)
 			{
+				failed = true;
 				writefln("[X] %s: %s", res.name, res.exception.msg);
 			}
 			else if (res.executed)
@@ -533,7 +535,7 @@ void integrationTest(string[] exDubOpts = null)
 			}
 		}
 	}
-	
+	enforce(failed, "Integration test failed...");
 }
 
 
@@ -590,8 +592,17 @@ void createArchive()
 void exec(string[] args, string workDir = null, string[string] env = null)
 {
 	import std.process, std.stdio;
-	writefln!"> %-(%-s %)"(args);
+	writefln!"> %s"(escapeShellCommand(args));
 	auto pid = spawnProcess(args, env, std.process.Config.none, workDir ? workDir : ".");
+	auto res = pid.wait();
+	enforce(res == 0, format!"Execution was failed[code=%d]."(res));
+}
+///
+void exec(string args, string workDir = null, string[string] env = null)
+{
+	import std.process, std.stdio;
+	writefln!"> %s"(args);
+	auto pid = spawnShell(args, env, std.process.Config.none, workDir ? workDir : ".");
 	auto res = pid.wait();
 	enforce(res == 0, format!"Execution was failed[code=%d]."(res));
 }
@@ -599,7 +610,17 @@ void exec(string[] args, string workDir = null, string[string] env = null)
 string cmd(string[] args, string workDir = null, string[string] env = null)
 {
 	import std.process;
+	writefln!"> %s"(escapeShellCommand(args));
 	auto res = execute(args, env, std.process.Config.none, size_t.max, workDir);
+	enforce(res.status == 0, format!"Execution was failed[code=%d]."(res.status));
+	return res.output;
+}
+///
+string cmd(string args, string workDir = null, string[string] env = null)
+{
+	import std.process;
+	writefln!"> %s"(args);
+	auto res = executeShell(args, env, std.process.Config.none, size_t.max, workDir);
 	enforce(res.status == 0, format!"Execution was failed[code=%d]."(res.status));
 	return res.output;
 }
