@@ -535,7 +535,7 @@ void integrationTest(string[] exDubOpts = null)
 			}
 		}
 	}
-	enforce(failed, "Integration test failed...");
+	enforce(!failed, "Integration test was failed.");
 }
 
 
