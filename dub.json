@@ -8,6 +8,7 @@
 	"name": "cushion",
 	"subPackages": [
 		"./doc",
+		"./tools/update_map",
 		"./examples/stmtest"
 	],
 	"configurations": [
