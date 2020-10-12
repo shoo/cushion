@@ -1,0 +1,8 @@
+{
+	"name": "update_map",
+	"license": "BSL-1.0",
+	"dependencies": {
+		"cushion": {"path": "../..", "version": "*"}
+	},
+	"targetType": "executable"
+}

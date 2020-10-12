@@ -9,7 +9,45 @@
 module cushion.csvdecoder;
 
 import std.csv, std.array, std.algorithm, std.range, std.format;
-import cushion.core, cushion._internal.misc;
+import cushion.core, cushion._internal.misc, cushion.stmgen;
+
+/*******************************************************************************
+ * Generator from STM of CSV
+ */
+StmGenerator generatorFromCsv(
+	string stmCsvContents, string mapCsvContents, string mapFileName = null, string stmFileName = null,
+	string stateKey = "▽", string factoryName = "makeStm") @safe
+{
+	StmGenerator stmgen;
+	string[][] mat;
+	string[string] map;
+	static struct MapLayout
+	{
+		string key;
+		string val;
+	}
+	foreach (data; csvReader!string(stmCsvContents))
+		mat ~= data.array;
+	foreach (data; csvReader!MapLayout(mapCsvContents))
+		map[data.key] = data.val;
+	
+	stmgen.stmFileName = stmFileName;
+	stmgen.mapFileName = mapFileName;
+	stmgen.stateKey    = stateKey;
+	stmgen.map         = map;
+	stmgen.nameRaw     = mat[0][0];
+	stmgen.statesRaw   = mat[0][1..$];
+	stmgen.stactsRaw   = mat[1][1..$];
+	stmgen.edactsRaw   = mat[2][1..$];
+	stmgen.eventsRaw.length = cast(size_t)(cast(int)mat.length-3);
+	stmgen.cellsRaw.length = cast(size_t)(cast(int)mat.length-3);
+	foreach (i, r; mat[3..$])
+	{
+		stmgen.eventsRaw[i] = r[0];
+		stmgen.cellsRaw[i]  = r[1..$];
+	}
+	return stmgen;
+}
 
 /*******************************************************************************
  * Decode to D language code from STM of CSV
@@ -60,36 +98,7 @@ string decodeStmFromCsv(
 	string stmCsvContents, string mapCsvContents, string mapFileName = null, string stmFileName = null,
 	string stateKey = "▽", string factoryName = "makeStm")
 {
-	import cushion.stmgen;
-	string[][] mat;
-	string[string] map;
-	static struct MapLayout
-	{
-		string key;
-		string val;
-	}
-	foreach (data; csvReader!string(stmCsvContents))
-		mat ~= data.array;
-	foreach (data; csvReader!MapLayout(mapCsvContents))
-		map[data.key] = data.val;
-	
-	StmGenerator stmgen;
-	stmgen.stmFileName = stmFileName;
-	stmgen.mapFileName = mapFileName;
-	stmgen.stateKey    = stateKey;
-	stmgen.map         = map;
-	stmgen.nameRaw     = mat[0][0];
-	stmgen.statesRaw   = mat[0][1..$];
-	stmgen.stactsRaw   = mat[1][1..$];
-	stmgen.edactsRaw   = mat[2][1..$];
-	stmgen.eventsRaw.length = cast(size_t)(cast(int)mat.length-3);
-	stmgen.cellsRaw.length = cast(size_t)(cast(int)mat.length-3);
-	foreach (i, r; mat[3..$])
-	{
-		stmgen.eventsRaw[i] = r[0];
-		stmgen.cellsRaw[i]  = r[1..$];
-	}
-	
+	auto stmgen = generatorFromCsv(stmCsvContents, mapCsvContents, mapFileName, stmFileName, stateKey, factoryName);
 	return stmgen.genCode();
 }
 
