@@ -62,7 +62,7 @@ MapData[] getMapDataFromStmCsv(string stmCsvContents, string stateKey = "▽", i
 	
 	void add(string s)
 	{
-		if (!ret.canFind!(a => a.key == s))
+		if (!ret.canFind!(a => a.key == s) && s != "x")
 			ret ~= MapData(MapData.Type.proc, s, oldMap.get(s, null));
 	}
 	void addLines(string[] lines)
@@ -99,7 +99,7 @@ MapData[] getMapDataFromStmCsv(string stmCsvContents, string stateKey = "▽", i
 		st,sa,sb,sc
 		ed,ea,eb,ec
 		〇A,p1,p1,p2
-		〇B,p3,p3,p4
+		〇B,p3,x,p4
 	`.outdent.strip).map!(a => a.key).array;
 	assert(mapKeys == ["▽A","▽B","▽C","〇A","〇B","sa","sb","sc","ea","eb","ec","p1","p2","p3","p4"]);
 }
@@ -172,7 +172,7 @@ MapData[] updateMapData(string stmCsvContent, string mapCsvContent, string state
 		EndAct.,処理4,
 		〇イベント1,処理1,"処理1
 		処理2"
-		〇イベントA,処理1,処理5
+		〇イベントA,x,処理5
 		〇イベント2,処理2,
 		〇イベント3,処理4,"処理3
 		処理4"
