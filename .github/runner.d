@@ -35,6 +35,8 @@ struct Config
 	///
 	string targetCompiler;
 	///
+	string configuration;
+	///
 	string archiveSuffix;
 	///
 	string scriptDir = __FILE__.dirName();
@@ -42,6 +44,8 @@ struct Config
 	string projectName;
 	///
 	string refName;
+	///
+	string[] testTargets;
 }
 ///
 __gshared Config config;
@@ -79,7 +83,7 @@ int main(string[] args)
 	config.hostCompiler   = config.compiler;
 	config.targetCompiler = config.compiler;
 	
-	string tmpHostArch, tmpTargetArch, tmpHostCompiler, tmpTargetCompiler;
+	string tmpHostArch, tmpTargetArch, tmpHostCompiler, tmpTargetCompiler, tmpProjectName;
 	string[] exDubOpts;
 	
 	args.getopt(
@@ -87,11 +91,14 @@ int main(string[] args)
 		"os",              &config.os,
 		"host-arch",       &tmpHostArch,
 		"target-arch",     &tmpTargetArch,
-		"c|compiler",      &config.compiler,
+		"compiler",        &config.compiler,
 		"host-compiler",   &tmpHostCompiler,
 		"target-compiler", &tmpTargetCompiler,
+		"c|target-config", &config.configuration,
 		"archive-suffix",  &config.archiveSuffix,
 		"m|mode",          &mode,
+		"p|project-name",  &config.projectName,
+		"t|test-targets",  &config.testTargets,
 		"exdubopts",       &exDubOpts);
 	
 	config.hostArch = tmpHostArch ? tmpHostArch : config.arch;
@@ -109,6 +116,10 @@ int main(string[] args)
 	case "integration-test":
 	case "integrationtest":
 	case "tt":
+		integrationTest(exDubOpts);
+		break;
+	case "test":
+		unitTest(exDubOpts);
 		integrationTest(exDubOpts);
 		break;
 	case "create-release-build":
@@ -168,22 +179,17 @@ void unitTest(string[] exDubOpts = null)
 	writeln("#######################################");
 	writeln("## Unit Test                         ##");
 	writeln("#######################################");
-	exec(["dub",
-		"test",
-		"-a",              config.hostArch,
-		"--coverage",
-		"--compiler",      config.hostCompiler] ~ exDubOpts,
-		null, env);
+	string[] dubArgs;
+	if (config.targetArch.length > 0)
+		dubArgs ~= ["-a", config.targetArch];
+	if (config.configuration.length > 0)
+		dubArgs ~= ["-c", config.configuration];
+	if (config.targetCompiler.length > 0)
+		dubArgs ~= ["--compiler", config.targetCompiler];
+	dubArgs ~= ["--coverage"];
+	exec(["dub", "test"] ~ dubArgs ~ exDubOpts, null, env);
 	foreach (pkgName; Defines.subPkgs)
-	{
-		exec(["dub",
-			"test",
-			":" ~ pkgName,
-			"-a",              config.hostArch,
-			"--coverage",
-			"--compiler",      config.hostCompiler] ~ exDubOpts,
-			null, env);
-	}
+		exec(["dub", "test", ":" ~ pkgName] ~ dubArgs ~ exDubOpts, null, env);
 }
 
 ///
@@ -197,20 +203,26 @@ void generateDocument()
 		if (bin64dir.exists && bin64dir.isDir)
 			env.setPaths([bin64dir] ~ getPaths());
 	}
-	exec(["dub", "run", Defines.documentGenerator, "-y",
-		"--",
-		"-a=x86_64", "-b=release", "-c=default"], null, env);
+	auto dubArgs = ["dub", "run", Defines.documentGenerator, "-y", "--"];
+	if (config.targetArch.length > 0)
+		dubArgs ~= ["-a", config.targetArch];
+	if (config.configuration.length > 0)
+		dubArgs ~= ["-c", config.configuration];
+	exec(dubArgs, null, env);
 }
 
 ///
 void createReleaseBuild(string[] exDubOpts = null)
 {
-	exec(["dub",
-		"build",
-		"-a",              config.hostArch,
-		"-b=unittest-cov",
-		"-c=default",
-		"--compiler",      config.hostCompiler] ~ exDubOpts);
+	auto dubArgs = ["dub", "build"];
+	if (config.targetArch.length > 0)
+		dubArgs ~= ["-a", config.targetArch];
+	if (config.configuration.length > 0)
+		dubArgs ~= ["-c", config.configuration];
+	if (config.targetCompiler.length > 0)
+		dubArgs ~= ["--compiler", config.targetCompiler];
+	dubArgs ~= ["-b=release"];
+	exec(dubArgs ~ exDubOpts);
 }
 
 
@@ -229,15 +241,23 @@ void integrationTest(string[] exDubOpts = null)
 	auto covdir = config.scriptDir.buildNormalizedPath("../.cov").absolutePath();
 	if (!covdir.exists)
 		mkdirRecurse(covdir);
-	env["COVERAGE_DIR"]   = covdir.absolutePath();
-	env["COVERAGE_MERGE"] = "true";
+	env["COVERAGE_DIR"]           = covdir.absolutePath();
+	env["COVERAGE_MERGE"]         = "true";
+	env["RUNNER_PROJECT_ROOT"]    = config.scriptDir.absolutePath().buildNormalizedPath("..");
+	env["RUNNER_HOST_ARCH"]       = config.hostArch;
+	env["RUNNER_TARGET_ARCH"]     = config.targetArch;
+	env["RUNNER_HOST_COMPILER"]   = config.hostCompiler;
+	env["RUNNER_TARGET_COMPILER"] = config.targetCompiler;
+	env["RUNNER_CONFIGURATION"]   = config.configuration;
+	env["RUNNER_OS"]              = config.os;
 	
 	bool dirTest(string entry)
 	{
-		auto expMap = [
-			"project_root": config.scriptDir.absolutePath().buildNormalizedPath(".."),
-			"test_dir": entry.absolutePath().buildNormalizedPath(),
-		];
+		if (config.testTargets.length > 0 && !config.testTargets.canFind(entry.baseName))
+			return false;
+		auto envTmp = env.byPair.assocArray();
+		envTmp["RUNNER_TEST_ENTRY"] = entry;
+		auto expMap = env.byPair.assocArray();
 		auto getRunOpts()
 		{
 			struct Opt
@@ -252,13 +272,13 @@ void integrationTest(string[] exDubOpts = null)
 			if (entry.buildPath(".no_run").exists)
 				return Opt[].init;
 			if (!entry.buildPath(".run_opts").exists)
-				return [Opt("default", entry, [], entry, [], env)];
+				return [Opt("default", entry, [], entry, [], envTmp)];
 			Opt[] ret;
 			import std.file: read;
 			auto jvRoot = parseJSON(cast(string)read(entry.buildPath(".run_opts")));
 			foreach (i, jvOpt; jvRoot.array)
 			{
-				auto dat = Opt(text("run", i), entry, [], entry, [], env);
+				auto dat = Opt(text("run", i), entry, [], entry, [], envTmp.byPair.assocArray());
 				if (auto str = jvOpt.getStr("name", expMap))
 					dat.name = str;
 				if (auto str = jvOpt.getStr("dubWorkDir", expMap))
@@ -285,13 +305,13 @@ void integrationTest(string[] exDubOpts = null)
 			if (entry.buildPath(".no_build").exists)
 				return Opt[].init;
 			if (!entry.buildPath(".build_opts").exists)
-				return [Opt("default", entry, [], env)];
+				return [Opt("default", entry, [], envTmp.byPair.assocArray())];
 			Opt[] ret;
 			import std.file: read;
 			auto jvRoot = parseJSON(cast(string)read(entry.buildPath(".build_opts")));
 			foreach (i, jvOpt; jvRoot.array)
 			{
-				auto dat = Opt(text("build", i), entry, [], env);
+				auto dat = Opt(text("build", i), entry, [], env.byPair.assocArray());
 				if (auto str = jvOpt.getStr("name", expMap))
 					dat.name = str;
 				if (auto str = jvOpt.getStr("workDir", expMap))
@@ -315,13 +335,13 @@ void integrationTest(string[] exDubOpts = null)
 			if (entry.buildPath(".no_test").exists)
 				return Opt[].init;
 			if (!entry.buildPath(".test_opts").exists)
-				return [Opt("default", entry, [], env)];
+				return [Opt("default", entry, [], envTmp.byPair.assocArray())];
 			Opt[] ret;
 			import std.file: read;
 			auto jvRoot = parseJSON(cast(string)read(entry.buildPath(".test_opts")));
 			foreach (i, jvOpt; jvRoot.array)
 			{
-				auto dat = Opt(text("test", i), entry, [], env);
+				auto dat = Opt(text("test", i), entry, [], envTmp.byPair.assocArray());
 				if (auto str = jvOpt.getStr("name", expMap))
 					dat.name = str;
 				if (auto str = jvOpt.getStr("workDir", expMap))
@@ -333,25 +353,29 @@ void integrationTest(string[] exDubOpts = null)
 			}
 			return ret;
 		}
-		if (entry.isDir)
+		if (entry.baseName.startsWith("."))
+		{
+			return false;
+		}
+		else if (entry.isDir)
 		{
 			auto buildOpts   = getBuildOpts();
 			auto testOpts    = getTestOpts();
 			auto runOpts     = getRunOpts();
 			auto no_coverage = entry.buildPath(".no_coverage").exists;
 			auto dubCommonArgs = [
-				"-a",         config.targetArch,
-				"--compiler", config.targetCompiler] ~ exDubOpts;
+				"-a",         config.hostArch,
+				"--compiler", config.hostCompiler] ~ exDubOpts;
 			foreach (buildOpt; buildOpts)
 			{
 				auto dubArgs = (buildOpt.args.length > 0 ? dubCommonArgs ~ buildOpt.args : dubCommonArgs);
-				exec(["dub", "build", "-b=release"] ~ dubArgs, entry, env);
+				exec(["dub", "build", "-b=release"] ~ dubArgs, entry, buildOpt.env);
 			}
 			foreach (testOpt; testOpts)
 			{
 				auto dubArgs = (testOpt.args.length > 0 ? dubCommonArgs ~ testOpt.args : dubCommonArgs)
 				             ~ (!no_coverage ? ["--coverage"] : null);
-				exec(["dub", "test"]  ~ dubArgs, entry, env);
+				exec(["dub", "test"]  ~ dubArgs, entry, testOpt.env);
 			}
 			foreach (runOpt; runOpts)
 			{
@@ -371,18 +395,19 @@ void integrationTest(string[] exDubOpts = null)
 		{
 		case ".d":
 			// rdmd
-			exec(["rdmd", entry], entry.dirName, env);
+			exec(["rdmd", "-debug", "-g", entry.baseName], entry.dirName, envTmp);
+			return true;
 			break;
 		case ".sh":
 			// $SHELLまたはbashがあれば
 			if (auto sh = environment.get("SHELL"))
 			{
-				exec([sh, entry], entry.dirName, env);
+				exec([sh, entry], entry.dirName, envTmp);
 				return true;
 			}
 			if (auto sh = searchPath("bash"))
 			{
-				exec([sh, entry], entry.dirName, env);
+				exec([sh, entry], entry.dirName, envTmp);
 				return true;
 			}
 			break;
@@ -390,7 +415,7 @@ void integrationTest(string[] exDubOpts = null)
 			// %COMSPEC%があれば
 			if (auto sh = environment.get("COMSPEC"))
 			{
-				exec([sh, entry], entry.dirName, env);
+				exec([sh, entry], entry.dirName, envTmp);
 				return true;
 			}
 			break;
@@ -398,12 +423,12 @@ void integrationTest(string[] exDubOpts = null)
 			// pwsh || powershellがあれば
 			if (auto sh = searchPath("pwsh"))
 			{
-				exec([sh, entry], entry.dirName, env);
+				exec([sh, entry], entry.dirName, envTmp);
 				return true;
 			}
 			else if (auto sh = searchPath("powershell"))
 			{
-				exec([sh, entry], entry.dirName, env);
+				exec([sh, entry], entry.dirName, envTmp);
 				return true;
 			}
 			break;
@@ -411,12 +436,12 @@ void integrationTest(string[] exDubOpts = null)
 			// python || python3があれば
 			if (auto sh = searchPath("python"))
 			{
-				exec([sh, entry], entry.dirName, env);
+				exec([sh, entry], entry.dirName, envTmp);
 				return true;
 			}
 			else if (auto sh = searchPath("python3"))
 			{
-				exec([sh, entry], entry.dirName, env);
+				exec([sh, entry], entry.dirName, envTmp);
 				return true;
 			}
 			break;
@@ -543,7 +568,8 @@ void integrationTest(string[] exDubOpts = null)
 void createArchive()
 {
 	import std.file;
-	if (!"build".exists)
+	auto targetPath = "build";
+	if (!targetPath.exists)
 		return;
 	auto archiveName = format!"%s-%s-%s-%s%s"(
 		config.projectName, config.refName, config.os, config.arch, config.archiveSuffix);
@@ -552,18 +578,49 @@ void createArchive()
 	version (Windows)
 	{
 		auto zip = new ZipArchive;
-		foreach (de; dirEntries("build", SpanMode.depth))
+		void putMember(string realPath, string path)
 		{
-			if (de.isDir)
-				continue;
+			auto contents = cast(ubyte[])std.file.read(realPath);
+			import core.stdc.string;
+			import std.windows.charset;
+			import std.digest.crc;
 			auto m = new ArchiveMember;
-			m.expandedData = cast(ubyte[])std.file.read(de.name);
-			m.name = de.name.absolutePath.relativePath(absolutePath("build"));
-			m.time = de.name.timeLastModified();
-			m.fileAttributes = de.name.getAttributes();
+			m.expandedData = contents;
+			auto mbspzFileName = path.toMBSz();
+			auto mbsFileName = mbspzFileName[0..strlen(mbspzFileName)];
+			if (mbsFileName != path)
+			{
+				m.name = cast(string)mbsFileName;
+				m.extra = new ubyte[ 2 + 2 + 1 + 4 + path.length];
+				(*cast(ushort*)m.extra[0..2].ptr) = 0x7075;
+				(*cast(ushort*)m.extra[2..4].ptr) = cast(ushort)(1 + 4 + path.length);
+				(*cast(ubyte*)m.extra[4..5].ptr)  = 1;
+				m.extra[5..9] = crc32Of(path);
+				m.extra[9..$] = cast(ubyte[])path;
+			}
+			else
+			{
+				m.name = path;
+			}
+			m.time = realPath.timeLastModified();
+			m.fileAttributes = realPath.getAttributes();
 			m.compressionMethod = CompressionMethod.deflate;
 			zip.addMember(m);
 		}
+		// ビルド結果の梱包
+		foreach (de; dirEntries(targetPath, SpanMode.depth))
+		{
+			if (de.isDir)
+				continue;
+			putMember(de.name, de.name.absolutePath.relativePath(absolutePath(targetPath)));
+		}
+		// READMEの同梱
+		putMember("README.md", "README.md");
+		// ライセンスファイルの同梱
+		putMember("LICENSE", buildPath("licenses", "LICENSE"));
+		foreach (de; dirEntries("3rd-party-licenses", SpanMode.shallow))
+			putMember(de.name, buildPath("licenses", de.name.baseName));
+		// ファイル書き出し
 		std.file.write(archiveName, zip.build());
 	}
 	else
@@ -580,8 +637,11 @@ void createArchive()
 				mkdirRecurse(to.dirName);
 			std.file.rename(from, to);
 		}
-		foreach (de; dirEntries("build", SpanMode.depth))
-			mv(de.name, buildPath("archive-tmp", abs(de.name, "build")));
+		mv(buildPath(targetPath, "gendoc"), "archive-tmp/bin/gendoc");
+		foreach (de; dirEntries(buildPath(targetPath, "ddoc"), SpanMode.depth))
+			mv(de.name, buildPath("archive-tmp/etc/.gendoc/ddoc", abs(de.name, buildPath(targetPath, "ddoc"))));
+		foreach (de; dirEntries(buildPath(targetPath, "source_docs"), SpanMode.depth))
+			mv(de.name, buildPath("archive-tmp/etc/.gendoc/docs", abs(de.name, buildPath(targetPath, "source_docs"))));
 		exec(["tar", "cvfz", buildPath("..", archiveName), "-C", "."]
 			~ dirEntries("archive-tmp", "*", SpanMode.shallow)
 				.map!(de => abs(de.name, "archive-tmp")).array, "archive-tmp");

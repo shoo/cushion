@@ -16,7 +16,7 @@ import cushion.core, cushion._internal.misc, cushion.stmgen;
  */
 StmGenerator generatorFromCsv(
 	string stmCsvContents, string mapCsvContents, string mapFileName = null, string stmFileName = null,
-	string stateKey = "▽", string factoryName = "makeStm")
+	string stateKey = "▽", string factoryName = "makeStm") @safe
 {
 	StmGenerator stmgen;
 	string[][] mat;
